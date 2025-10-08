@@ -328,6 +328,71 @@
             font-weight: bold;
         }
 
+        /* Service CTA Styles */
+        .service-cta {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+            text-align: center;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+
+        .cta-primary:hover {
+            background: white;
+            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-secondary {
+            background: white;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .cta-secondary:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-note {
+            font-size: 12px;
+            color: #666;
+            margin: 0;
+            font-style: italic;
+        }
+
         /* About Section */
         .about {
             background: var(--light);
@@ -734,6 +799,27 @@
                 bottom: 20px;
                 right: 20px;
             }
+
+            /* CTA Mobile Styles */
+            .cta-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .cta-primary, .cta-secondary {
+                min-width: 100%;
+                padding: 14px 20px;
+                font-size: 13px;
+            }
+
+            .service-cta {
+                padding: 15px;
+                margin-top: 20px;
+            }
+
+            .cta-note {
+                font-size: 11px;
+            }
         }
 
         /* Policy Modals */
@@ -992,6 +1078,17 @@
                         <li data-en="Mail forwarding for non-US residents" data-es="Reenvío de correo para no residentes">Mail forwarding for non-US residents</li>
                         <li data-en="State advisory & compliance" data-es="Asesoría estatal y cumplimiento">State advisory & compliance</li>
                     </ul>
+                    <div class="service-cta">
+                        <div class="cta-buttons">
+                            <a href="https://calendly.com/barmentech/us-business-consultation" target="_blank" class="cta-primary" data-en="Schedule Free Consultation" data-es="Agendar Consulta Gratuita">
+                                📅 Schedule Free Consultation
+                            </a>
+                            <a href="./us-business-formation.html" class="cta-secondary" data-en="Learn More About US Setup" data-es="Aprende Más Sobre Configuración EE.UU.">
+                                📖 Learn More About US Setup
+                            </a>
+                        </div>
+                        <p class="cta-note" data-en="30-minute video call to discuss your US business goals" data-es="Videollamada de 30 minutos para discutir tus objetivos empresariales en EE.UU.">30-minute video call to discuss your US business goals</p>
+                    </div>
                 </div>
             </div>
         </div>
