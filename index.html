@@ -1071,7 +1071,7 @@
                 </div>
                 <div class="contact-form">
                     <h3 data-en="Request a Quote" data-es="Solicitar Cotización">Request a Quote</h3>
-                    <form action="https://formsubmit.co/abarahonag@barmentech.com" method="POST">
+                    <form id="contactForm" action="https://formsubmit.co/abarahonag@barmentech.com" method="POST" onsubmit="return validateFormTiming()">
                         <!-- FormSubmit Configuration -->
                         <input type="hidden" name="_subject" value="New Contact Request - Barmentech">
                         <input type="hidden" name="_captcha" value="false">
@@ -1080,6 +1080,9 @@
                         <input type="hidden" name="_autoresponse" value="Thanks for contacting Barmentech! We'll get back to you within 24 hours.">
                         <!-- Honeypot for spam protection -->
                         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+                        <!-- Additional honeypots - bots often fill these -->
+                        <input type="text" name="website" placeholder="Your website URL" style="display:none !important; position:absolute; left:-9999px;" tabindex="-1" autocomplete="off">
+                        <input type="email" name="email_confirm" placeholder="Confirm email" style="display:none !important; visibility:hidden;" tabindex="-1" autocomplete="off">
                         
                         <div class="form-row">
                             <div class="form-group">
@@ -1472,6 +1475,74 @@
                 }
             });
         });
+
+        // Anti-bot temporal validation
+        let formStartTime = Date.now();
+        
+        // Reset timer when user starts typing (first real interaction)
+        document.addEventListener('DOMContentLoaded', function() {
+            const formInputs = document.querySelectorAll('input[type="text"], input[type="email"], textarea, select');
+            let hasStartedTyping = false;
+            
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (!hasStartedTyping) {
+                        formStartTime = Date.now();
+                        hasStartedTyping = true;
+                    }
+                });
+            });
+        });
+
+        // Detect bot patterns
+        function detectBotPatterns() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            // Pattern 1: LeeVorEv pattern (suspicious repeating patterns)
+            const suspiciousNamePattern = /^(Lee|Vor|Ev|LeeVor|VorEv|LeeVorEv).*$/i;
+            if (suspiciousNamePattern.test(firstName) || suspiciousNamePattern.test(lastName)) {
+                return false; // Block suspicious patterns
+            }
+            
+            // Pattern 2: Random email patterns (random letters + numbers + gmail.com)
+            const randomEmailPattern = /^[a-z]{6,12}\d{2,4}@(gmail|hotmail|yahoo)\.com$/i;
+            if (randomEmailPattern.test(email)) {
+                return false; // Block random email patterns
+            }
+            
+            // Pattern 3: Same first and last name
+            if (firstName.toLowerCase() === lastName.toLowerCase() && firstName.length > 0) {
+                return false; // Block identical names
+            }
+            
+            // Pattern 4: Very short names (likely fake)
+            if (firstName.length < 2 || lastName.length < 2) {
+                return false; // Block too short names
+            }
+            
+            return true; // Passed all pattern checks
+        }
+
+        // Validate form submission timing
+        function validateFormTiming() {
+            // First check for bot patterns
+            if (!detectBotPatterns()) {
+                alert('Please ensure all information is entered correctly.');
+                return false;
+            }
+            
+            // Then check timing
+            const timeDiff = Date.now() - formStartTime;
+            const minimumTime = 5000; // 5 seconds minimum
+            
+            if (timeDiff < minimumTime) {
+                alert('Please take a moment to review your information before submitting.');
+                return false;
+            }
+            return true;
+        }
     </script>
 </body>
 </html>
