@@ -62,7 +62,7 @@
         }
 
         .logo-image-full {
-            height: 40px;
+            height: 55px;
             width: auto;
             object-fit: contain;
             transition: transform 0.3s ease;
@@ -667,6 +667,12 @@
         }
 
         /* Responsive */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .logo-image-full {
+                height: 45px; /* Tamaño intermedio para tablets */
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -691,6 +697,10 @@
             /* Improved mobile logo */
             .logo {
                 gap: 10px;
+            }
+
+            .logo-image-full {
+                height: 35px; /* Más pequeño en móvil */
             }
 
             .logo-text-sub {
@@ -1408,52 +1418,136 @@
                 <span class="close" onclick="closeModal('privacyModal')">&times;</span>
             </div>
             <div class="modal-body">
-                <p><strong>Effective Date:</strong> October 6, 2025</p>
-                <p>Barmentech LLC ("we," "our," or "us") respects your privacy and is committed to protecting your personal information.</p>
+                <p><strong>Effective Date:</strong> October 8, 2025</p>
+                <p>Barmentech LLC ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you use our website and services.</p>
                 
                 <h3>1. Information We Collect</h3>
+                <h4>Personal Information</h4>
                 <p>We collect information that you provide directly to us, including:</p>
                 <ul>
                     <li>Name, email address, phone number, and company information</li>
                     <li>Project requirements and budget information</li>
                     <li>Communication preferences and correspondence</li>
+                    <li>Business formation requirements (for US business setup services)</li>
+                </ul>
+
+                <h4>Financial Information</h4>
+                <p>When you make payments for our services, we collect:</p>
+                <ul>
+                    <li>Billing address and contact information</li>
+                    <li>Payment method information (processed securely through Stripe)</li>
+                    <li>Transaction history and invoice data</li>
+                    <li>Tax identification information when required</li>
+                </ul>
+
+                <h4>Automatically Collected Information</h4>
+                <ul>
+                    <li>IP addresses, browser type, and device information</li>
+                    <li>Website usage data and analytics</li>
+                    <li>Cookies and similar tracking technologies</li>
+                    <li>Location data (general geographic area)</li>
                 </ul>
 
                 <h3>2. How We Use Your Information</h3>
                 <p>We use the information we collect to:</p>
                 <ul>
-                    <li>Respond to your inquiries and provide requested services</li>
+                    <li>Provide, maintain, and improve our services</li>
+                    <li>Process payments and manage billing</li>
+                    <li>Respond to your inquiries and provide customer support</li>
                     <li>Send project proposals and service information</li>
-                    <li>Improve our services and customer experience</li>
-                    <li>Comply with legal obligations</li>
+                    <li>Comply with legal obligations and regulatory requirements</li>
+                    <li>Prevent fraud and ensure platform security</li>
+                    <li>Analyze website usage and optimize user experience</li>
+                    <li>Send marketing communications (with your consent)</li>
                 </ul>
 
-                <h3>3. Information Sharing</h3>
+                <h3>3. Payment Processing and Financial Data</h3>
+                <p>We use Stripe, Inc. as our third-party payment processor. Stripe is PCI DSS compliant and maintains the highest standards of data security. When you make a payment:</p>
+                <ul>
+                    <li>Your payment information is encrypted and transmitted securely to Stripe</li>
+                    <li>We do not store complete credit card numbers on our servers</li>
+                    <li>Stripe's privacy policy governs their handling of your payment data</li>
+                    <li>We retain transaction records for accounting and legal compliance</li>
+                    <li>Financial data may be shared with banks and financial institutions as required for payment processing</li>
+                </ul>
+
+                <h3>4. Information Sharing and Disclosure</h3>
                 <p>We do not sell, trade, or rent your personal information to third parties. We may share your information with:</p>
                 <ul>
-                    <li>Service providers who assist in our operations (e.g., email services, payment processors)</li>
-                    <li>Legal authorities when required by law</li>
+                    <li><strong>Service Providers:</strong> Payment processors (Stripe), email services, cloud hosting providers, and other vendors who assist in our operations</li>
+                    <li><strong>Business Partners:</strong> Third-party services required for US business formation (registered agents, banks, government agencies)</li>
+                    <li><strong>Legal Authorities:</strong> When required by law, court order, or to protect our rights and safety</li>
+                    <li><strong>Business Transfers:</strong> In connection with any merger, sale, or transfer of our business</li>
                 </ul>
 
-                <h3>4. Data Security</h3>
-                <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, or destruction.</p>
+                <h3>5. Data Security and Protection</h3>
+                <p>We implement industry-standard security measures including:</p>
+                <ul>
+                    <li>SSL/TLS encryption for data transmission</li>
+                    <li>Secure servers and databases with access controls</li>
+                    <li>Regular security audits and vulnerability assessments</li>
+                    <li>Employee training on data protection best practices</li>
+                    <li>Compliance with PCI DSS requirements for payment data</li>
+                    <li>Data backup and disaster recovery procedures</li>
+                </ul>
 
-                <h3>5. Your Rights</h3>
+                <h3>6. Data Retention</h3>
+                <p>We retain your information for as long as necessary to:</p>
+                <ul>
+                    <li>Provide our services and maintain your account</li>
+                    <li>Comply with legal, tax, and accounting requirements</li>
+                    <li>Resolve disputes and enforce our agreements</li>
+                    <li>Financial records: 7 years as required by US tax law</li>
+                    <li>Communication records: 3 years for business continuity</li>
+                </ul>
+
+                <h3>7. Your Privacy Rights</h3>
                 <p>You have the right to:</p>
                 <ul>
                     <li>Access and review your personal information</li>
-                    <li>Request correction of inaccurate data</li>
-                    <li>Request deletion of your information</li>
+                    <li>Request correction of inaccurate or incomplete data</li>
+                    <li>Request deletion of your information (subject to legal requirements)</li>
                     <li>Opt-out of marketing communications</li>
+                    <li>Withdraw consent for data processing where applicable</li>
+                    <li>Request data portability in machine-readable format</li>
+                    <li>File complaints with relevant data protection authorities</li>
                 </ul>
 
-                <h3>6. Cookies</h3>
-                <p>Our website may use cookies to enhance user experience. You can control cookie preferences through your browser settings.</p>
+                <h3>8. Cookies and Tracking Technologies</h3>
+                <p>Our website uses cookies and similar technologies to:</p>
+                <ul>
+                    <li>Remember your preferences and settings</li>
+                    <li>Analyze website traffic and user behavior</li>
+                    <li>Provide personalized content and advertisements</li>
+                    <li>Enable payment processing and security features</li>
+                    <li>Integrate with third-party services (Calendly, Stripe, analytics)</li>
+                </ul>
+                <p>You can control cookie preferences through your browser settings, though some features may not function properly if cookies are disabled.</p>
 
-                <h3>7. Contact Us</h3>
-                <p>For privacy-related questions or requests, contact us at: abarahonag@barmentech.com</p>
+                <h3>9. International Data Transfers</h3>
+                <p>Your information may be transferred to and processed in countries other than your own, including the United States. We ensure appropriate safeguards are in place for international transfers, including:</p>
+                <ul>
+                    <li>Standard contractual clauses approved by regulatory authorities</li>
+                    <li>Adequacy decisions by relevant data protection authorities</li>
+                    <li>Compliance with applicable data protection frameworks</li>
+                </ul>
 
-                <p><strong>Barmentech LLC</strong><br>Sheridan, Wyoming, USA</p>
+                <h3>10. California Privacy Rights (CCPA)</h3>
+                <p>If you are a California resident, you have additional rights under the California Consumer Privacy Act, including the right to know, delete, and opt-out of the sale of personal information. We do not sell personal information.</p>
+
+                <h3>11. Children's Privacy</h3>
+                <p>Our services are not directed to individuals under 18 years of age. We do not knowingly collect personal information from children under 18.</p>
+
+                <h3>12. Updates to This Policy</h3>
+                <p>We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. We will notify you of significant changes by posting the updated policy on our website with a new effective date.</p>
+
+                <h3>13. Contact Us</h3>
+                <p>For privacy-related questions, requests, or concerns, contact us at:</p>
+                <p><strong>Email:</strong> abarahonag@barmentech.com<br>
+                <strong>Phone:</strong> +1 (786) 391-8722<br>
+                <strong>Address:</strong> Barmentech LLC, Sheridan, Wyoming, USA</p>
+
+                <p>For EU residents, our representative can be contacted at the same address. Response time for privacy requests is typically 30 days or as required by applicable law.</p>
             </div>
         </div>
     </div>
