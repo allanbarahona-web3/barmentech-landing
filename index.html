@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barmentech LLC | SaaS Solutions &amp; Business Automation for the Americas</title>
     <meta name="description" content="Professional SaaS development, e-commerce solutions, and business automation bots for companies across the Americas. Wyoming-based software company.">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    
     <style>
         * {
             margin: 0;
@@ -1363,7 +1370,7 @@
                 </div>
                 <div class="contact-form">
                     <h3 data-en="Request a Quote" data-es="Solicitar Cotización">Request a Quote</h3>
-                    <form id="contactForm" action="https://formsubmit.co/abarahonag@barmentech.com" method="POST" onsubmit="return validateFormTiming()">
+                    <form id="contactForm" action="" method="POST" onsubmit="return validateFormTiming()">
                         <!-- FormSubmit Configuration -->
                         <input type="hidden" name="_subject" value="New Contact Request - Barmentech">
                         <input type="hidden" name="_captcha" value="false">
@@ -1468,6 +1475,10 @@
                             <label data-en="Project Details *" data-es="Detalles del Proyecto *">Project Details *</label>
                             <textarea name="Message" id="message" required placeholder="Please describe your project, goals, and any specific requirements..."></textarea>
                         </div>
+                        
+                        <!-- Security: Honeypot field (invisible to users, visible to bots) -->
+                        <input type="text" name="website" style="position: absolute; left: -9999px; opacity: 0;" tabindex="-1" autocomplete="off">
+                        
                         <button type="submit" class="form-submit" data-en="Send Request" data-es="Enviar Solicitud">Send Request</button>
                     </form>
                 </div>
@@ -1916,6 +1927,16 @@
             // Initialize language detection first
             initializeLanguage();
             
+            // Security: Set form action dynamically to hide email from source
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                // Obfuscated email construction
+                const domain = 'barmentech' + '.' + 'com';
+                const user = 'abarahonag';
+                const emailAction = 'https://formsubmit.co/' + user + '@' + domain;
+                contactForm.setAttribute('action', emailAction);
+            }
+            
             const formInputs = document.querySelectorAll('input[type="text"], input[type="email"], textarea, select');
             let hasStartedTyping = false;
             
@@ -1960,7 +1981,7 @@
             return true; // Passed all pattern checks
         }
 
-        // Validate form submission timing
+        // Enhanced form validation with additional security
         function validateFormTiming() {
             // First check for bot patterns
             if (!detectBotPatterns()) {
@@ -1968,14 +1989,39 @@
                 return false;
             }
             
-            // Then check timing
+            // Enhanced timing validation
             const timeDiff = Date.now() - formStartTime;
-            const minimumTime = 5000; // 5 seconds minimum
+            const minimumTime = 8000; // Increased to 8 seconds minimum
+            const maximumTime = 1800000; // 30 minutes maximum (anti-bot)
             
             if (timeDiff < minimumTime) {
                 alert('Please take a moment to review your information before submitting.');
                 return false;
             }
+            
+            if (timeDiff > maximumTime) {
+                alert('Form session expired. Please refresh the page and try again.');
+                return false;
+            }
+            
+            // Check for rapid-fire submissions (rate limiting)
+            const lastSubmit = localStorage.getItem('lastFormSubmit');
+            const now = Date.now();
+            
+            if (lastSubmit && (now - parseInt(lastSubmit)) < 60000) { // 1 minute cooldown
+                alert('Please wait before submitting another form.');
+                return false;
+            }
+            
+            // Store submission time
+            localStorage.setItem('lastFormSubmit', now.toString());
+            
+            // Additional honeypot check
+            const honeypot = document.querySelector('input[name="website"]');
+            if (honeypot && honeypot.value !== '') {
+                return false; // Silent fail for bots
+            }
+            
             return true;
         }
     </script>

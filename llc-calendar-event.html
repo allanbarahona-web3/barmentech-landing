@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-en="Schedule Your Consultation | Barmentech" data-es="Agenda tu Consulta | Barmentech">Schedule Your Consultation | Barmentech</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    
     <style>
         * {
             margin: 0;
@@ -1360,7 +1367,13 @@
             elements.forEach(el => {
                 const text = el.getAttribute(`data-${currentLang}`);
                 if (text) {
-                    el.innerHTML = text;
+                    // Security: Use textContent for most elements to prevent XSS
+                    if (el.tagName === 'LI' && text.includes('<strong>')) {
+                        // Special handling for list items with formatting
+                        el.innerHTML = text; // Keep for formatted content
+                    } else {
+                        el.textContent = text; // Safe for plain text
+                    }
                 }
             });
 
