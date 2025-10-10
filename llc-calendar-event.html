@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Schedule Your Consultation | Barmentech" data-es="Agenda tu Consulta | Barmentech">Schedule Your Consultation | Barmentech</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: #f8fafc;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #10b981;
+        }
+
+        /* Header */
+        header {
+            background: #ffffff;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                justify-content: center;
+                gap: 2rem;
+            }
+        }
+
+        .logo-space {
+            width: 180px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-image-full {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-image-full:hover {
+            transform: scale(1.05);
+        }
+
+        .lang-switch {
+            background: none;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switch:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #eff6ff;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: var(--primary);
+            color: #fff;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .close {
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #00D9FF;
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: calc(80vh - 80px);
+            color: #1e293b;
+            line-height: 1.7;
+        }
+
+        .modal-body h3 {
+            color: var(--primary);
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+            color: #64748b;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+            color: #64748b;
+        }
+
+        nav a {
+            color: #1e293b;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #4169E1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #4169E1;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .hero-highlight {
+            color: #00D9FF;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .badge-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00D9FF;
+        }
+
+        .badge-text {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 0.3rem;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-intro {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-intro h2 {
+            font-size: 2.2rem;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-intro p {
+            font-size: 1.15rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Cards Container */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .card-vip {
+            border: 2px solid var(--primary);
+            background: linear-gradient(to bottom, #fff 0%, #eff6ff 100%);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: linear-gradient(135deg, #00D9FF 0%, var(--primary) 100%);
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.3);
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .card-price {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price-highlight {
+            animation: priceGlow 2s ease-in-out infinite alternate;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .price-highlight::after {
+            content: '💎';
+            position: absolute;
+            top: -5px;
+            right: -25px;
+            font-size: 0.8rem;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes priceGlow {
+            0% {
+                filter: brightness(1) drop-shadow(0 0 5px rgba(30, 64, 175, 0.3));
+            }
+            100% {
+                filter: brightness(1.2) drop-shadow(0 0 15px rgba(30, 64, 175, 0.6));
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.3) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        .price-region {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        .price-free {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00D9FF;
+        }
+
+        .card-duration {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            color: #475569;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .card-features li {
+            padding: 0.7rem 0;
+            color: #334155;
+            display: flex;
+            align-items: start;
+            gap: 0.7rem;
+            font-size: 0.95rem;
+        }
+
+        .card-features li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .card-highlight {
+            background: #dbeafe;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 6px;
+        }
+
+        .card-highlight p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #1e3a8a;
+            font-weight: 500;
+        }
+
+        .card-cta {
+            display: block;
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+        }
+
+        .cta-secondary {
+            background: #fff;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .cta-secondary:hover {
+            background: #eff6ff;
+        }
+
+        .urgency-text {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #dc2626;
+            font-weight: 500;
+        }
+
+        /* Policy Section */
+        .policy-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .policy-section h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .policy-section ul {
+            list-style: none;
+            color: #475569;
+        }
+
+        .policy-section li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .policy-section li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin: 3rem 0;
+        }
+
+        .faq-section h3 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .faq-item {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--primary);
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .faq-answer {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin: 3rem 0;
+        }
+
+        .final-cta h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .final-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: #fff;
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #00D9FF;
+            font-size: 1.1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            cursor: default;
+        }
+
+        .footer-section a:hover {
+            color: #00D9FF;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-badges {
+                gap: 1.5rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .section-intro h2 {
+                font-size: 1.8rem;
+            }
+
+            .badge-number {
+                font-size: 2rem;
+            }
+
+            .card-badge {
+                right: 20px;
+                font-size: 0.75rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 3rem 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .price-amount {
+                font-size: 2rem;
+            }
+
+            .trust-badges {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-space">
+                <img src="assets/images/barmentech-logo.png" alt="Barmentech LLC" class="logo-image-full" onclick="window.location.href='index.html'">
+            </div>
+            <button class="lang-switch" onclick="toggleLanguage()">ES | EN</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-en="Ready to Expand Your Business to <span class='hero-highlight'>United States?</span>" data-es="¿Listo para Expandir tu Negocio a <span class='hero-highlight'>Estados Unidos?</span>">¿Listo para Expandir tu Negocio a <span class="hero-highlight">Estados Unidos?</span></h1>
+            <p data-en="Schedule a strategic consultation and discover exactly how to form your LLC step by step, without costly mistakes or wasted time." data-es="Agenda una consulta estratégica y descubre exactamente cómo formar tu LLC paso a paso, sin errores costosos ni pérdida de tiempo.">Agenda una consulta estratégica y descubre exactamente cómo formar tu LLC paso a paso, sin errores costosos ni pérdida de tiempo.</p>
+            <p style="font-size: 1.1rem; margin-top: 1.5rem; opacity: 0.9;" data-en="🌎 Over 15 countries trusted us to open their companies in the USA." data-es="🌎 Más de 15 países confiaron en nosotros para abrir sus empresas en EE.UU.">🌎 Más de 15 países confiaron en nosotros para abrir sus empresas en EE.UU.</p>
+            
+            <div class="trust-badges">
+                <div class="badge">
+                    <div class="badge-number">100%</div>
+                    <div class="badge-text" data-en="Formation Success" data-es="Éxito en formaciones">Éxito en formaciones</div>
+                </div>
+                <div class="badge">
+                    <div class="badge-number">48h</div>
+                    <div class="badge-text" data-en="Average LLC Time" data-es="Tiempo promedio LLC">Tiempo promedio LLC</div>
+                </div>
+                <div class="badge">
+                    <div class="badge-number">+50</div>
+                    <div class="badge-text" data-en="Companies Created" data-es="Empresas creadas">Empresas creadas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="section-intro">
+            <h2 data-en="Choose the Consultation that Fits Your Moment" data-es="Elige la Consulta que se Ajuste a tu Momento">Elige la Consulta que se Ajuste a tu Momento</h2>
+            <p data-en="Whether you're exploring options or ready to take the leap, we have the perfect session for you." data-es="Ya sea que estés explorando opciones o listo para dar el salto, tenemos la sesión perfecta para ti.">Ya sea que estés explorando opciones o listo para dar el salto, tenemos la sesión perfecta para ti.</p>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards-container">
+            <!-- VIP Card -->
+            <div class="card card-vip">
+                <div class="card-badge" data-en="⭐ MOST POPULAR" data-es="⭐ MÁS POPULAR">⭐ MÁS POPULAR</div>
+                
+                <div class="card-header">
+                    <h3 class="card-title" data-en="VIP Strategic Consultation" data-es="Consulta VIP Estratégica">Consulta VIP Estratégica</h3>
+                    <div class="card-price">
+                        <span class="price-amount price-highlight">$25</span>
+                        <span class="price-region">LATAM</span>
+                        <span style="color: #ccc; margin: 0 0.5rem;">|</span>
+                        <span class="price-amount">$35</span>
+                        <span class="price-region">USA</span>
+                    </div>
+                    <div class="card-duration" data-en="⏱ Duration: 1 hour 15 minutes" data-es="⏱ Duración: 1 hora 15 minutos">
+                        ⏱ Duración: 1 hora 15 minutos
+                    </div>
+                </div>
+
+                <div class="card-highlight">
+                    <p data-en="🎁 <strong>100% REFUNDABLE:</strong> The total cost of your VIP consultation is deducted if you hire your company formation." data-es="🎁 <strong>100% REEMBOLSABLE:</strong> El costo total de tu consulta VIP se descuenta si contratas la formación de tu empresa.">🎁 <strong>100% REEMBOLSABLE:</strong> El costo total de tu consulta VIP se descuenta si contratas la formación de tu empresa.</p>
+                </div>
+
+                <ul class="card-features">
+                    <li data-en="<strong>Personalized strategy</strong> for your specific case and objectives" data-es="<strong>Estrategia personalizada</strong> para tu caso específico y objetivos"><strong>Estrategia personalizada</strong> para tu caso específico y objetivos</li>
+                    <li data-en="<strong>Business structure recommendation</strong> according to your country of origin" data-es="<strong>Recomendación de estructura empresarial</strong> según tu país de origen"><strong>Recomendación de estructura empresarial</strong> según tu país de origen</li>
+                    <li data-en="<strong>Step-by-step action plan</strong> to form your LLC without complications" data-es="<strong>Plan de acción paso a paso</strong> para formar tu LLC sin complicaciones"><strong>Plan de acción paso a paso</strong> para formar tu LLC sin complicaciones</li>
+                    <li data-en="<strong>Best states analysis</strong> (Wyoming, Delaware, Florida)" data-es="<strong>Análisis de mejores estados</strong> (Wyoming, Delaware, Florida)"><strong>Análisis de mejores estados</strong> (Wyoming, Delaware, Florida)</li>
+                    <li data-en="<strong>Banking guidance</strong>, EIN, registered agent" data-es="<strong>Orientación sobre cuenta bancaria</strong>, EIN, agente registrado"><strong>Orientación sobre cuenta bancaria</strong>, EIN, agente registrado</li>
+                    <li data-en="<strong>Communications guidance</strong> and business strategy" data-es="<strong>Orientación sobre comunicaciones</strong> y estrategia empresarial"><strong>Orientación sobre comunicaciones</strong> y estrategia empresarial</li>
+                    <li data-en="<strong>Technology and web development guidance</strong> for your business" data-es="<strong>Orientación sobre desarrollo tecnológico y web</strong> para tu negocio"><strong>Orientación sobre desarrollo tecnológico y web</strong> para tu negocio</li>
+                    <li data-en="<strong>Payment methods guidance</strong> and financial setup" data-es="<strong>Orientación sobre métodos de cobro</strong> y configuración financiera"><strong>Orientación sobre métodos de cobro</strong> y configuración financiera</li>
+                    <li data-en="<strong>PDF support material</strong> so you don't forget anything" data-es="<strong>Material de apoyo en PDF</strong> para que no olvides nada"><strong>Material de apoyo en PDF</strong> para que no olvides nada</li>
+                    <li data-en="<strong>Specific business model questions</strong> resolution" data-es="<strong>Resolución de dudas específicas</strong> sobre tu modelo de negocio"><strong>Resolución de dudas específicas</strong> sobre tu modelo de negocio</li>
+                </ul>
+
+                <div class="card-highlight">
+                    <p data-en="🚀 <strong>This session saves you weeks of research, costly mistakes and headaches.</strong> You'll leave with a clear map and total confidence." data-es="🚀 <strong>Esta sesión te ahorra semanas de investigación, errores costosos y dolores de cabeza.</strong> Saldrás con un mapa claro y confianza total.">🚀 <strong>Esta sesión te ahorra semanas de investigación, errores costosos y dolores de cabeza.</strong> Saldrás con un mapa claro y confianza total.</p>
+                </div>
+
+                <a href="https://calendly.com/barmentech/consulta-vip-formacion-empresas-usa" target="_blank" class="card-cta cta-primary" data-en="Book VIP Appointment Now" data-es="Reservar Cita VIP Ahora">Reservar Cita VIP Ahora</a>
+                <p class="urgency-text" data-en="⚡ Only 3 slots available this week" data-es="⚡ Solo 3 espacios disponibles esta semana">⚡ Solo 3 espacios disponibles esta semana</p>
+            </div>
+
+            <!-- Free Consultation Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title" data-en="Exploratory Consultation" data-es="Consulta Exploratoria">Consulta Exploratoria</h3>
+                    <div class="card-price">
+                        <span class="price-free" data-en="FREE" data-es="GRATIS">GRATIS</span>
+                    </div>
+                    <div class="card-duration" data-en="⏱ Duration: 30-35 minutes" data-es="⏱ Duración: 30-35 minutos">
+                        ⏱ Duración: 30-35 minutos
+                    </div>
+                </div>
+
+                <ul class="card-features">
+                    <li data-en="Quick review of your situation and objectives" data-es="Revisión rápida de tu situación y objetivos">Revisión rápida de tu situación y objetivos</li>
+                    <li data-en="Clear explanation of the steps to form your LLC" data-es="Explicación clara de los pasos para formar tu LLC">Explicación clara de los pasos para formar tu LLC</li>
+                    <li data-en="Initial personalized recommendations" data-es="Recomendaciones iniciales personalizadas">Recomendaciones iniciales personalizadas</li>
+                    <li data-en="Answers to your most frequently asked questions" data-es="Respuestas a tus dudas más frecuentes">Respuestas a tus dudas más frecuentes</li>
+                    <li data-en="Guidance on next step" data-es="Orientación sobre siguiente paso">Orientación sobre siguiente paso</li>
+                </ul>
+
+                <div class="card-highlight">
+                    <p data-en="💡 <strong>Important:</strong> This session is for initial guidance. Does not include detailed legal, tax advice or documents." data-es="💡 <strong>Importante:</strong> Esta sesión es de orientación inicial. No incluye asesoría legal, fiscal detallada ni documentos.">💡 <strong>Importante:</strong> Esta sesión es de orientación inicial. No incluye asesoría legal, fiscal detallada ni documentos.</p>
+                </div>
+
+                <a href="https://calendly.com/barmentech/30min" target="_blank" class="card-cta cta-secondary" data-en="Book Free Consultation" data-es="Reservar Consulta Gratuita">Reservar Consulta Gratuita</a>
+                <p class="urgency-text" style="color: #666;" data-en="📌 Limited slots for quality consultations" data-es="📌 Cupos limitados para consultas de calidad">📌 Cupos limitados para consultas de calidad</p>
+            </div>
+        </div>
+
+        <!-- Policy Section -->
+        <div class="policy-section">
+            <h3>Política de Consultas</h3>
+            <ul>
+                <li><strong>Pago VIP:</strong> Las consultas VIP se cobran al momento de la confirmación de la cita mediante Stripe o PayPal.</li>
+                <li><strong>Reprogramación sin costo:</strong> Puedes cambiar tu cita con al menos 24 horas de anticipación.</li>
+                <li><strong>No-show:</strong> Si no te presentas a la cita sin previo aviso, no se realiza reembolso.</li>
+                <li><strong>Descuento garantizado:</strong> Si contratas la formación de tu LLC, el 100% del costo de la consulta VIP se descuenta de tu paquete.</li>
+                <li><strong>Confidencialidad total:</strong> Toda información compartida es tratada con absoluta confidencialidad.</li>
+            </ul>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h3>Preguntas Frecuentes</h3>
+            
+            <div class="faq-item">
+                <p class="faq-question">¿Cuál consulta debo elegir?</p>
+                <p class="faq-answer">Si ya tienes claro que quieres formar tu empresa y buscas un plan concreto, la VIP es tu mejor opción. Si apenas estás explorando, comienza con la Exploratoria.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">¿Qué pasa si contrato la formación después de la consulta VIP?</p>
+                <p class="faq-answer">El costo completo de la consulta ($25 o $35) se descuenta automáticamente del precio de tu paquete de formación. Es 100% reembolsable.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">¿Las consultas son en español o inglés?</p>
+                <p class="faq-answer">Ofrecemos ambas opciones. Durante la reserva podrás seleccionar tu idioma preferido.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">¿Puedo grabar la sesión?</p>
+                <p class="faq-answer">Sí, puedes grabar la consulta para tu referencia personal. Además, en la VIP recibirás material PDF de apoyo.</p>
+            </div>
+
+            <div class="faq-item">
+                <p class="faq-question">¿Ofrecen asesoría legal o fiscal?</p>
+                <p class="faq-answer">Proporcionamos orientación estratégica sobre la formación de empresas. Para temas legales y fiscales específicos, recomendamos consultar con un CPA o abogado licenciado.</p>
+            </div>
+        </div>
+
+        <!-- Final CTA -->
+        <div class="final-cta">
+            <h3 data-en="Take the First Step Towards Your USA Company Today" data-es="Da el Primer Paso Hacia tu Empresa en EE.UU. Hoy">Da el Primer Paso Hacia tu Empresa en EE.UU. Hoy</h3>
+            <p data-en="Thousands of Latin American entrepreneurs are already operating in the American market. <br>It's your turn." data-es="Miles de emprendedores latinoamericanos ya están operando en el mercado estadounidense. <br>Es tu turno.">Miles de emprendedores latinoamericanos ya están operando en el mercado estadounidense. <br>Es tu turno.</p>
+            <a href="https://calendly.com/barmentech/consulta-vip-formacion-empresas-usa" target="_blank" class="card-cta cta-primary" style="max-width: 400px; margin: 0 auto;" data-en="Book My VIP Consultation Now" data-es="Reservar Mi Consulta VIP Ahora">Reservar Mi Consulta VIP Ahora</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Barmentech LLC</h4>
+                <p data-en="We transform ideas into real companies in the United States." data-es="Transformamos ideas en empresas reales en Estados Unidos.">Transformamos ideas en empresas reales en Estados Unidos.</p>
+                <p>📍 Sheridan, Wyoming, USA</p>
+                <p>📧 abarahonag@barmentech.com</p>
+                <p>📞 +1 (786) 391-8722</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-en="Services" data-es="Servicios">Servicios</h4>
+                <p data-en="Strategic personalized consulting" data-es="Consultoría estratégica personalizada">Consultoría estratégica personalizada</p>
+                <p data-en="Legal and tax structure recommendation" data-es="Recomendación de estructura legal y fiscal">Recomendación de estructura legal y fiscal</p>
+                <p data-en="Step-by-step LLC formation plan" data-es="Plan paso a paso para formación LLC">Plan paso a paso para formación LLC</p>
+                <p data-en="Best states analysis" data-es="Análisis de mejores estados">Análisis de mejores estados</p>
+                <p data-en="Banking and EIN guidance" data-es="Orientación bancaria y EIN">Orientación bancaria y EIN</p>
+                <p data-en="Communications strategy" data-es="Estrategia de comunicaciones">Estrategia de comunicaciones</p>
+                <p data-en="Technology and web development" data-es="Desarrollo tecnológico y web">Desarrollo tecnológico y web</p>
+                <p data-en="Payment methods setup" data-es="Configuración de métodos de pago">Configuración de métodos de pago</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-en="Resources" data-es="Recursos">Recursos</h4>
+                <p data-en="Frequently Asked Questions" data-es="Preguntas Frecuentes">Preguntas Frecuentes</p>
+                <p data-en="PDF Support Materials" data-es="Material de Apoyo PDF">Material de Apoyo PDF</p>
+                <p data-en="Business Formation Guide" data-es="Guía de Formación Empresarial">Guía de Formación Empresarial</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-en="Legal" data-es="Legal">Legal</h4>
+                <a href="#" onclick="openModal('termsModal'); return false;" data-en="Terms & Conditions" data-es="Términos y Condiciones">Términos y Condiciones</a>
+                <a href="#" onclick="openModal('privacyModal'); return false;" data-en="Privacy Policy" data-es="Política de Privacidad">Política de Privacidad</a>
+                <a href="#" onclick="openModal('refundModal'); return false;" data-en="Refund Policy" data-es="Política de Reembolso">Política de Reembolso</a>
+                <a href="#" onclick="openModal('consultationModal'); return false;" data-en="Consultation Policy" data-es="Política de Consultas">Política de Consultas</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p data-en="&copy; 2025 Barmentech LLC. All rights reserved." data-es="&copy; 2025 Barmentech LLC. Todos los derechos reservados.">&copy; 2025 Barmentech LLC. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Privacy Policy</h2>
+                <span class="close" onclick="closeModal('privacyModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> October 9, 2025</p>
+                <p>Barmentech LLC ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you use our consultation and business formation services.</p>
+                
+                <h3>1. Information We Collect</h3>
+                <h4>Personal and Business Information</h4>
+                <p>When you book consultations or use our business formation services, we collect:</p>
+                <ul>
+                    <li>Contact information (name, email, phone, address)</li>
+                    <li>Business information (intended business name, type, goals)</li>
+                    <li>Consultation preferences and communication history</li>
+                    <li>Business formation requirements and documentation</li>
+                    <li>Financial information for payment processing</li>
+                </ul>
+
+                <h4>Automatically Collected Information</h4>
+                <ul>
+                    <li>Website usage data and analytics</li>
+                    <li>IP addresses, device information, and browser type</li>
+                    <li>Calendly booking data and appointment information</li>
+                    <li>Video conference platform data (when applicable)</li>
+                </ul>
+
+                <h3>2. How We Use Your Information</h3>
+                <p>We use your information to:</p>
+                <ul>
+                    <li>Provide consultation services and business formation assistance</li>
+                    <li>Schedule and conduct video conference consultations</li>
+                    <li>Process payments and manage billing for services</li>
+                    <li>Prepare and file business formation documents</li>
+                    <li>Communicate about your business formation process</li>
+                    <li>Provide customer support and follow-up services</li>
+                    <li>Comply with legal and regulatory requirements</li>
+                    <li>Improve our services and user experience</li>
+                </ul>
+
+                <h3>3. Information Sharing and Third Parties</h3>
+                <p>We may share your information with:</p>
+                <ul>
+                    <li><strong>Service Providers:</strong> Calendly (scheduling), Stripe/PayPal (payments), Zoom/Google Meet (video conferencing)</li>
+                    <li><strong>Government Agencies:</strong> State filing offices and federal agencies for business formation</li>
+                    <li><strong>Business Service Providers:</strong> Registered agents, banks, and other services required for business setup</li>
+                    <li><strong>Legal Authorities:</strong> When required by law or to protect our rights</li>
+                    <li><strong>Professional Partners:</strong> Licensed attorneys or CPAs when referrals are made</li>
+                </ul>
+                <p>We do not sell your personal information to third parties for marketing purposes.</p>
+
+                <h3>4. Data Security and Protection</h3>
+                <p>We implement industry-standard security measures:</p>
+                <ul>
+                    <li>SSL/TLS encryption for data transmission</li>
+                    <li>Secure cloud storage with access controls</li>
+                    <li>Regular security audits and vulnerability assessments</li>
+                    <li>Employee training on data protection practices</li>
+                    <li>Compliance with PCI DSS for payment processing</li>
+                </ul>
+
+                <h3>5. Data Retention</h3>
+                <p>We retain your information as follows:</p>
+                <ul>
+                    <li><strong>Business Formation Records:</strong> 7 years as required by business law</li>
+                    <li><strong>Consultation Records:</strong> 3 years for service continuity</li>
+                    <li><strong>Payment Information:</strong> As required by financial regulations</li>
+                    <li><strong>Communication Records:</strong> 2 years for customer service purposes</li>
+                </ul>
+
+                <h3>6. Your Privacy Rights</h3>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access and review your personal information</li>
+                    <li>Request correction of inaccurate information</li>
+                    <li>Request deletion of your data (subject to legal requirements)</li>
+                    <li>Opt-out of marketing communications</li>
+                    <li>Request data portability</li>
+                    <li>File complaints with data protection authorities</li>
+                </ul>
+
+                <h3>7. International Data Transfers</h3>
+                <p>If you are located outside the United States, your information may be transferred to and processed in the US. We ensure appropriate safeguards are in place for such transfers.</p>
+
+                <h3>8. Cookies and Tracking</h3>
+                <p>Our website uses cookies to:</p>
+                <ul>
+                    <li>Remember your preferences and session information</li>
+                    <li>Analyze website traffic and optimize user experience</li>
+                    <li>Enable integration with Calendly and payment systems</li>
+                    <li>Provide customer support features</li>
+                </ul>
+
+                <h3>9. Updates to This Policy</h3>
+                <p>We may update this Privacy Policy periodically. We will notify you of significant changes by posting the updated policy with a new effective date.</p>
+
+                <h3>10. Contact Us</h3>
+                <p>For privacy-related questions or requests:</p>
+                <p><strong>Email:</strong> abarahonag@barmentech.com<br>
+                <strong>Phone:</strong> +1 (786) 391-8722<br>
+                <strong>Address:</strong> Barmentech LLC, Sheridan, Wyoming, USA</p>
+                <p>Response time for privacy requests is typically 30 days or as required by applicable law.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Terms of Service</h2>
+                <span class="close" onclick="closeModal('termsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> October 9, 2025</p>
+                <p>These Terms of Service govern your use of consultation and business formation services provided by Barmentech LLC.</p>
+
+                <h3>1. Service Agreement and Scope</h3>
+                <p>By booking our services, you agree to these terms. Our services include:</p>
+                <ul>
+                    <li>Business formation consultation and strategic guidance</li>
+                    <li>US LLC formation services and documentation</li>
+                    <li>Business setup guidance and process support</li>
+                    <li>Technology and payment systems consultation</li>
+                </ul>
+                <p><strong>Important:</strong> We are not a law firm and do not provide legal advice. We are not accountants and do not provide tax advice. Our services are limited to business formation assistance and strategic guidance.</p>
+
+                <h3>2. Consultation Services</h3>
+                <ul>
+                    <li><strong>VIP Consultations:</strong> Paid strategic sessions with comprehensive guidance and materials</li>
+                    <li><strong>Free Consultations:</strong> Complimentary overview sessions for initial assessment</li>
+                    <li><strong>Session Format:</strong> Conducted via video conference using professional platforms</li>
+                    <li><strong>Booking:</strong> All appointments must be scheduled through our authorized booking system</li>
+                </ul>
+
+                <h3>3. Payment Terms and Pricing</h3>
+                <ul>
+                    <li><strong>Consultation Fees:</strong> VIP consultations are charged at booking confirmation</li>
+                    <li><strong>Formation Services:</strong> Pricing and payment schedules outlined in separate service agreements</li>
+                    <li><strong>Payment Methods:</strong> We accept payments via Stripe and PayPal</li>
+                    <li><strong>Service Credits:</strong> VIP consultation fees are credited toward formation services when contracted</li>
+                    <li><strong>Currency:</strong> All prices are in US Dollars unless otherwise specified</li>
+                </ul>
+
+                <h3>4. Client Responsibilities</h3>
+                <p>You agree to:</p>
+                <ul>
+                    <li>Provide accurate and complete information for your business formation</li>
+                    <li>Attend scheduled consultations promptly and prepared</li>
+                    <li>Review all documents and information provided before proceeding</li>
+                    <li>Comply with all applicable laws and regulations in your jurisdiction</li>
+                    <li>Understand that business formation involves regulatory compliance in multiple jurisdictions</li>
+                </ul>
+
+                <h3>5. Intellectual Property and Confidentiality</h3>
+                <ul>
+                    <li><strong>Client Information:</strong> We maintain strict confidentiality of all client information</li>
+                    <li><strong>Proprietary Methods:</strong> Our business processes and methodologies remain our intellectual property</li>
+                    <li><strong>Client Materials:</strong> You retain ownership of information and documents you provide</li>
+                    <li><strong>Service Materials:</strong> Guides and materials provided remain our property but are licensed for your use</li>
+                </ul>
+
+                <h3>6. Limitations and Disclaimers</h3>
+                <ul>
+                    <li><strong>No Legal Advice:</strong> Our services do not constitute legal, tax, or accounting advice</li>
+                    <li><strong>No Guarantees:</strong> We cannot guarantee specific business outcomes or regulatory approvals</li>
+                    <li><strong>Third-Party Services:</strong> We are not responsible for third-party service providers (banks, government agencies, etc.)</li>
+                    <li><strong>Compliance:</strong> Ongoing business compliance is your responsibility</li>
+                </ul>
+
+                <h3>7. Limitation of Liability</h3>
+                <p>Our total liability for any claims arising from our services is limited to the fees paid for the specific service in question. We are not liable for indirect, consequential, or punitive damages.</p>
+
+                <h3>8. Termination</h3>
+                <p>Either party may terminate services with written notice. You remain responsible for payment of completed services. Termination does not affect accrued rights or obligations.</p>
+
+                <h3>9. Dispute Resolution</h3>
+                <p>Any disputes will be resolved through binding arbitration in Wyoming, USA, under American Arbitration Association rules. Wyoming state law governs these terms.</p>
+
+                <h3>10. Contact Information</h3>
+                <p>For questions about these terms:</p>
+                <p><strong>Email:</strong> abarahonag@barmentech.com<br>
+                <strong>Address:</strong> Barmentech LLC, Sheridan, Wyoming, USA</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refund Policy Modal -->
+    <div id="refundModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Refund Policy</h2>
+                <span class="close" onclick="closeModal('refundModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> October 8, 2025</p>
+                <p>Barmentech LLC is committed to client satisfaction. This policy outlines our refund procedures.</p>
+
+                <h3>1. Consultation Services</h3>
+                <p><strong>VIP Consultations:</strong> Payment is required for the consultation session. Once the consultation is delivered, payment is earned and non-refundable.</p>
+                <p><strong>VIP Consultation Credit:</strong> If you hire our business formation services after your VIP consultation, the full consultation cost ($25/$35) will be credited toward your formation package.</p>
+                <p><strong>Free Consultations:</strong> No payment required, no refund applicable.</p>
+                <p><strong>No-Show Policy:</strong> If you miss your scheduled consultation without 24-hour notice, no refund will be provided.</p>
+
+                <h3>2. US Business Formation Services</h3>
+                <p><strong>Before Filing:</strong> Full refund available if you cancel before we begin filing your paperwork with the state.</p>
+                <p><strong>After Filing:</strong> No refunds once state filing has been submitted, as government fees are non-refundable.</p>
+                <p><strong>Service Failures:</strong> If we fail to deliver on our promises, we provide full refunds and cover any additional costs.</p>
+
+                <h3>3. Custom Development Projects</h3>
+                <ul>
+                    <li>Initial deposits are non-refundable once work has commenced</li>
+                    <li>Milestone payments are evaluated based on work completed</li>
+                    <li>Completed and accepted deliverables are non-refundable</li>
+                </ul>
+
+                <h3>4. Refund Request Process</h3>
+                <p>To request a refund:</p>
+                <ul>
+                    <li>Submit request to abarahonag@barmentech.com within applicable timeframe</li>
+                    <li>Include project/invoice number and reason for request</li>
+                    <li>Requests are reviewed within 5-7 business days</li>
+                    <li>Approved refunds are processed within 10 business days</li>
+                </ul>
+
+                <h3>5. Contact</h3>
+                <p>For refund inquiries, contact: abarahonag@barmentech.com</p>
+                <p><strong>Barmentech LLC</strong><br>Wyoming, USA</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consultation Policy Modal -->
+    <div id="consultationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Consultation Policy</h2>
+                <span class="close" onclick="closeModal('consultationModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p><strong>Effective Date:</strong> October 9, 2025</p>
+                <p>This policy governs our consultation services for US business formation.</p>
+
+                <h3>1. VIP Consultation Services</h3>
+                <ul>
+                    <li><strong>Payment Processing:</strong> VIP consultations are charged at the time of appointment confirmation via Stripe or PayPal</li>
+                    <li><strong>Session Duration:</strong> 75 minutes of dedicated strategic consultation</li>
+                    <li><strong>Pricing:</strong> $25 USD for Latin America residents, $35 USD for US residents</li>
+                    <li><strong>Service Delivery:</strong> Consultations are conducted via video conference (Zoom/Google Meet)</li>
+                </ul>
+
+                <h3>2. Free Exploratory Consultations</h3>
+                <ul>
+                    <li><strong>Duration:</strong> 30-35 minutes of general guidance</li>
+                    <li><strong>Scope:</strong> Overview of US business formation process and initial recommendations</li>
+                    <li><strong>No Payment Required:</strong> Completely free service</li>
+                </ul>
+
+                <h3>3. Scheduling and Rescheduling</h3>
+                <ul>
+                    <li><strong>Booking:</strong> All appointments must be scheduled through our Calendly system</li>
+                    <li><strong>Rescheduling:</strong> Free rescheduling available with at least 24 hours notice</li>
+                    <li><strong>No-Show Policy:</strong> Failure to attend without 24-hour notice results in forfeiture of payment</li>
+                    <li><strong>Late Arrival:</strong> Sessions may be shortened if client arrives more than 10 minutes late</li>
+                </ul>
+
+                <h3>4. Service Credit Program</h3>
+                <ul>
+                    <li><strong>VIP Credit:</strong> 100% of VIP consultation fee is credited toward business formation services if contracted within 30 days</li>
+                    <li><strong>Application:</strong> Credit applies automatically to formation service invoices</li>
+                    <li><strong>Non-Transferable:</strong> Credits cannot be transferred to other services or refunded as cash</li>
+                </ul>
+
+                <h3>5. Confidentiality and Professional Standards</h3>
+                <ul>
+                    <li><strong>Confidentiality:</strong> All information shared during consultations is kept strictly confidential</li>
+                    <li><strong>Recording:</strong> Sessions may be recorded by clients for personal reference only</li>
+                    <li><strong>Professional Boundaries:</strong> We provide business formation guidance, not legal or tax advice</li>
+                    <li><strong>Referrals:</strong> We recommend licensed professionals for specific legal or tax matters</li>
+                </ul>
+
+                <h3>6. Contact Information</h3>
+                <p>For questions about consultation services:</p>
+                <p><strong>Email:</strong> abarahonag@barmentech.com<br>
+                <strong>Phone:</strong> +1 (786) 391-8722</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const openModal = document.querySelector('.modal[style*="block"]');
+                if (openModal) {
+                    openModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Language toggle system
+        let currentLang = 'es';  // Default to Spanish since most content is in Spanish
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-en][data-es]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${currentLang}`);
+                if (text) {
+                    el.innerHTML = text;
+                }
+            });
+
+            // Update document language
+            document.documentElement.lang = currentLang;
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLanguage();
+        });
+    </script>
+</body>
+</html>
