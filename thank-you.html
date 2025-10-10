@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You - Barmentech LLC</title>
+    <title data-en="Thank You - Barmentech LLC" data-es="Gracias - Barmentech LLC">Thank You - Barmentech LLC</title>
     <style>
         * {
             margin: 0;
@@ -29,12 +29,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 10px;
         }
 
         .container {
             max-width: 600px;
+            width: 100%;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
             text-align: center;
         }
 
@@ -43,6 +45,29 @@
             padding: 60px 40px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: relative;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lang-toggle:hover {
+            background: var(--accent);
+            transform: scale(1.05);
         }
 
         .success-icon {
@@ -75,6 +100,7 @@
         .next-steps h3 {
             color: var(--primary);
             margin-bottom: 15px;
+            text-align: center;
         }
 
         .next-steps ul {
@@ -106,12 +132,21 @@
             font-weight: 600;
             transition: all 0.3s;
             margin: 10px;
+            font-size: 14px;
         }
 
         .btn:hover {
             background: var(--accent);
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
         }
 
         .contact-info {
@@ -121,17 +156,144 @@
             color: var(--gray);
         }
 
+        .contact-info p {
+            margin-bottom: 8px;
+        }
+
+        /* Enhanced Mobile Responsiveness */
         @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
             .thank-you-card {
                 padding: 40px 20px;
+                border-radius: 15px;
+            }
+
+            .lang-toggle {
+                top: 15px;
+                right: 15px;
+                padding: 6px 10px;
+                font-size: 11px;
             }
 
             h1 {
                 font-size: 28px;
+                margin-bottom: 15px;
             }
 
             .message {
                 font-size: 16px;
+                margin-bottom: 25px;
+            }
+
+            .success-icon {
+                font-size: 60px;
+                margin-bottom: 20px;
+            }
+
+            .next-steps {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .next-steps h3 {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .next-steps li {
+                font-size: 14px;
+                padding: 6px 0;
+                padding-left: 20px;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                margin: 8px 5px;
+                font-size: 13px;
+                display: block;
+                width: calc(100% - 10px);
+                text-align: center;
+            }
+
+            .contact-info {
+                margin-top: 30px;
+                padding-top: 20px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .thank-you-card {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .message {
+                font-size: 15px;
+            }
+
+            .success-icon {
+                font-size: 50px;
+                margin-bottom: 15px;
+            }
+
+            .next-steps {
+                padding: 15px;
+            }
+
+            .next-steps h3 {
+                font-size: 16px;
+            }
+
+            .next-steps li {
+                font-size: 13px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+
+            .thank-you-card {
+                padding: 30px 20px;
+            }
+
+            .success-icon {
+                font-size: 40px;
+                margin-bottom: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            .message {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            .next-steps {
+                padding: 20px;
+                margin-bottom: 20px;
             }
         }
     </style>
@@ -139,37 +301,105 @@
 <body>
     <div class="container">
         <div class="thank-you-card">
+            <button class="lang-toggle" onclick="toggleLanguage()">ES</button>
+            
             <div class="success-icon">✅</div>
-            <h1>Thank You!</h1>
-            <p class="message">
+            <h1 data-en="Thank You!" data-es="¡Gracias!">Thank You!</h1>
+            <p class="message" data-en="Your message has been successfully submitted. We appreciate your interest in Barmentech's services and will get back to you within 24 hours." data-es="Tu mensaje ha sido enviado exitosamente. Agradecemos tu interés en los servicios de Barmentech y te contactaremos dentro de 24 horas.">
                 Your message has been successfully submitted. We appreciate your interest in Barmentech's services and will get back to you within 24 hours.
             </p>
             
             <div class="next-steps">
-                <h3>What happens next?</h3>
+                <h3 data-en="What happens next?" data-es="¿Qué sigue ahora?">What happens next?</h3>
                 <ul>
-                    <li>We'll review your project requirements</li>
-                    <li>A team member will contact you within 24 hours</li>
-                    <li>We'll schedule a consultation call if needed</li>
-                    <li>You'll receive a detailed project proposal</li>
+                    <li data-en="We'll review your project requirements" data-es="Revisaremos los requisitos de tu proyecto">We'll review your project requirements</li>
+                    <li data-en="A team member will contact you within 24 hours" data-es="Un miembro del equipo te contactará dentro de 24 horas">A team member will contact you within 24 hours</li>
+                    <li data-en="We'll schedule a consultation call if needed" data-es="Programaremos una llamada de consulta si es necesario">We'll schedule a consultation call if needed</li>
+                    <li data-en="You'll receive a detailed project proposal" data-es="Recibirás una propuesta detallada del proyecto">You'll receive a detailed project proposal</li>
                 </ul>
             </div>
 
-            <a href="index.html" class="btn">Return to Homepage</a>
-            <a href="https://wa.me/50671508835?text=Hi%2C%20I%27m%20following%20up%20on%20my%20contact%20form%20submission" class="btn">Chat on WhatsApp</a>
+            <a href="index.html" class="btn" data-en="Return to Homepage" data-es="Volver al Inicio">Return to Homepage</a>
+            <a href="https://wa.me/17863918722?text=Hi%2C%20I%27m%20following%20up%20on%20my%20contact%20form%20submission" class="btn btn-secondary" data-en="Chat on WhatsApp" data-es="Chatear por WhatsApp">Chat on WhatsApp</a>
 
             <div class="contact-info">
-                <p><strong>Need immediate assistance?</strong></p>
+                <p><strong data-en="Need immediate assistance?" data-es="¿Necesitas asistencia inmediata?">Need immediate assistance?</strong></p>
                 <p>Email: abarahonag@barmentech.com</p>
-                <p>Business Hours: Monday - Friday, 9AM - 6PM EST</p>
+                <p data-en="Phone: +1 (786) 391-8722" data-es="Teléfono: +1 (786) 391-8722">Phone: +1 (786) 391-8722</p>
+                <p data-en="Business Hours: Monday - Friday, 9AM - 6PM EST" data-es="Horario: Lunes - Viernes, 9AM - 6PM EST">Business Hours: Monday - Friday, 9AM - 6PM EST</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Auto-redirect after 30 seconds if user wants to return
+        // Language toggle system with automatic detection
+        let currentLang = detectBrowserLanguage();  // Auto-detect browser language
+
+        function detectBrowserLanguage() {
+            // Get browser language
+            const browserLang = navigator.language || navigator.languages[0] || 'en';
+            
+            // Extract the language code (first 2 characters)
+            const langCode = browserLang.toLowerCase().substring(0, 2);
+            
+            // Return 'en' for English, 'es' for Spanish or any other language as default
+            return langCode === 'en' ? 'en' : 'es';
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
+            updateLanguage();
+            // Save user preference to localStorage
+            localStorage.setItem('preferred-language', currentLang);
+        }
+
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-en][data-es]');
+            elements.forEach(el => {
+                const text = el.getAttribute(`data-${currentLang}`);
+                if (text) {
+                    el.innerHTML = text;
+                }
+            });
+
+            // Update document language
+            document.documentElement.lang = currentLang;
+            
+            // Update language toggle button text
+            const langButton = document.querySelector('.lang-toggle');
+            if (langButton) {
+                langButton.textContent = currentLang === 'en' ? 'ES' : 'EN';
+            }
+        }
+
+        function initializeLanguage() {
+            // Check if user has a saved preference
+            const savedLang = localStorage.getItem('preferred-language');
+            
+            if (savedLang && (savedLang === 'en' || savedLang === 'es')) {
+                // Use saved preference
+                currentLang = savedLang;
+            } else {
+                // Use browser detection
+                currentLang = detectBrowserLanguage();
+            }
+            
+            // Apply the language
+            updateLanguage();
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeLanguage();
+        });
+
+        // Auto-redirect after 30 seconds if user wants to return (with language support)
         setTimeout(function() {
-            const userChoice = confirm('Would you like to return to the homepage?');
+            const message = currentLang === 'es' 
+                ? '¿Te gustaría volver a la página principal?' 
+                : 'Would you like to return to the homepage?';
+            
+            const userChoice = confirm(message);
             if (userChoice) {
                 window.location.href = 'index.html';
             }
