@@ -1707,12 +1707,25 @@
             }
         }
 
-        // Language toggle
-        let currentLang = 'en';
+        // Language toggle with automatic detection
+        let currentLang = detectBrowserLanguage();  // Auto-detect browser language
+
+        function detectBrowserLanguage() {
+            // Get browser language
+            const browserLang = navigator.language || navigator.languages[0] || 'en';
+            
+            // Extract the language code (first 2 characters)
+            const langCode = browserLang.toLowerCase().substring(0, 2);
+            
+            // Return 'en' for English, 'es' for Spanish or any other language as default
+            return langCode === 'en' ? 'en' : 'es';
+        }
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'es' : 'en';
             updateLanguage();
+            // Save user preference to localStorage
+            localStorage.setItem('preferred-language', currentLang);
         }
 
         function updateLanguage() {
@@ -1734,6 +1747,31 @@
                     textarea.placeholder = 'Please describe your project, goals, and any specific requirements...';
                 }
             }
+
+            // Update document language
+            document.documentElement.lang = currentLang;
+            
+            // Update language toggle button text if it exists
+            const langButton = document.querySelector('.lang-toggle');
+            if (langButton) {
+                langButton.textContent = currentLang === 'en' ? 'ES' : 'EN';
+            }
+        }
+
+        function initializeLanguage() {
+            // Check if user has a saved preference
+            const savedLang = localStorage.getItem('preferred-language');
+            
+            if (savedLang && (savedLang === 'en' || savedLang === 'es')) {
+                // Use saved preference
+                currentLang = savedLang;
+            } else {
+                // Use browser detection
+                currentLang = detectBrowserLanguage();
+            }
+            
+            // Apply the language
+            updateLanguage();
         }
 
         // Smooth scrolling
@@ -1755,6 +1793,9 @@
         
         // Reset timer when user starts typing (first real interaction)
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize language detection first
+            initializeLanguage();
+            
             const formInputs = document.querySelectorAll('input[type="text"], input[type="email"], textarea, select');
             let hasStartedTyping = false;
             
