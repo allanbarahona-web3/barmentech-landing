@@ -11,6 +11,35 @@
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
     
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX', {
+            anonymize_ip: true,
+            allow_google_signals: false,
+            allow_ad_personalization_signals: false
+        });
+
+        // Consultation page specific events
+        function trackVIPConsultationClick() {
+            gtag('event', 'vip_consultation_click', {
+                event_category: 'Conversion',
+                event_label: 'VIP Consultation Booking',
+                value: 35
+            });
+        }
+
+        function trackFreeConsultationClick() {
+            gtag('event', 'free_consultation_click', {
+                event_category: 'Conversion',
+                event_label: 'Free Consultation Booking'
+            });
+        }
+    </script>
+    
     <style>
         * {
             margin: 0;
@@ -897,7 +926,7 @@
                     <p data-en="🚀 <strong>This session saves you weeks of research, costly mistakes and headaches.</strong> You'll leave with a clear map and total confidence." data-es="🚀 <strong>Esta sesión te ahorra semanas de investigación, errores costosos y dolores de cabeza.</strong> Saldrás con un mapa claro y confianza total.">🚀 <strong>Esta sesión te ahorra semanas de investigación, errores costosos y dolores de cabeza.</strong> Saldrás con un mapa claro y confianza total.</p>
                 </div>
 
-                <a href="https://calendly.com/barmentech/consulta-vip-formacion-empresas-usa" target="_blank" class="card-cta cta-primary" data-en="Book VIP Appointment Now" data-es="Reservar Cita VIP Ahora">Reservar Cita VIP Ahora</a>
+                <a href="https://calendly.com/barmentech/consulta-vip-formacion-empresas-usa" target="_blank" class="card-cta cta-primary" onclick="trackVIPConsultationClick()" data-en="Book VIP Appointment Now" data-es="Reservar Cita VIP Ahora">Reservar Cita VIP Ahora</a>
                 <p class="urgency-text" data-en="⚡ Only 3 slots available this week" data-es="⚡ Solo 3 espacios disponibles esta semana">⚡ Solo 3 espacios disponibles esta semana</p>
             </div>
 
@@ -925,7 +954,7 @@
                     <p data-en="💡 <strong>Important:</strong> This session is for initial guidance. Does not include detailed legal, tax advice or documents." data-es="💡 <strong>Importante:</strong> Esta sesión es de orientación inicial. No incluye asesoría legal, fiscal detallada ni documentos.">💡 <strong>Importante:</strong> Esta sesión es de orientación inicial. No incluye asesoría legal, fiscal detallada ni documentos.</p>
                 </div>
 
-                <a href="https://calendly.com/barmentech/30min" target="_blank" class="card-cta cta-secondary" data-en="Book Free Consultation" data-es="Reservar Consulta Gratuita">Reservar Consulta Gratuita</a>
+                <a href="https://calendly.com/barmentech/30min" target="_blank" class="card-cta cta-secondary" onclick="trackFreeConsultationClick()" data-en="Book Free Consultation" data-es="Reservar Consulta Gratuita">Reservar Consulta Gratuita</a>
                 <p class="urgency-text" style="color: #666;" data-en="📌 Limited slots for quality consultations" data-es="📌 Cupos limitados para consultas de calidad">📌 Cupos limitados para consultas de calidad</p>
             </div>
         </div>
@@ -971,7 +1000,7 @@
         <div class="final-cta">
             <h3 data-en="Take the First Step Towards Your USA Company Today" data-es="Da el Primer Paso Hacia tu Empresa en EE.UU. Hoy">Da el Primer Paso Hacia tu Empresa en EE.UU. Hoy</h3>
             <p data-en="Thousands of Latin American entrepreneurs are already operating in the American market. <br>It's your turn." data-es="Miles de emprendedores latinoamericanos ya están operando en el mercado estadounidense. <br>Es tu turno.">Miles de emprendedores latinoamericanos ya están operando en el mercado estadounidense. <br>Es tu turno.</p>
-            <a href="https://calendly.com/barmentech/consulta-vip-formacion-empresas-usa" target="_blank" class="card-cta cta-primary" style="max-width: 400px; margin: 0 auto;" data-en="Book My VIP Consultation Now" data-es="Reservar Mi Consulta VIP Ahora">Reservar Mi Consulta VIP Ahora</a>
+            <a href="https://calendly.com/barmentech/consulta-vip-formacion-empresas-usa" target="_blank" class="card-cta cta-primary" onclick="trackVIPConsultationClick()" style="max-width: 400px; margin: 0 auto;" data-en="Book My VIP Consultation Now" data-es="Reservar Mi Consulta VIP Ahora">Reservar Mi Consulta VIP Ahora</a>
         </div>
     </div>
 
