@@ -1396,12 +1396,13 @@
             elements.forEach(el => {
                 const text = el.getAttribute(`data-${currentLang}`);
                 if (text) {
-                    // Security: Use textContent for most elements to prevent XSS
-                    if (el.tagName === 'LI' && text.includes('<strong>')) {
-                        // Special handling for list items with formatting
-                        el.innerHTML = text; // Keep for formatted content
+                    // Security: Use innerHTML only for elements that need HTML formatting
+                    if (text.includes('<span') || text.includes('<strong>') || text.includes('<br>')) {
+                        // Elements with HTML formatting
+                        el.innerHTML = text;
                     } else {
-                        el.textContent = text; // Safe for plain text
+                        // Plain text elements - safer with textContent
+                        el.textContent = text;
                     }
                 }
             });
