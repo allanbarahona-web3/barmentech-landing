@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversion Infrastructure & Growth Partnership | Barmentech</title>
+    
+    <!-- Security Headers -->
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RCVWPKGP00"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RCVWPKGP00');
+
+        function trackConsultationClick() {
+            gtag('event', 'consultation_click', {
+                event_category: 'Conversion',
+                event_label: 'Schedule Consultation'
+            });
+        }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #0f172a;
+            --accent: #10b981;
+            --text: #334155;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        /* Header/Navigation */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+            padding: 0 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        body {
+            padding-top: 100px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-image-full {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-image-full:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .lang-switcher {
+            background: var(--light);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-actions .btn {
+            margin: 0;
+            padding: 0.65rem 1.25rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+            background: var(--primary) !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .header-actions .btn:hover {
+            background: var(--primary-dark) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent) 100%);
+            border-radius: 2px;
+            animation: drawLine 0.8s ease-out 1s forwards;
+        }
+
+        @keyframes drawLine {
+            to {
+                width: 120px;
+            }
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            margin-top: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-alt {
+            background: var(--bg-light);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-header h3 {
+            font-size: 1.75rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .problems-list {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .problem-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .problem-item::before {
+            content: "\2717";
+            color: var(--danger);
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 1.75rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--danger);
+        }
+
+        .problem-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .problem-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .result-box {
+            background: #fee;
+            border-left: 4px solid var(--danger);
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            border-radius: 4px;
+        }
+
+        .result-box strong {
+            color: var(--danger);
+            font-size: 1.25rem;
+        }
+
+        .truth-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 900px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .closing-statement {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.6;
+            box-shadow: 0 8px 24px rgba(30, 64, 175, 0.2);
+        }
+
+        .system-highlight {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem auto;
+            max-width: 850px;
+        }
+
+        .differences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .difference-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            padding: 2.5rem 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .difference-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        .difference-card::before {
+            content: "✓";
+            width: 28px;
+            height: 28px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            color: white;
+            font-weight: bold;
+            order: -1;
+            line-height: 1;
+        }
+
+        .included-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .included-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .included-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .included-item h4 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .included-item p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .price-highlight {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .scope-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .scope-column h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .scope-list {
+            list-style: none;
+        }
+
+        .scope-list li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .scope-list.do li::before {
+            content: "\2713";
+            color: var(--success);
+            font-size: 1.25rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .scope-list.dont li::before {
+            content: "\2717";
+            color: var(--danger);
+            font-size: 1.25rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .goal-box {
+            background: #eff6ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-weight: 500;
+        }
+
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            border-radius: 12px;
+        }
+
+        .step-content h4 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .step-content p {
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .who-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .who-column {
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .who-column:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.12);
+        }
+
+        .who-for {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(16, 185, 129, 0.02) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .who-not {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.03) 0%, rgba(239, 68, 68, 0.02) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .who-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.75rem;
+            font-weight: 700;
+        }
+
+        .who-for h3 {
+            color: var(--success);
+        }
+
+        .who-not h3 {
+            color: var(--danger);
+        }
+
+        .who-list {
+            list-style: none;
+        }
+
+        .who-list li {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .who-for li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .who-not li::before {
+            content: "✕";
+            color: var(--danger);
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .pricing-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border: 3px solid var(--primary);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-header h3 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .price-period {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            font-size: 1.05rem;
+        }
+
+        .pricing-features li::before {
+            content: "\2713";
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-note {
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 2rem;
+            font-weight: 500;
+        }
+
+        .pricing-cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .phase2-card {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+        }
+
+        .phase2-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .phase2-features li {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+        }
+
+        .phase2-features li::before {
+            content: "\2192";
+            color: var(--primary);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .pricing-note-box {
+            margin-top: 2rem;
+            padding: 2.25rem;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
+            border: 1.5px solid rgba(30, 64, 175, 0.2);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--secondary);
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .pricing-note-box strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .meta-verified-section {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(30, 64, 175, 0.15);
+            text-align: center;
+            margin: 4rem auto;
+            max-width: 700px;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .meta-verified-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .meta-verified-section h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .meta-verified-section p {
+            font-size: 1rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .final-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .final-cta p {
+            font-size: 1.125rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+
+        .lang-content {
+            display: none;
+        }
+
+        .lang-content.active {
+            display: block;
+        }
+
+        /* Modal-specific content display */
+        #qualModal .lang-content {
+            display: none;
+        }
+
+        #qualModal .lang-content.active {
+            display: block;
+        }
+
+        /* Modal form content - independent styling */
+        .modal-form-content {
+            width: 100%;
+        }
+
+        .modal-form-content h2 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+
+        .modal-form-content form {
+            width: 100%;
+        }
+
+        /* Pre-Qualification Modal */
+        .modal {
+            display: none !important;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease-out;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .modal.active {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.4s ease-out;
+            position: relative;
+            z-index: 10000;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.75rem;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--secondary);
+        }
+
+        .modal-intro {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.04) 0%, rgba(16, 185, 129, 0.04) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--primary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .form-group-qual {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-group-qual label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .form-group-qual input[type="text"],
+        .form-group-qual input[type="email"],
+        .form-group-qual input[type="tel"],
+        .form-group-qual textarea,
+        .form-group-qual select {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group-qual select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e40af' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.875rem center;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        .form-group-qual select option {
+            padding: 0.5rem;
+            background: white;
+            color: var(--secondary);
+        }
+
+        .form-group-qual input[type="text"]:focus,
+        .form-group-qual input[type="email"]:focus,
+        .form-group-qual input[type="tel"]:focus,
+        .form-group-qual textarea:focus,
+        .form-group-qual select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+
+        .form-group-qual textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-option,
+        .checkbox-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .radio-option:hover,
+        .checkbox-option:hover {
+            background: rgba(30, 64, 175, 0.05);
+        }
+
+        .radio-option input,
+        .checkbox-option input {
+            margin-top: 0.25rem;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .radio-option label,
+        .checkbox-option label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .yes-no-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .yes-no-group label {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .yes-no-group input[type="radio"]:checked + label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .modal-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .modal-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
+        }
+
+        .modal-submit:active {
+            transform: translateY(0);
+        }
+
+        .modal-confirmation {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .modal-confirmation-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-confirmation h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .modal-confirmation p {
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-confirmation-button {
+            margin-top: 1.5rem;
+            padding: 0.875rem 1.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-confirmation-button:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .yes-no-group {
+                flex-direction: column;
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero h2 {
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero p {
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .hero .cta-buttons {
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            header {
+                padding: 0 1rem;
+            }
+
+            nav {
+                padding: 10px 0;
+            }
+
+            .header-actions {
+                gap: 1rem;
+            }
+
+            .header-actions .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .problems-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .problem-card {
+                padding: 1.5rem;
+            }
+
+            .differences-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.25rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.75rem;
+            }
+
+            .scope-grid,
+            .who-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .step {
+                flex-direction: column;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .included-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="./assets/images/barmentech-logo.png" alt="Barmentech Logo" class="logo-image-full">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#solution">Solution</a></li>
+                <li><a href="#included">What's Included</a></li>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <div class="header-actions">
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="switchLang('en')">EN</button>
+                    <button class="lang-btn" onclick="switchLang('es')">ES</button>
+                </div>
+                <a href="https://calendly.com/barmentech/consulta-exploratoria-b2b" class="btn btn-secondary" target="_blank">Request an Intro Call</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="lang-content active" id="lang-en">
+        <section class="hero">
+            <div class="container">
+                <h1>Andromeda Changed Your Ad Economics</h1>
+                <h2>Meta's new AI requires real conversion signals from your website. Without proper server-side tracking, your customer acquisition costs rise and lead quality drops.</h2>
+                <p>Most businesses didn't adapt — and are paying the price.</p>
+                <div class="cta-buttons">
+                    <a href="javascript:openQualModal()" class="btn btn-primary" onclick="trackConsultationClick()">Apply for Pre-Qualification</a>
+                    <a href="#how" class="btn btn-secondary">See How It Works</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Why Your Ads Aren't Converting</h2>
+                    <h3>(And It's Not the Ad Itself)</h3>
+                    <p>Andromeda changed the rules. Most businesses didn't adapt their infrastructure. Here's what's happening:</p>
+                </div>
+
+                <div class="problems-grid">
+                    <div class="problem-card">
+                        <div class="problem-card-title">Landing Page Mismatch</div>
+                        <p>Visitors bounce immediately—and without Meta Conversion API implemented, Andromeda doesn't get the signal it needs.</p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-card-title">No Conversion Tracking</div>
+                        <p>You're blind to which ads actually work. You can't optimize what you can't measure.</p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-card-title">Brand Inconsistency</div>
+                        <p>Your brand looks different across platforms. Trust erodes before they even consider buying.</p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-card-title">Tool Overload</div>
+                        <p>You're managing ten tools when you should be managing your business.</p>
+                    </div>
+                </div>
+
+                <div class="closing-statement">
+                    Andromeda didn't break ads. It changed what's required to make them work.
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Your Complete Conversion System</h2>
+                    <p>Meta's AI-powered ad system (Andromeda) has a single dependency: real conversion signals from your website. Without proper infrastructure to send those signals, Andromeda can't learn, optimize, or improve your results. This is not a service problem—it's an infrastructure problem.</p>
+                </div>
+
+                <div class="system-highlight">
+                    This is a conversion infrastructure system, not an ad service.
+                </div>
+
+                <div class="section-header">
+                    <p>Our system solves this by creating the technical foundation that allows Meta's AI to work correctly. We integrate your landing pages, conversion tracking, ad campaigns, and data flows so every element functions as one unified operation. The result: Andromeda receives the signals it needs, learns what works, and continuously optimizes toward better leads at lower cost.</p>
+                    <p><strong>We operate as your technology and growth partner. You provide the offer and close the deals. We build and maintain the infrastructure that makes both possible.</strong></p>
+                </div>
+
+                <h3 style="text-align: center; margin-top: 4rem; margin-bottom: 3rem; font-size: 1.75rem; color: var(--secondary); font-weight: 700;">What Makes This Different:</h3>
+
+                <div class="differences-grid">
+                    <div class="difference-card">
+                        <div><strong>Infrastructure-First Approach</strong> — Most agencies optimize account settings. We optimize your entire data flow. Your landing page design, pixel implementation, event tracking, and ad deployment all work together as one system to send clean, reliable conversion signals to Meta.</div>
+                    </div>
+                    <div class="difference-card">
+                        <div><strong>Integration, Not Fragmentation</strong> — Every component serves one purpose: delivering accurate conversion data to Andromeda. Landing page→Conversion API→Event tracking→Ad optimization. No tool overload. No disconnected systems.</div>
+                    </div>
+                    <div class="difference-card">
+                        <div><strong>Optimization Based on Real Signals</strong> — We don't look at vanity metrics. We measure what matters: conversion signal quality, lead qualification, cost per qualified lead. We test continuously and adjust strategy monthly based on what Andromeda is learning.</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; font-size: 1.1rem; line-height: 1.8; color: var(--text);">
+                    <strong>Full signal transparency:</strong> You see what's being tracked, what Meta receives, and what's driving optimization — no black boxes.
+                </div>
+            </div>
+        </section>
+
+        <section id="included">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Everything You Need to Generate Qualified Leads</h2>
+                    <h3>One monthly investment. Complete conversion infrastructure.</h3>
+                </div>
+
+                <div class="included-grid">
+                    <div class="included-item">
+                        <h4>Conversion-Optimized Landing Page</h4>
+                        <p>Custom-built to convert your specific audience. Mobile-responsive, fast-loading, designed around one clear action.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Hosting and Domain Management</h4>
+                        <p>We handle all technical infrastructure. No downtime. No technical headaches on your end.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Complete Tracking Setup</h4>
+                        <p>Conversion API implementation, server-side event tracking, conversion data sent to Andromeda. You'll finally know what's working.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Brand Presence Setup</h4>
+                        <p>Professional social media profiles and a basic brand kit to ensure consistency across every touchpoint.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>6 Short-Form Videos Monthly</h4>
+                        <p>Up to 30 seconds each. Optimized for ads and social media. Fresh creative every month to combat ad fatigue. Plus 1-2 monthly live sessions on TikTok or YouTube to engage leads directly.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Multi-Platform Ad Setup</h4>
+                        <p>We create, schedule, and deploy your campaigns across Facebook, Instagram, TikTok, YouTube, and WhatsApp. Strategy included.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Ongoing Optimization</h4>
+                        <p>Continuous monitoring, A/B testing, performance analysis, and refinement. Your system gets better over time.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Leads Delivered Directly</h4>
+                        <p>Pre-qualified leads sent straight to your WhatsApp, email form, or booking calendar. You take it from there.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Clear Boundaries, Clear Results</h2>
+                    <p>We believe in clear ownership and radical transparency about responsibilities.</p>
+                </div>
+
+                <div class="scope-grid">
+                    <div class="scope-column">
+                        <h3>What We Do:</h3>
+                        <ul class="scope-list do">
+                            <li>Build and maintain your conversion infrastructure</li>
+                            <li>Create landing pages that convert</li>
+                            <li>Set up and manage all technical tracking</li>
+                            <li>Produce fresh short-form video content monthly</li>
+                            <li>Deploy and optimize ad campaigns</li>
+                            <li>Monitor performance and make data-driven improvements</li>
+                            <li>Generate and deliver pre-qualified leads to you</li>
+                            <li>Provide monthly reporting and strategic recommendations</li>
+                        </ul>
+                    </div>
+
+                    <div class="scope-column">
+                        <h3>What We Don't Do:</h3>
+                        <ul class="scope-list dont">
+                            <li>Close sales for you (that's your zone of genius)</li>
+                            <li>Manage leads after initial contact or handle follow-up sales conversations</li>
+                            <li>Guarantee a specific number of conversions or sales</li>
+                            <li>Create viral content or chase algorithm trends</li>
+                            <li>Handle customer service or post-sale communication</li>
+                            <li>Promise overnight results or unrealistic outcomes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="goal-box">
+                    <strong>Our goal:</strong> More qualified leads at a better cost per lead, consistently delivered. <strong>Your goal:</strong> convert those leads into customers using your expertise and sales process.
+                </div>
+            </div>
+        </section>
+
+        <section id="how">
+            <div class="container">
+                <div class="section-header">
+                    <h2>From Application to Lead Generation in 4 Clear Steps</h2>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Application and Pre-Qualification</h4>
+                            <p>Submit your application. We review your business, offer, and goals to ensure we're a mutual fit. Not everyone qualifies - this is a partnership, not a transaction.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Foundation Build (Week 1-2)</h4>
+                            <p>We build your complete conversion infrastructure: landing page, tracking setup, brand presence, and initial campaign strategy. You provide brand assets and offer details; we handle the rest.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Launch and Deployment (Week 2-3)</h4>
+                            <p>Campaigns go live. First videos are produced. Leads start flowing. We monitor conversion signals and performance closely during the initial launch phase.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Ongoing Optimization (Monthly)</h4>
+                            <p>Continuous improvement every single month. Fresh video content. Performance analysis. A/B testing. Strategic adjustments. Your system evolves based on real data.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 3rem;">
+                    <p style="font-weight: 600; font-size: 1.25rem;">Monthly check-ins keep you informed. Continuous optimization keeps performance moving in the right direction.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="meta-verified-section">
+                    <div class="meta-verified-icon">✓</div>
+                    <h3>Meta Business Verified</h3>
+                    <p>Our business identity and technical setup are verified by Meta, enabling proper server-side tracking, Conversion API integration, and reliable conversion infrastructure.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>This System Works - But Not for Everyone</h2>
+                </div>
+
+                <div class="who-grid">
+                    <div class="who-column who-for">
+                        <h3>This is for you if:</h3>
+                        <ul class="who-list">
+                            <li>You already run ads and want better lead quality</li>
+                            <li>You're willing to handle sales conversations</li>
+                            <li>You're committed to consistent optimization</li>
+                        </ul>
+                    </div>
+
+                    <div class="who-column who-not">
+                        <h3>This is NOT for you if:</h3>
+                        <ul class="who-list">
+                            <li>You expect guaranteed results or overnight wins</li>
+                            <li>You don't have ad budget</li>
+                            <li>You want someone to close sales for you</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 3rem;">
+                    <p style="font-weight: 600;">We work with serious business owners who understand that sustainable growth requires proper infrastructure and consistent optimization.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Simple, Transparent Pricing</h2>
+                    <p style="font-size: 1.25rem; color: var(--text); margin-bottom: 2rem; font-weight: 500;">Built for sustainable growth, not quick hacks.</p>
+                    <div class="pricing-note-box">
+                        We onboard a limited number of new clients each month to ensure quality and performance.
+                    </div>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Complete Conversion Infrastructure</h3>
+                        <div class="price">$275<span class="price-period">/month</span></div>
+                    </div>
+
+                    <ul class="pricing-features">
+                        <li>Conversion-optimized landing page</li>
+                        <li>Hosting and domain management</li>
+                        <li>Complete tracking setup</li>
+                        <li>Brand presence and basic brand kit</li>
+                        <li>6 short-form videos monthly</li>
+                        <li>Multi-platform ad setup and deployment</li>
+                        <li>Ongoing optimization and maintenance</li>
+                        <li>Pre-qualified leads delivered directly to you</li>
+                        <li>Monthly performance reporting</li>
+                    </ul>
+
+                    <div class="pricing-note">
+                        No hidden fees. No surprise charges. No long-term contracts required.
+                    </div>
+
+                    <div class="pricing-note">
+                        Month-to-month commitment. Cancel anytime with 30 days notice.
+                    </div>
+
+                    <div class="pricing-cta">
+                        <a href="javascript:openQualModal()" class="btn btn-primary" style="width: 100%; text-align: center;" onclick="trackConsultationClick()">Apply for Pre-Qualification</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>When You're Ready to Scale: Omnichannel CRM</h2>
+                    <p>Once your foundation is generating consistent leads, you may want to add advanced lead management capabilities</p>
+                </div>
+
+                <div class="phase2-card">
+                    <h3 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: var(--secondary);">Omnichannel CRM and Automation System</h3>
+                    <ul class="phase2-features">
+                        <li>Automatic lead filtering and qualification</li>
+                        <li>Marketing automation sequences</li>
+                        <li>Centralized conversation management across all channels</li>
+                        <li>Advanced lead scoring and nurturing</li>
+                    </ul>
+                    <p style="font-weight: 600; margin-top: 1.5rem; color: var(--primary);">Available as an optional monthly upgrade after Phase 1 is established.</p>
+                    <p style="margin-top: 1rem; color: var(--text-light);">Not required to start. Available when you're ready to scale.</p>
+                    <p style="margin-top: 2.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(30, 64, 175, 0.06) 0%, rgba(16, 185, 129, 0.06) 100%); border-left: 3px solid var(--primary); border-radius: 8px; font-size: 1rem; font-weight: 500; color: var(--secondary); line-height: 1.6;">This upgrade is discussed only after the core system is live and performing.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta" id="apply">
+            <div class="container">
+                <h2>Stop Wasting Money on Ads Without Infrastructure</h2>
+                <h3>Build the conversion system your business needs to turn ad spend into consistent, qualified leads.</h3>
+                <p>Most businesses are one proper system away from predictable lead generation. We build that system, optimize it monthly, and deliver leads directly to you.</p>
+                <p style="font-weight: 600;">No hype. No guarantees we can't keep. Just solid infrastructure and continuous improvement.</p>
+                <div class="cta-buttons">
+                    <a href="javascript:openQualModal()" class="btn btn-primary" onclick="trackConsultationClick()">Get Pre-Qualified Now</a>
+                    <a href="https://calendly.com/barmentech/consulta-exploratoria-b2b" class="btn btn-secondary" onclick="trackConsultationClick()" target="_blank">Request an Intro Call</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="lang-content" id="lang-es">
+        <section class="hero">
+            <div class="container">
+                <h1>Andromeda Cambió Tu Economía Publicitaria</h1>
+                <h2>La nueva IA de Meta requiere señales reales de conversión desde tu sitio. Sin el seguimiento adecuado del lado del servidor, tus costos de adquisición suben y la calidad de leads baja.</h2>
+                <p>La mayoría de negocios no se adaptaron — y están pagando el precio.</p>
+                <div class="cta-buttons">
+                    <a href="javascript:openQualModal()" class="btn btn-primary" onclick="trackConsultationClick()">Aplicar para Precalificación</a>
+                    <a href="#how" class="btn btn-secondary">Ver Cómo Funciona</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="problem">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Por Qué Tus Anuncios No Convierten</h2>
+                    <h3>(Y No Es Culpa del Anuncio)</h3>
+                    <p>Andromeda cambió las reglas. La mayoría de negocios no adaptaron su infraestructura. Aquí está lo que está pasando:</p>
+                </div>
+
+                <div class="problems-grid">
+                    <div class="problem-card">
+                        <div class="problem-card-title">Desajuste de Landing Page</div>
+                        <p>Los visitantes se van inmediatamente—y sin Meta Conversion API implementada, Andromeda no recibe las señales que necesita.</p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-card-title">Sin Seguimiento de Conversiones</div>
+                        <p>Eres ciego a qué anuncios realmente funcionan. No puedes optimizar lo que no puedes medir.</p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-card-title">Inconsistencia de Marca</div>
+                        <p>Tu marca se ve diferente en cada plataforma. La confianza se erosiona antes de que siquiera consideren comprar.</p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-card-title">Sobrecarga de Herramientas</div>
+                        <p>Estás administrando diez herramientas cuando deberías estar administrando tu negocio.</p>
+                    </div>
+                </div>
+
+                <div class="closing-statement">
+                    Andromeda no rompió los anuncios. Cambió lo que se requiere para hacerlos funcionar.
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Tu Sistema Completo de Conversión</h2>
+                    <p>El sistema publicitario de Meta impulsado por IA (Andromeda) tiene una única dependencia: señales reales de conversión desde tu sitio web. Sin la infraestructura adecuada para enviar esas señales, Andromeda no puede aprender, optimizar o mejorar tus resultados. Esto no es un problema de servicio—es un problema de infraestructura.</p>
+                </div>
+
+                <div class="system-highlight">
+                    Esto es un sistema de infraestructura de conversión, no un servicio publicitario.
+                </div>
+
+                <div class="section-header">
+                    <p>Nuestro sistema resuelve esto creando la base técnica que permite que la IA de Meta funcione correctamente. Integramos tus páginas de destino, rastreo de conversiones, campañas publicitarias y flujos de datos para que cada elemento funcione como una operación unificada. El resultado: Andromeda recibe las señales que necesita, aprende qué funciona y optimiza continuamente hacia leads mejores a menor costo.</p>
+                    <p><strong>Operamos como tu socio tecnológico y de crecimiento. Tú proporcionas la oferta y cierras los tratos. Nosotros construimos y mantenemos la infraestructura que hace ambas cosas posibles.</strong></p>
+                </div>
+
+                <h3 style="text-align: center; margin-top: 4rem; margin-bottom: 3rem; font-size: 1.75rem; color: var(--secondary); font-weight: 700;">Lo Que Hace Esto Diferente:</h3>
+
+                <div class="differences-grid">
+                    <div class="difference-card">
+                        <div><strong>Enfoque Centrado en Infraestructura</strong> — La mayoría de agencias optimizan configuraciones de cuenta. Nosotros optimizamos todo tu flujo de datos. Tu diseño de página de destino, implementación de pixel, rastreo de eventos y despliegue de anuncios trabajan juntos como un solo sistema para enviar señales de conversión limpias y confiables a Meta.</div>
+                    </div>
+                    <div class="difference-card">
+                        <div><strong>Integración, No Fragmentación</strong> — Cada componente sirve un propósito: entregar datos de conversión precisos a Andromeda. Página de destino→API de Conversión→Rastreo de eventos→Optimización de anuncios. Sin sobrecarga de herramientas. Sin sistemas desconectados.</div>
+                    </div>
+                    <div class="difference-card">
+                        <div><strong>Optimización Basada en Señales Reales</strong> — No miramos métricas de vanidad. Medimos lo que importa: calidad de señal de conversión, calificación de leads, costo por lead calificado. Probamos continuamente y ajustamos estrategia mensualmente basándonos en lo que Andromeda está aprendiendo.</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem; padding: 2rem; font-size: 1.1rem; line-height: 1.8; color: var(--text);">
+                    <strong>Transparencia total de señales:</strong> Ves qué se está rastreando, qué recibe Meta y qué impulsa la optimización — sin cajas negras.
+                </div>
+            </div>
+        </section>
+
+        <section id="included">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Todo Lo Que Necesitas Para Generar Leads Calificados</h2>
+                    <h3>Una inversión mensual. Infraestructura completa de conversión.</h3>
+                </div>
+
+                <div class="included-grid">
+                    <div class="included-item">
+                        <h4>Página de Destino Optimizada</h4>
+                        <p>Construida a medida para convertir tu audiencia específica. Responsive, carga rápida, diseñada alrededor de una acción clara.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Hosting y Administración de Dominio</h4>
+                        <p>Manejamos toda la infraestructura técnica. Sin caídas. Sin dolores de cabeza técnicos de tu lado.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Configuración Completa de Rastreo</h4>
+                        <p>Implementación de Conversion API, rastreo de eventos server-side, rastreo de conversiones hacia Andromeda. Finalmente sabrás qué está funcionando.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Configuración de Presencia de Marca</h4>
+                        <p>Perfiles profesionales en redes sociales y un kit básico de marca para asegurar consistencia en cada punto de contacto.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>6 Videos de Formato Corto Mensuales</h4>
+                        <p>Hasta 30 segundos cada uno. Optimizados para anuncios y redes sociales. Creatividad fresca cada mes. Plus 1-2 transmisiones en vivo mensuales en TikTok o YouTube para enganchar leads directamente.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Configuración de Anuncios Multiplataforma</h4>
+                        <p>Creamos, programamos y desplegamos tus campañas en Facebook, Instagram, TikTok, YouTube y WhatsApp. Estrategia incluida.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Optimización Continua</h4>
+                        <p>Monitoreo continuo, pruebas A/B, análisis de rendimiento y refinamiento. Tu sistema mejora con el tiempo.</p>
+                    </div>
+                    <div class="included-item">
+                        <h4>Leads Entregados Directamente</h4>
+                        <p>Leads precalificados enviados directo a tu WhatsApp, formulario de email o calendario de reservas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Límites Claros, Resultados Claros</h2>
+                    <p>Creemos en la propiedad clara y la transparencia radical sobre responsabilidades.</p>
+                </div>
+
+                <div class="scope-grid">
+                    <div class="scope-column">
+                        <h3>Lo Que Hacemos:</h3>
+                        <ul class="scope-list do">
+                            <li>Construir y mantener tu infraestructura de conversión</li>
+                            <li>Crear páginas de destino que convierten</li>
+                            <li>Configurar y administrar todo el rastreo técnico</li>
+                            <li>Producir contenido de video de formato corto fresco mensualmente</li>
+                            <li>Desplegar y optimizar campañas publicitarias</li>
+                            <li>Monitorear rendimiento y hacer mejoras basadas en datos</li>
+                            <li>Generar y entregar leads precalificados a ti</li>
+                            <li>Proporcionar reportes mensuales y recomendaciones estratégicas</li>
+                        </ul>
+                    </div>
+
+                    <div class="scope-column">
+                        <h3>Lo Que No Hacemos:</h3>
+                        <ul class="scope-list dont">
+                            <li>Cerrar ventas por ti (esa es tu zona de genio)</li>
+                            <li>Administrar leads después del contacto inicial o manejar conversaciones de ventas de seguimiento</li>
+                            <li>Garantizar un número específico de conversiones o ventas</li>
+                            <li>Crear contenido viral o perseguir tendencias de algoritmos</li>
+                            <li>Manejar servicio al cliente o comunicación post-venta</li>
+                            <li>Prometer resultados de la noche a la mañana o expectativas irreales</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="goal-box">
+                    <strong>Nuestro objetivo:</strong> Más leads calificados a un mejor costo por lead, entregados consistentemente. <strong>Tu objetivo:</strong> convertir esos leads en clientes usando tu experiencia y proceso de ventas.
+                </div>
+            </div>
+        </section>
+
+        <section id="how">
+            <div class="container">
+                <div class="section-header">
+                    <h2>De la Aplicación a la Generación de Leads en 4 Pasos Claros</h2>
+                </div>
+
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Aplicación y Precalificación</h4>
+                            <p>Envía tu aplicación. Revisamos tu negocio, oferta y objetivos para asegurar que somos un buen ajuste mutuo. No todos califican, esto es una asociación, no una transacción.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Construcción de Base (Semana 1-2)</h4>
+                            <p>Construimos tu infraestructura completa de conversión: página de destino, configuración de rastreo, presencia de marca y estrategia inicial de campaña.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Lanzamiento y Despliegue (Semana 2-3)</h4>
+                            <p>Las campañas se activan. Los primeros videos se producen. Los leads comienzan a fluir. Monitoreamos las señales de conversión y el rendimiento de cerca durante la fase inicial de lanzamiento.</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Optimización Continua (Mensual)</h4>
+                            <p>Mejora continua cada mes. Contenido de video fresco. Análisis de rendimiento. Pruebas A/B. Ajustes estratégicos basados en datos reales.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 3rem;">
+                    <p style="font-weight: 600; font-size: 1.25rem;">Los check-ins mensuales te mantienen informado. La optimización continua mantiene el rendimiento moviéndose en la dirección correcta.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="meta-verified-section">
+                    <div class="meta-verified-icon">✓</div>
+                    <h3>Meta Business Verificado</h3>
+                    <p>Nuestra identidad comercial y configuración técnica están verificadas por Meta, lo que habilita rastreo server-side adecuado, integración de Conversion API e infraestructura de conversión confiable.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Este Sistema Funciona - Pero No Para Todos</h2>
+                </div>
+
+                <div class="who-grid">
+                    <div class="who-column who-for">
+                        <h3>Esto es para ti si:</h3>
+                        <ul class="who-list">
+                            <li>Ya ejecutas anuncios y quieres mejor calidad de leads</li>
+                            <li>Estás dispuesto a manejar conversaciones de ventas</li>
+                            <li>Estás comprometido con optimización consistente</li>
+                        </ul>
+                    </div>
+
+                    <div class="who-column who-not">
+                        <h3>Esto NO es para ti si:</h3>
+                        <ul class="who-list">
+                            <li>Esperas resultados garantizados o victorias rápidas</li>
+                            <li>No tienes presupuesto para anuncios</li>
+                            <li>Quieres que alguien cierre ventas por ti</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-top: 3rem;">
+                    <p style="font-weight: 600;">Trabajamos con dueños de negocios serios que entienden que el crecimiento sostenible requiere infraestructura adecuada y optimización consistente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Precios Simples y Transparentes</h2>
+                    <p style="font-size: 1.25rem; color: var(--text); margin-bottom: 2rem; font-weight: 500;">Construido para crecimiento sostenible, no soluciones rápidas.</p>
+                    <div class="pricing-note-box">
+                        Incorporamos un número limitado de nuevos clientes cada mes para garantizar calidad y desempeño.
+                    </div>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Infraestructura Completa de Conversión</h3>
+                        <div class="price">$275<span class="price-period">/mes</span></div>
+                    </div>
+
+                    <ul class="pricing-features">
+                        <li>Página de destino optimizada para conversión</li>
+                        <li>Hosting y administración de dominio</li>
+                        <li>Configuración completa de rastreo</li>
+                        <li>Presencia de marca y kit básico de marca</li>
+                        <li>6 videos de formato corto mensuales</li>
+                        <li>Configuración y despliegue de anuncios multiplataforma</li>
+                        <li>Optimización y mantenimiento continuo</li>
+                        <li>Leads precalificados entregados directamente a ti</li>
+                        <li>Reportes mensuales de rendimiento</li>
+                    </ul>
+
+                    <div class="pricing-note">
+                        Sin tarifas ocultas. Sin cargos sorpresa. Sin contratos a largo plazo requeridos.
+                    </div>
+
+                    <div class="pricing-note">
+                        Compromiso mes a mes. Cancela en cualquier momento con 30 días de aviso.
+                    </div>
+
+                    <div class="pricing-cta">
+                        <a href="javascript:openQualModal()" class="btn btn-primary" style="width: 100%; text-align: center;" onclick="trackConsultationClick()">Aplicar para Precalificación</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Cuando Estés Listo Para Escalar: CRM Omnicanal</h2>
+                    <p>Una vez que tu base esté generando leads consistentes, podrías querer agregar capacidades avanzadas de gestión de leads</p>
+                </div>
+
+                <div class="phase2-card">
+                    <h3 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: var(--secondary);">Sistema de CRM Omnicanal y Automatización</h3>
+                    <ul class="phase2-features">
+                        <li>Filtrado y calificación automática de leads</li>
+                        <li>Secuencias de automatización de marketing</li>
+                        <li>Gestión centralizada de conversaciones en todos los canales</li>
+                        <li>Puntuación avanzada de leads y nutrición</li>
+                    </ul>
+                    <p style="font-weight: 600; margin-top: 1.5rem; color: var(--primary);">Disponible como upgrade mensual opcional después de establecer la Fase 1.</p>
+                    <p style="margin-top: 1rem; color: var(--text-light);">No requerido para comenzar. Disponible cuando estés listo para escalar.</p>
+                    <p style="margin-top: 2.5rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(30, 64, 175, 0.06) 0%, rgba(16, 185, 129, 0.06) 100%); border-left: 3px solid var(--primary); border-radius: 8px; font-size: 1rem; font-weight: 500; color: var(--secondary); line-height: 1.6;">Este upgrade se discute solo después de que el sistema principal esté activo y funcionando.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta" id="apply">
+            <div class="container">
+                <h2>Deja de Desperdiciar Dinero en Anuncios Sin Infraestructura</h2>
+                <h3>Construye el sistema de conversión que tu negocio necesita para convertir inversión publicitaria en leads consistentes y calificados.</h3>
+                <p>La mayoría de negocios están a un sistema adecuado de distancia de generar leads predecibles. Nosotros construimos ese sistema, lo optimizamos mensualmente y entregamos leads directamente a ti.</p>
+                <p style="font-weight: 600;">Sin exageraciones. Sin garantías que no podemos cumplir. Solo infraestructura sólida y mejora continua.</p>
+                <div class="cta-buttons">
+                    <a href="javascript:openQualModal()" class="btn btn-primary" onclick="trackConsultationClick()">Aplicar para Precalificación</a>
+                    <a href="https://calendly.com/barmentech/consulta-exploratoria-b2b" class="btn btn-secondary" onclick="trackConsultationClick()" target="_blank">Solicitar una Llamada de Introducción</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>We are a specialized conversion optimization partner focused on building sustainable lead generation systems for growing businesses.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@barmentech.com</p>
+                    <p>Phone: +1 (786) 391-8722</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Location</h4>
+                    <p>Miami, Florida, USA</p>
+                    <p>Wyoming-registered LLC (Operating Nationwide)</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Investment</h4>
+                    <p>Core System: USD $275 / month</p>
+                    <p>Optional CRM Upgrade: Available after Phase 1 (not required)</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Barmentech LLC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Pre-Qualification Modal - Completely Independent -->
+    <div id="qualModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeQualModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeQualModal()">&times;</button>
+            
+            <!-- English Version -->
+            <div id="qualModal-en" class="modal-form-content" style="display: block;">
+                <h2>Pre-Qualification for Conversion System Setup</h2>
+                <p class="modal-intro">You don't need ads or social profiles set up to apply. This brief form helps us identify the right fit and understand what matters most to your business.</p>
+                
+                <form id="qualForm" onsubmit="submitQualForm(event)">
+                    <!-- Question 1: Business Name -->
+                    <div class="form-group-qual">
+                        <label for="businessName">What's your business name?</label>
+                        <input type="text" id="businessName" name="businessName" required placeholder="Your business name">
+                    </div>
+
+                    <!-- Question 2: Website/Presence -->
+                    <div class="form-group-qual">
+                        <label for="webPresence">Website or main online presence (e.g., yoursite.com, @handle, none yet)</label>
+                        <input type="text" id="webPresence" name="webPresence" required placeholder="e.g., www.yourbusiness.com or @yourbusiness">
+                    </div>
+
+                    <!-- Question 3: Current Setup -->
+                    <div class="form-group-qual">
+                        <label for="currentSetup">What's your current setup?</label>
+                        <select id="currentSetup" name="currentSetup" required>
+                            <option value="">Select an option...</option>
+                            <option value="Nothing yet">Nothing yet—starting from scratch</option>
+                            <option value="Manual tracking">Manual tracking or spreadsheets</option>
+                            <option value="Basic pixel">Basic Facebook pixel installed</option>
+                            <option value="Multiple tools">Multiple ad platforms (no coordination)</option>
+                        </select>
+                    </div>
+
+                    <!-- Question 4: Ad Investment -->
+                    <div class="form-group-qual">
+                        <label for="adBudget">Current ad investment / monthly budget range?</label>
+                        <select id="adBudget" name="adBudget" required>
+                            <option value="">Select an option...</option>
+                            <option value="Under $500">Under $500/month</option>
+                            <option value="$500-$2.5k">$500–$2,500/month</option>
+                            <option value="$2.5k+">$2,500+/month</option>
+                        </select>
+                    </div>
+
+                    <!-- Question 5: Sales Handler -->
+                    <div class="form-group-qual">
+                        <label for="salesHandler">Who typically manages sales follow-up?</label>
+                        <select id="salesHandler" name="salesHandler" required>
+                            <option value="">Select an option...</option>
+                            <option value="Business owner">I do (business owner)</option>
+                            <option value="Small team">Small team (2–5 people)</option>
+                            <option value="Dedicated sales">Dedicated sales department</option>
+                            <option value="Not sure yet">Not sure yet</option>
+                        </select>
+                    </div>
+
+                    <!-- Question 6: Expectations -->
+                    <div class="form-group-qual">
+                        <label for="expectations">What's most important right now?</label>
+                        <select id="expectations" name="expectations" required>
+                            <option value="">Select an option...</option>
+                            <option value="Reduce waste">Stop wasting money on ads that don't convert</option>
+                            <option value="Scale revenue">Scale revenue with reliable data</option>
+                            <option value="Build system">Need help building landing pages and full system setup</option>
+                        </select>
+                    </div>
+
+                    <!-- Question 7: Commitment -->
+                    <div class="form-group-qual">
+                        <label>Comfortable committing 2–3 months to see results?</label>
+                        <div class="yes-no-group">
+                            <label class="yes-no-option">
+                                <input type="radio" name="commitment" value="Yes" required>
+                                <span>Yes</span>
+                            </label>
+                            <label class="yes-no-option">
+                                <input type="radio" name="commitment" value="Not sure" required>
+                                <span>Not sure</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Question 8: Pain Points -->
+                    <div class="form-group-qual">
+                        <label for="painPoints">What's your biggest pain point right now? (optional)</label>
+                        <textarea id="painPoints" name="painPoints" placeholder="e.g., ads are costing too much, can't track sales, etc."></textarea>
+                    </div>
+
+                    <input type="hidden" name="_honeypot" value="">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="New Pre-Qualification Application - Barmentech">
+                    <input type="hidden" name="_next" value="">
+
+                    <button type="submit" class="modal-submit">Submit Application</button>
+                </form>
+            </div>
+
+            <!-- Spanish Version -->
+            <div id="qualModal-es" class="modal-form-content" style="display: none;">
+                <h2>Pre-Calificación para Configuración de Sistema de Conversión</h2>
+                <p class="modal-intro">No necesitas tener anuncios o perfiles sociales configurados para aplicar. Este breve formulario nos ayuda a identificar si es un buen ajuste y entender qué importa más para tu negocio.</p>
+                
+                <form id="qualFormES" onsubmit="submitQualForm(event)">
+                    <!-- Pregunta 1: Nombre del Negocio -->
+                    <div class="form-group-qual">
+                        <label for="businessNameES">¿Cuál es el nombre de tu negocio?</label>
+                        <input type="text" id="businessNameES" name="businessName" required placeholder="Nombre de tu negocio">
+                    </div>
+
+                    <!-- Pregunta 2: Sitio Web/Presencia -->
+                    <div class="form-group-qual">
+                        <label for="webPresenceES">Sitio web o presencia en línea principal (p. ej., tusitio.com, @handle, aún no tengo)</label>
+                        <input type="text" id="webPresenceES" name="webPresence" required placeholder="p. ej., www.tunegocio.com o @tunegocio">
+                    </div>
+
+                    <!-- Pregunta 3: Configuración Actual -->
+                    <div class="form-group-qual">
+                        <label for="currentSetupES">¿Cuál es tu configuración actual?</label>
+                        <select id="currentSetupES" name="currentSetup" required>
+                            <option value="">Selecciona una opción...</option>
+                            <option value="Nothing yet">Nada aún—comenzando desde cero</option>
+                            <option value="Manual tracking">Seguimiento manual o hojas de cálculo</option>
+                            <option value="Basic pixel">Pixel básico de Facebook instalado</option>
+                            <option value="Multiple tools">Múltiples plataformas publicitarias (sin coordinación)</option>
+                        </select>
+                    </div>
+
+                    <!-- Pregunta 4: Inversión en Anuncios -->
+                    <div class="form-group-qual">
+                        <label for="adBudgetES">¿Rango de inversión/presupuesto mensual actual en anuncios?</label>
+                        <select id="adBudgetES" name="adBudget" required>
+                            <option value="">Selecciona una opción...</option>
+                            <option value="Under $500">Menos de $500/mes</option>
+                            <option value="$500-$2.5k">$500–$2,500/mes</option>
+                            <option value="$2.5k+">$2,500+/mes</option>
+                        </select>
+                    </div>
+
+                    <!-- Pregunta 5: Manejador de Ventas -->
+                    <div class="form-group-qual">
+                        <label for="salesHandlerES">¿Quién típicamente maneja el seguimiento de ventas?</label>
+                        <select id="salesHandlerES" name="salesHandler" required>
+                            <option value="">Selecciona una opción...</option>
+                            <option value="Business owner">Yo mismo (dueño del negocio)</option>
+                            <option value="Small team">Equipo pequeño (2–5 personas)</option>
+                            <option value="Dedicated sales">Departamento de ventas dedicado</option>
+                            <option value="Not sure yet">Aún no estoy seguro</option>
+                        </select>
+                    </div>
+
+                    <!-- Pregunta 6: Expectativas -->
+                    <div class="form-group-qual">
+                        <label for="expectationsES">¿Qué es lo más importante ahora mismo?</label>
+                        <select id="expectationsES" name="expectations" required>
+                            <option value="">Selecciona una opción...</option>
+                            <option value="Reduce waste">Dejar de desperdiciar dinero en anuncios que no convierten</option>
+                            <option value="Scale revenue">Escalar ingresos con datos confiables</option>
+                            <option value="Build system">Necesito ayuda para crear landing pages y configurar todo el sistema</option>
+                        </select>
+                    </div>
+
+                    <!-- Pregunta 7: Compromiso -->
+                    <div class="form-group-qual">
+                        <label>¿Cómodo comprometiéndote 2–3 meses para ver resultados?</label>
+                        <div class="yes-no-group">
+                            <label class="yes-no-option">
+                                <input type="radio" name="commitment" value="Yes" required>
+                                <span>Sí</span>
+                            </label>
+                            <label class="yes-no-option">
+                                <input type="radio" name="commitment" value="Not sure" required>
+                                <span>No estoy seguro</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 8: Puntos Débiles -->
+                    <div class="form-group-qual">
+                        <label for="painPointsES">¿Cuál es tu mayor punto débil ahora mismo? (opcional)</label>
+                        <textarea id="painPointsES" name="painPoints" placeholder="p. ej., los anuncios cuestan demasiado, no puedo rastrear ventas, etc."></textarea>
+                    </div>
+
+                    <input type="hidden" name="_honeypot" value="">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="New Pre-Qualification Application - Barmentech">
+                    <input type="hidden" name="_next" value="">
+
+                    <button type="submit" class="modal-submit">Enviar Solicitud</button>
+                </form>
+            </div>
+
+            <!-- Confirmation Message -->
+            <div id="qualConfirmation" class="modal-confirmation" style="display: none;">
+                <div class="confirmation-content">
+                    <h3 data-en="Thanks for applying!" data-es="¡Gracias por aplicar!">Thanks for applying!</h3>
+                    <p data-en="We review every application carefully and will be in touch within 48 hours if we're a good fit. We only onboard businesses we're confident we can help." data-es="Revisamos cada solicitud cuidadosamente y nos comunicaremos dentro de 48 horas si somos un buen ajuste. Solo incorporamos negocios en los que estamos seguros de poder ayudar.">We review every application carefully and will be in touch within 48 hours if we're a good fit.</p>
+                    <button onclick="closeQualModal()" class="modal-submit" data-en="Close" data-es="Cerrar">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchLang(lang) {
+            // Only affect page content, not modal
+            const pageContents = document.querySelectorAll('body > .lang-content, body > section .lang-content');
+            pageContents.forEach(el => {
+                if (!el.closest('#qualModal')) {
+                    el.classList.remove('active');
+                }
+            });
+            
+            const targetElement = document.getElementById('lang-' + lang);
+            if (targetElement && !targetElement.closest('#qualModal')) {
+                targetElement.classList.add('active');
+            }
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.documentElement.lang = lang;
+        }
+
+        function openQualModal() {
+            const modal = document.getElementById('qualModal');
+            
+            // Detect current page language
+            const activePageContent = document.querySelector('.lang-content.active');
+            const isSpanish = activePageContent && activePageContent.id === 'lang-es';
+            
+            // Show modal
+            modal.style.display = 'flex';
+            modal.style.visibility = 'visible';
+            
+            // Show/hide form based on language
+            const enForm = document.getElementById('qualModal-en');
+            const esForm = document.getElementById('qualModal-es');
+            const confirmation = document.getElementById('qualConfirmation');
+            
+            // Ensure confirmation is hidden
+            if (confirmation) {
+                confirmation.style.display = 'none';
+                confirmation.style.visibility = 'hidden';
+            }
+            
+            if (isSpanish) {
+                enForm.style.display = 'none';
+                enForm.style.visibility = 'hidden';
+                esForm.style.display = 'block';
+                esForm.style.visibility = 'visible';
+                try {
+                    document.getElementById('qualFormES').reset();
+                } catch(e) {}
+            } else {
+                enForm.style.display = 'block';
+                enForm.style.visibility = 'visible';
+                esForm.style.display = 'none';
+                esForm.style.visibility = 'hidden';
+                try {
+                    document.getElementById('qualForm').reset();
+                } catch(e) {}
+            }
+            
+            // Add active class for animation
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
+        }
+
+        function closeQualModal() {
+            const modal = document.getElementById('qualModal');
+            
+            // Clear all visibility properties completely
+            modal.style.display = 'none !important';
+            modal.style.visibility = 'hidden';
+            modal.style.opacity = '0';
+            modal.style.pointerEvents = 'none';
+            
+            // Hide all child elements
+            const enForm = document.getElementById('qualModal-en');
+            const esForm = document.getElementById('qualModal-es');
+            const confirmation = document.getElementById('qualConfirmation');
+            const overlay = modal.querySelector('.modal-overlay');
+            const content = modal.querySelector('.modal-content');
+            
+            if (enForm) {
+                enForm.style.display = 'none !important';
+                enForm.style.visibility = 'hidden';
+                enForm.style.opacity = '0';
+            }
+            if (esForm) {
+                esForm.style.display = 'none !important';
+                esForm.style.visibility = 'hidden';
+                esForm.style.opacity = '0';
+            }
+            if (confirmation) {
+                confirmation.style.display = 'none !important';
+                confirmation.style.visibility = 'hidden';
+                confirmation.style.opacity = '0';
+            }
+            if (overlay) {
+                overlay.style.display = 'none !important';
+                overlay.style.visibility = 'hidden';
+                overlay.style.opacity = '0';
+            }
+            if (content) {
+                content.style.display = 'none !important';
+                content.style.visibility = 'hidden';
+                content.style.opacity = '0';
+            }
+            
+            // Remove animation class
+            modal.classList.remove('active');
+            
+            // Final cleanup after delay
+            setTimeout(() => {
+                modal.style.cssText = 'display: none !important; visibility: hidden; opacity: 0; pointer-events: none;';
+            }, 300);
+        }
+
+        function submitQualForm(event) {
+            event.preventDefault();
+            
+            // Determine which form is active
+            const enForm = document.getElementById('qualModal-en');
+            const esForm = document.getElementById('qualModal-es');
+            const isSpanish = esForm.style.display === 'block';
+            
+            const form = isSpanish ? document.getElementById('qualFormES') : document.getElementById('qualForm');
+            
+            // Prepare form data
+            const formData = new FormData(form);
+            
+            // Add language
+            formData.append('language', isSpanish ? 'Español' : 'English');
+            
+            // Submit to FormSubmit.co
+            const endpoint = 'https://formsubmit.co/ajax/info@barmentech.com';
+            
+            fetch(endpoint, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show confirmation message
+                const confirmation = document.getElementById('qualConfirmation');
+                confirmation.style.display = 'block';
+                
+                // Hide form
+                document.getElementById('qualModal-en').style.display = 'none';
+                document.getElementById('qualModal-es').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(isSpanish ? 'Hubo un error al enviar tu solicitud. Por favor intenta de nuevo.' : 'There was an error submitting your application. Please try again.');
+            });
+        }
+
+        // Close modal when clicking overlay
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('qualModal');
+            const overlay = modal.querySelector('.modal-overlay');
+            
+            overlay.addEventListener('click', closeQualModal);
+        });
+    </script>
+</body>
+</html>
