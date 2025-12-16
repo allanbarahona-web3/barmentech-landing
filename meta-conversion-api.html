@@ -2402,51 +2402,14 @@
         function closeQualModal() {
             const modal = document.getElementById('qualModal');
             
-            // Clear all visibility properties completely
-            modal.style.display = 'none !important';
-            modal.style.visibility = 'hidden';
-            modal.style.opacity = '0';
-            modal.style.pointerEvents = 'none';
-            
-            // Hide all child elements
-            const enForm = document.getElementById('qualModal-en');
-            const esForm = document.getElementById('qualModal-es');
-            const confirmation = document.getElementById('qualConfirmation');
-            const overlay = modal.querySelector('.modal-overlay');
-            const content = modal.querySelector('.modal-content');
-            
-            if (enForm) {
-                enForm.style.display = 'none !important';
-                enForm.style.visibility = 'hidden';
-                enForm.style.opacity = '0';
-            }
-            if (esForm) {
-                esForm.style.display = 'none !important';
-                esForm.style.visibility = 'hidden';
-                esForm.style.opacity = '0';
-            }
-            if (confirmation) {
-                confirmation.style.display = 'none !important';
-                confirmation.style.visibility = 'hidden';
-                confirmation.style.opacity = '0';
-            }
-            if (overlay) {
-                overlay.style.display = 'none !important';
-                overlay.style.visibility = 'hidden';
-                overlay.style.opacity = '0';
-            }
-            if (content) {
-                content.style.display = 'none !important';
-                content.style.visibility = 'hidden';
-                content.style.opacity = '0';
-            }
-            
-            // Remove animation class
+            // Remove active class first for animation
             modal.classList.remove('active');
             
-            // Final cleanup after delay
+            // Wait for animation to complete then hide
             setTimeout(() => {
-                modal.style.cssText = 'display: none !important; visibility: hidden; opacity: 0; pointer-events: none;';
+                modal.style.display = 'none';
+                modal.style.visibility = 'hidden';
+                modal.style.opacity = '0';
             }, 300);
         }
 
