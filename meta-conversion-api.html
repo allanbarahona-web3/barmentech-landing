@@ -2364,7 +2364,20 @@
             // Update elements with data-en and data-es attributes
             document.querySelectorAll('[data-en][data-es]').forEach(el => {
                 if (!el.closest('#qualModal')) {
-                    el.textContent = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
+                    const text = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
+                    // For links and buttons, preserve the element structure
+                    if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+                        // Only update text nodes, not the entire element
+                        const childNodes = Array.from(el.childNodes);
+                        const textNode = childNodes.find(node => node.nodeType === Node.TEXT_NODE);
+                        if (textNode) {
+                            textNode.textContent = text;
+                        } else {
+                            el.textContent = text;
+                        }
+                    } else {
+                        el.textContent = text;
+                    }
                 }
             });
             
