@@ -297,6 +297,43 @@
             color: var(--primary);
         }
 
+        /* WhatsApp Floating Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20ba5a;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .whatsapp-btn svg {
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
         section {
             padding: 6rem 0;
         }
@@ -1306,6 +1343,18 @@
 
             .mobile-menu-btn {
                 display: block;
+            }
+
+            .whatsapp-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+
+            .whatsapp-btn svg {
+                width: 28px;
+                height: 28px;
             }
 
             .hero h1 {
@@ -2440,5 +2489,16 @@
             overlay.addEventListener('click', closeQualModal);
         });
     </script>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/17863918722?text=Hola%20Barmentech%20%F0%9F%91%8B%20Me%20gustaría%20más%20información%20sobre%20Meta%20Conversion%20API%20Optimization" 
+       class="whatsapp-btn" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="Chat with us on WhatsApp">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 0C6.71 0 0 6.71 0 15c0 2.4.6 4.68 1.68 6.68L0 30l8.5-2.66C10.3 29.36 12.6 30 15 30c8.29 0 15-6.71 15-15S23.29 0 15 0zm0 27.5c-2.06 0-4.06-.5-5.82-1.38l-.42-.24-4.34 1.36 1.38-4.34-.24-.42C2.5 19.06 2.5 17.06 2.5 15c0-6.89 5.61-12.5 12.5-12.5s12.5 5.61 12.5 12.5-5.61 12.5-12.5 12.5zm6.89-9.37c-.38-.19-2.24-1.1-2.59-1.22-.35-.12-.6-.19-.86.19s-.99 1.22-1.21 1.47c-.23.25-.46.28-.84.09-2.24-1.1-3.7-2.45-5.16-4.42-.38-.62.38-.57 1.1-1.9.12-.25 0-.47-.06-.62-.06-.15-.86-2.06-1.18-2.82-.31-.73-.62-.64-.86-.64-.22 0-.47-.03-.72-.03-.25 0-.66.09-.99.47-.35.38-1.34 1.31-1.34 3.19 0 1.88.86 3.7 1.01 3.95.15.25 2.1 3.23 5.1 4.51.71.35 1.27.56 1.7.72.71.23 1.36.2 1.87.12.57-.09 1.73-.71 1.97-1.39.25-.68.25-1.26.18-1.39-.08-.12-.31-.19-.66-.28z" fill="white"/>
+        </svg>
+    </a>
 </body>
 </html>
