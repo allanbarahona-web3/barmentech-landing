@@ -1407,10 +1407,10 @@
                 </a>
             </div>
             <ul class="nav-links">
-                <li><a href="#solution" data-en="Solution" data-es="Solución" data-href-en="#solution" data-href-es="#solution">Solution</a></li>
-                <li><a href="#included" data-en="What's Included" data-es="Qué Incluye" data-href-en="#included" data-href-es="#included">What's Included</a></li>
-                <li><a href="#how" data-en="How It Works" data-es="Cómo Funciona" data-href-en="#how" data-href-es="#how">How It Works</a></li>
-                <li><a href="#pricing" data-en="Pricing" data-es="Precios" data-href-en="#pricing" data-href-es="#pricing">Pricing</a></li>
+                <li><a href="#solution" data-en="Solution" data-es="Solución">Solution</a></li>
+                <li><a href="#included" data-en="What's Included" data-es="Qué Incluye">What's Included</a></li>
+                <li><a href="#how" data-en="How It Works" data-es="Cómo Funciona">How It Works</a></li>
+                <li><a href="#pricing" data-en="Pricing" data-es="Precios">Pricing</a></li>
             </ul>
             <div class="header-actions">
                 <div class="lang-switcher">
@@ -2366,12 +2366,6 @@
                 if (!el.closest('#qualModal')) {
                     const text = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
                     el.textContent = text;
-                    
-                    // Update href if element has data-href-en and data-href-es
-                    if (el.hasAttribute('data-href-en') && el.hasAttribute('data-href-es')) {
-                        const href = lang === 'en' ? el.getAttribute('data-href-en') : el.getAttribute('data-href-es');
-                        el.setAttribute('href', href);
-                    }
                 }
             });
             
