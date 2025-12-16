@@ -1407,10 +1407,10 @@
                 </a>
             </div>
             <ul class="nav-links">
-                <li><a href="#solution" data-en="Solution" data-es="Solución">Solution</a></li>
-                <li><a href="#included" data-en="What's Included" data-es="Qué Incluye">What's Included</a></li>
-                <li><a href="#how" data-en="How It Works" data-es="Cómo Funciona">How It Works</a></li>
-                <li><a href="#pricing" data-en="Pricing" data-es="Precios">Pricing</a></li>
+                <li><a href="#solution" data-en="Solution" data-es="Solución" data-href-es="#solution-es">Solution</a></li>
+                <li><a href="#included" data-en="What's Included" data-es="Qué Incluye" data-href-es="#included-es">What's Included</a></li>
+                <li><a href="#how" data-en="How It Works" data-es="Cómo Funciona" data-href-es="#how-es">How It Works</a></li>
+                <li><a href="#pricing" data-en="Pricing" data-es="Precios" data-href-es="#pricing-es">Pricing</a></li>
             </ul>
             <div class="header-actions">
                 <div class="lang-switcher">
@@ -1808,7 +1808,7 @@
             </div>
         </section>
 
-        <section id="solution" class="section-alt">
+        <section id="solution-es" class="section-alt">
             <div class="container">
                 <div class="section-header">
                     <h2>Tu Sistema Completo de Conversión</h2>
@@ -2017,7 +2017,7 @@
             </div>
         </section>
 
-        <section id="pricing">
+        <section id="pricing-es">
             <div class="container">
                 <div class="section-header">
                     <h2>Precios Simples y Transparentes</h2>
@@ -2366,6 +2366,17 @@
                 if (!el.closest('#qualModal')) {
                     const text = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-es');
                     el.textContent = text;
+                    
+                    // Update href for nav links to point to Spanish sections
+                    if (el.hasAttribute('data-href-es')) {
+                        if (lang === 'es') {
+                            el.setAttribute('href', el.getAttribute('data-href-es'));
+                        } else {
+                            // For English, use the href without -es suffix
+                            const enHref = el.getAttribute('data-href-es').replace('-es', '');
+                            el.setAttribute('href', enHref);
+                        }
+                    }
                 }
             });
             
