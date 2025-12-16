@@ -2523,13 +2523,8 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Show confirmation message
-                const confirmation = document.getElementById('qualConfirmation');
-                confirmation.style.display = 'block';
-                
-                // Hide form
-                document.getElementById('qualModal-en').style.display = 'none';
-                document.getElementById('qualModal-es').style.display = 'none';
+                // Redirect to thank you page on success
+                window.location.href = 'thank-you.html';
             })
             .catch(error => {
                 console.error('Error:', error);
