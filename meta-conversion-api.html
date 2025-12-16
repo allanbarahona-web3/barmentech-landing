@@ -283,13 +283,15 @@
         }
 
         .btn-primary {
-            background: white;
-            color: var(--primary);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
         }
 
         .btn-primary:hover {
+            background: var(--primary-dark, #1e3a8a);
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.4);
         }
 
         .btn-secondary {
