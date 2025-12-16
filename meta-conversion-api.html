@@ -2216,10 +2216,18 @@
                         <textarea id="painPoints" name="painPoints" placeholder="e.g., ads are costing too much, can't track sales, etc."></textarea>
                     </div>
 
+                    <!-- Security Fields -->
                     <input type="hidden" name="_honeypot" value="">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" value="New Pre-Qualification Application - Barmentech">
                     <input type="hidden" name="_next" value="">
+                    
+                    <!-- Advanced Honeypots (invisible to real users) -->
+                    <input type="text" name="website" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
+                    <input type="email" name="email_confirm" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
+                    <input type="text" name="phone_verify" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
+                    <input type="hidden" name="_form_timestamp" id="formTimestamp" value="">
+                    <input type="hidden" name="_form_token" id="formToken" value="">
 
                     <button type="submit" class="modal-submit">Submit Application</button>
                 </form>
@@ -2310,10 +2318,18 @@
                         <textarea id="painPointsES" name="painPoints" placeholder="p. ej., los anuncios cuestan demasiado, no puedo rastrear ventas, etc."></textarea>
                     </div>
 
+                    <!-- Security Fields -->
                     <input type="hidden" name="_honeypot" value="">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_subject" value="New Pre-Qualification Application - Barmentech">
                     <input type="hidden" name="_next" value="">
+                    
+                    <!-- Advanced Honeypots (invisible to real users) -->
+                    <input type="text" name="website" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
+                    <input type="email" name="email_confirm" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
+                    <input type="text" name="phone_verify" value="" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
+                    <input type="hidden" name="_form_timestamp" id="formTimestampES" value="">
+                    <input type="hidden" name="_form_token" id="formTokenES" value="">
 
                     <button type="submit" class="modal-submit">Enviar Solicitud</button>
                 </form>
@@ -2375,6 +2391,10 @@
                 confirmation.style.visibility = 'hidden';
             }
             
+            // Initialize security tokens
+            const timestamp = Date.now();
+            const token = btoa(timestamp + '-' + Math.random().toString(36));
+            
             if (isSpanish) {
                 enForm.style.display = 'none';
                 enForm.style.visibility = 'hidden';
@@ -2382,6 +2402,8 @@
                 esForm.style.visibility = 'visible';
                 try {
                     document.getElementById('qualFormES').reset();
+                    document.getElementById('formTimestampES').value = timestamp;
+                    document.getElementById('formTokenES').value = token;
                 } catch(e) {}
             } else {
                 enForm.style.display = 'block';
@@ -2390,6 +2412,8 @@
                 esForm.style.visibility = 'hidden';
                 try {
                     document.getElementById('qualForm').reset();
+                    document.getElementById('formTimestamp').value = timestamp;
+                    document.getElementById('formToken').value = token;
                 } catch(e) {}
             }
             
@@ -2426,8 +2450,50 @@
             // Prepare form data
             const formData = new FormData(form);
             
+            // === SECURITY VALIDATIONS ===
+            
+            // 1. Honeypot validation - if filled, it's a bot
+            const website = formData.get('website');
+            const emailConfirm = formData.get('email_confirm');
+            const phoneVerify = formData.get('phone_verify');
+            
+            if (website || emailConfirm || phoneVerify) {
+                console.log('Bot detected: honeypot field filled');
+                // Silently fail for bot
+                setTimeout(() => {
+                    const confirmation = document.getElementById('qualConfirmation');
+                    confirmation.style.display = 'block';
+                    document.getElementById('qualModal-en').style.display = 'none';
+                    document.getElementById('qualModal-es').style.display = 'none';
+                }, 1000);
+                return false;
+            }
+            
+            // 2. Timestamp validation - form filled too quickly (less than 3 seconds = bot)
+            const timestamp = formData.get('_form_timestamp');
+            const currentTime = Date.now();
+            const timeDiff = (currentTime - parseInt(timestamp)) / 1000; // in seconds
+            
+            if (timeDiff < 3) {
+                console.log('Bot detected: form submitted too quickly (' + timeDiff + 's)');
+                // Silently fail for bot
+                setTimeout(() => {
+                    const confirmation = document.getElementById('qualConfirmation');
+                    confirmation.style.display = 'block';
+                    document.getElementById('qualModal-en').style.display = 'none';
+                    document.getElementById('qualModal-es').style.display = 'none';
+                }, 1000);
+                return false;
+            }
+            
+            // 3. Remove security fields before submission (don't send to email)
+            formData.delete('website');
+            formData.delete('email_confirm');
+            formData.delete('phone_verify');
+            
             // Add language
             formData.append('language', isSpanish ? 'Español' : 'English');
+            formData.append('_submission_time', new Date().toISOString());
             
             // Submit to FormSubmit.co
             const endpoint = 'https://formsubmit.co/ajax/info@barmentech.com';
