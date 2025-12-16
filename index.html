@@ -184,6 +184,10 @@
             align-items: center;
         }
 
+        .nav-links li {
+            position: relative;
+        }
+
         .nav-links a {
             text-decoration: none;
             color: var(--dark);
@@ -193,6 +197,70 @@
 
         .nav-links a:hover {
             color: var(--primary);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform 0.3s;
+        }
+
+        .dropdown:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 280px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 1rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--light);
+            color: var(--primary);
+            padding-left: 2rem;
+        }
+
+        .dropdown-menu .service-icon {
+            margin-right: 8px;
         }
 
         .lang-switch {
@@ -1116,7 +1184,20 @@
                     <img src="./assets/images/barmentech-logo.png" alt="Barmentech Logo" class="logo-image-full">
                 </div>
                 <ul class="nav-links">
-                    <li><a href="#services" data-en="Services" data-es="Servicios">Services</a></li>
+                    <li class="dropdown">
+                        <a href="#services" class="dropdown-toggle" data-en="Services" data-es="Servicios">Services</a>
+                        <div class="dropdown-menu">
+                            <a href="#services" data-en="🌐 Custom Web Development" data-es="🌐 Desarrollo Web Personalizado">🌐 Custom Web Development</a>
+                            <a href="#services" data-en="🛒 E-Commerce Solutions" data-es="🛒 Soluciones E-Commerce">🛒 E-Commerce Solutions</a>
+                            <a href="meta-conversion-api.html" data-en="📊 Meta Conversion API Optimization" data-es="📊 Optimización de API de Conversión de Meta">📊 Meta Conversion API Optimization</a>
+                            <a href="#services" data-en="🤖 WhatsApp Business API Bots" data-es="🤖 Bots API de WhatsApp Business">🤖 WhatsApp Business API Bots</a>
+                            <a href="#services" data-en="📱 Telegram Bots with AI" data-es="📱 Bots de Telegram con IA">📱 Telegram Bots with AI</a>
+                            <a href="#services" data-en="⏰ WhatsApp Reminder Bot" data-es="⏰ Bot de Recordatorios por WhatsApp">⏰ WhatsApp Reminder Bot</a>
+                            <a href="#services" data-en="🧾 Electronic Invoicing Systems" data-es="🧾 Sistemas de Facturación Electrónica">🧾 Electronic Invoicing Systems</a>
+                            <a href="#services" data-en="🎁 Loyalty & Rewards Programs" data-es="🎁 Programas de Lealtad y Recompensas">🎁 Loyalty & Rewards Programs</a>
+                            <a href="#services" data-en="🏛️ US Business Formation & Setup" data-es="🏛️ Formación y Configuración de Empresas en EE.UU.">🏛️ US Business Formation & Setup</a>
+                        </div>
+                    </li>
                     <li><a href="#about" data-en="About" data-es="Nosotros">About</a></li>
                     <li><a href="#process" data-en="Process" data-es="Proceso">Process</a></li>
                     <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
