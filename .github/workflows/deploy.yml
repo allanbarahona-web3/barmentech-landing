@@ -23,7 +23,11 @@ jobs:
       - name: Publish static landing
         run: |
           rsync -av --delete \
-            --exclude='.git/' \
-            --exclude='.github/' \
-            --exclude='*.md' \
+            --include='/index.html' \
+            --include='/llc-calendar-event.html' \
+            --include='/meta-conversion-api.html' \
+            --include='/thank-you.html' \
+            --include='/assets/' \
+            --include='/assets/***' \
+            --exclude='*' \
             ./ /var/www/barmentech-landing/
