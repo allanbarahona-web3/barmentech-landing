@@ -1,0 +1,29 @@
+name: Deploy landing to production server
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: barmentech-landing-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Download approved code
+        uses: actions/checkout@v4
+
+      - name: Publish static landing
+        run: |
+          rsync -av --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='*.md' \
+            ./ /var/www/barmentech-landing/
