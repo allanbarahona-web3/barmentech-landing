@@ -26,6 +26,7 @@ export function SiteShell({ activePage, children, locale, path = "" }: SiteShell
           alt: "Barmentech",
           division: copy.division,
           homeHref: `/${locale}`,
+          logoClassName: "h-auto w-28 shrink-0 sm:w-56",
           logoSrc: "/images/barmentech-logo.png",
         }}
         contact={{ href: `/${locale}/contact`, label: copy.contactCta }}

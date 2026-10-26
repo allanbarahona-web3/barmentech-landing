@@ -20,6 +20,7 @@ type SiteHeaderProps = {
     alt: string;
     division: string;
     homeHref: string;
+    logoClassName?: string;
     logoSrc: string;
   };
   contact: {
@@ -90,7 +91,7 @@ export function SiteHeader({ brand, contact, language, menu, navigation }: SiteH
     <header className="border-b border-[var(--bm-border)] bg-white">
       <div className="mx-auto flex min-h-20 w-full max-w-[var(--bm-content-width)] items-center justify-between gap-4 px-5 sm:px-8">
         <a className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--bm-focus)]" href={brand.homeHref}>
-          <img alt={brand.alt} className="h-auto w-28 shrink-0 sm:w-32" src={brand.logoSrc} />
+          <img alt={brand.alt} className={brand.logoClassName ?? "h-auto w-28 shrink-0 sm:w-32"} src={brand.logoSrc} />
           <span className="max-w-24 text-[10px] font-semibold uppercase leading-4 tracking-[0.1em] text-[var(--bm-text-muted)] sm:max-w-none sm:text-xs lg:border-l lg:border-[var(--bm-border)] lg:pl-3 lg:tracking-[0.12em]">
             {brand.division}
           </span>

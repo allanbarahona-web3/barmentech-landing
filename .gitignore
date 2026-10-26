@@ -20,3 +20,9 @@ coverage/
 # Local tooling artifacts
 .DS_Store
 *.log
+
+# Local approved source for Formation's hero; version the optimized WebP derivatives only.
+apps/formation/public/images/HeroFormationweb.png
+
+/AGENTS.md
+/apps/formation/AGENTS.md

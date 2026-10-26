@@ -50,7 +50,9 @@ No contact address, phone number or email is presented in the new shell. The leg
 
 ## Domain and deployment architecture
 
-Technology and Formation will be independently built and deployed from this repository, each to its own still-undecided production domain. No canonical URL or production domain is configured here.
+Technology will be independently built and deployed from this repository to its own still-undecided production domain.
+
+Formation's approved production origin is `https://formation.barmentech.com`. This records the intended production origin only; it does not indicate that the domain is deployed, connected, or publicly accessible.
 
 The existing static HTML files, `assets/`, and `.github/workflows/deploy.yml` remain the current production path. That workflow does not deploy either Next.js application. A future deployment story must provision an independent runtime or explicitly configure static export for each app before any cutover.
 

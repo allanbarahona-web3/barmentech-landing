@@ -1,4 +1,5 @@
 import { Container } from "@barmentech/ui";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SiteShell } from "../../../components/site-shell";
@@ -8,6 +9,13 @@ import { getFormationLabels, getFormationPageTitle, isFormationPage, type Format
 type FormationServicePageProps = Readonly<{
   params: Promise<{ locale: string; service: string }>;
 }>;
+
+export const metadata: Metadata = {
+  robots: {
+    follow: true,
+    index: false,
+  },
+};
 
 export default async function FormationServicePage({ params }: FormationServicePageProps) {
   const { locale: localeParam, service } = await params;

@@ -4,10 +4,14 @@ import type { ReactNode } from "react";
 
 import "./globals.css";
 import { isLocale } from "./lib/i18n";
+import { formationSiteOrigin } from "./lib/seo";
 
 export const metadata: Metadata = {
-  title: "Barmentech Formation",
-  description: "Barmentech Formation is under development.",
+  metadataBase: formationSiteOrigin,
+  title: {
+    default: "Barmentech Formation",
+    template: "%s | Barmentech Formation",
+  },
 };
 
 type RootLayoutProps = Readonly<{
