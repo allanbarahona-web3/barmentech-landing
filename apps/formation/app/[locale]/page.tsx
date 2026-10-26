@@ -1,7 +1,8 @@
-import Link from "next/link";
 import { ActionLink, Container } from "@barmentech/ui";
 
-import { getMessages, isLocale, locales } from "../lib/i18n";
+import { SiteShell } from "../components/site-shell";
+import { isLocale } from "../lib/i18n";
+import { getFormationLabels } from "../lib/site";
 
 type FormationHomePageProps = Readonly<{
   params: Promise<{ locale: string }>;
@@ -15,36 +16,30 @@ export default async function FormationHomePage({ params }: FormationHomePagePro
   }
 
   const locale = localeParam;
-  const messages = getMessages(locale);
+  const copy = getFormationLabels(locale);
 
   return (
-    <main className="min-h-screen bg-white px-6 py-16 text-slate-900 sm:py-24">
-      <Container>
-        <section className="mx-auto max-w-2xl space-y-8 text-center" id="development-status">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">
-            {messages.applicationName}
-          </p>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            {messages.applicationName}
-          </h1>
-          <p className="text-lg leading-8 text-slate-600">{messages.developmentStatus}</p>
-          <nav aria-label={messages.languageLabel} className="flex justify-center gap-3 text-sm font-medium">
-            {locales.map((supportedLocale) => (
-              <Link
-                aria-current={locale === supportedLocale ? "page" : undefined}
-                className={locale === supportedLocale ? "text-blue-700 underline underline-offset-4" : "text-slate-600 hover:text-slate-950"}
-                href={`/${supportedLocale}`}
-                key={supportedLocale}
-              >
-                {supportedLocale.toUpperCase()}
-              </Link>
-            ))}
-          </nav>
-          <div>
-            <ActionLink href="#development-status">{messages.sharedAction}</ActionLink>
-          </div>
-        </section>
-      </Container>
-    </main>
+    <SiteShell activePage="home" locale={locale}>
+      <main id="main-content">
+        <Container className="px-5 py-16 sm:px-8 sm:py-24">
+          <section className="max-w-3xl space-y-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{copy.developmentLabel}</p>
+            <h1 className="max-w-2xl text-4xl font-semibold tracking-[-0.03em] text-[var(--bm-text)] sm:text-5xl">{copy.previewTitle}</h1>
+            <p className="max-w-2xl text-lg leading-8 text-[var(--bm-text-muted)]">{copy.previewBody}</p>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <ActionLink href={`/${locale}/contact`}>{copy.previewPrimary}</ActionLink>
+              <ActionLink href="#how-we-work" variant="secondary">{copy.previewSecondary}</ActionLink>
+            </div>
+          </section>
+          <section className="mt-20 border-t border-[var(--bm-border)] pt-10 sm:mt-28 sm:pt-14" id="how-we-work">
+            <div className="max-w-2xl space-y-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{copy.developmentLabel}</p>
+              <h2 className="text-2xl font-semibold tracking-[-0.02em] text-[var(--bm-text)] sm:text-3xl">{copy.howWeWorkTitle}</h2>
+              <p className="text-base leading-7 text-[var(--bm-text-muted)]">{copy.howWeWorkBody}</p>
+            </div>
+          </section>
+        </Container>
+      </main>
+    </SiteShell>
   );
 }
