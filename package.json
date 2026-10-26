@@ -1,5 +1,17 @@
 {
   "name": "barmentech",
   "private": true,
-  "packageManager": "pnpm@11.5.2"
+  "packageManager": "pnpm@11.5.2",
+  "engines": {
+    "node": ">=22.0.0 <23"
+  },
+  "scripts": {
+    "dev:web": "pnpm --filter @barmentech/web dev",
+    "dev:formation": "pnpm --filter @barmentech/formation dev",
+    "build:web": "pnpm --filter @barmentech/web build",
+    "build:formation": "pnpm --filter @barmentech/formation build",
+    "type-check:web": "pnpm --filter @barmentech/web type-check",
+    "type-check:formation": "pnpm --filter @barmentech/formation type-check",
+    "type-check:ui": "pnpm --filter @barmentech/ui type-check"
+  }
 }
