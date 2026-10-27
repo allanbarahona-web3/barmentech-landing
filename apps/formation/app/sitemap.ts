@@ -12,6 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: formationUrl(`/es/${getFormationTaxServicesPath("es")}`) },
     { url: formationUrl(`/en/${getFormationFaqPath("en")}`) },
     { url: formationUrl(`/es/${getFormationFaqPath("es")}`) },
+    { url: formationUrl("/en/contact") },
+    { url: formationUrl("/es/contact") },
     { url: formationUrl(`/en/${getFormationLegalPath("en", "privacy")}`) },
     { url: formationUrl(`/es/${getFormationLegalPath("es", "privacy")}`) },
     { url: formationUrl(`/en/${getFormationLegalPath("en", "terms")}`) },

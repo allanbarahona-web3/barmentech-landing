@@ -2,6 +2,7 @@ export type FormationSocialNetwork = "facebook" | "instagram" | "linkedin" | "x"
 
 export type FormationPublicSettings = {
   bookingUrl?: string;
+  formspreeEndpoint?: string;
   socialLinks: Array<{
     network: FormationSocialNetwork;
     url: string;
@@ -29,6 +30,16 @@ function getFormationWhatsappUrl(value: string | undefined) {
   return getHttpsUrl(value) === formationWhatsappUrl ? formationWhatsappUrl : undefined;
 }
 
+function getFormspreeEndpoint(value: string | undefined) {
+  const url = getHttpsUrl(value);
+  if (!url) {
+    return undefined;
+  }
+
+  const parsed = new URL(url);
+  return parsed.hostname === "formspree.io" && parsed.port === "" && parsed.username === "" && parsed.password === "" && parsed.search === "" && parsed.hash === "" && /^\/f\/[A-Za-z0-9_-]+\/?$/.test(parsed.pathname) ? parsed.toString() : undefined;
+}
+
 export function getFormationPublicSettings(environment: NodeJS.ProcessEnv = process.env): FormationPublicSettings {
   const socialEntries: Array<[FormationSocialNetwork, string | undefined]> = [
     ["facebook", environment.NEXT_PUBLIC_FACEBOOK_URL],
@@ -40,6 +51,7 @@ export function getFormationPublicSettings(environment: NodeJS.ProcessEnv = proc
 
   return {
     bookingUrl: getHttpsUrl(environment.NEXT_PUBLIC_BOOKING_URL),
+    formspreeEndpoint: getFormspreeEndpoint(environment.NEXT_PUBLIC_FORMSPREE_ENDPOINT),
     socialLinks: socialEntries.flatMap(([network, value]) => {
       const url = getHttpsUrl(value);
       return url ? [{ network, url }] : [];

@@ -66,12 +66,12 @@ const portalSeoContent: Record<Locale, PortalSeoContent> = {
 
 const contactSeoContent: Record<Locale, ContactSeoContent> = {
   en: {
-    description: "Barmentech online contact requests are not available yet.",
-    title: "Contact (coming soon)",
+    description: "Contact Barmentech to discuss company formation, tax services, annual compliance, banking and payment solutions, or technology services.",
+    title: "Contact Barmentech | Company Formation and Tax Services",
   },
   es: {
-    description: "Las solicitudes de contacto en línea de Barmentech aún no están disponibles.",
-    title: "Contacto (próximamente)",
+    description: "Contacta a Barmentech para conversar sobre formación de empresas, servicios fiscales, cumplimiento anual, soluciones de banca y pagos o servicios de tecnología.",
+    title: "Contacto Barmentech | Formación de empresas y servicios fiscales",
   },
 };
 
@@ -173,7 +173,9 @@ export function getFormationContactMetadata(locale: Locale): Metadata {
   const canonicalUrl = formationUrl(`/${locale}/contact`);
 
   return {
-    title: content.title,
+    title: {
+      absolute: content.title,
+    },
     description: content.description,
     alternates: {
       canonical: canonicalUrl,
@@ -182,10 +184,6 @@ export function getFormationContactMetadata(locale: Locale): Metadata {
         es: formationUrl("/es/contact"),
         "x-default": formationUrl(`/${formationDefaultLocale}/contact`),
       },
-    },
-    robots: {
-      follow: false,
-      index: false,
     },
   };
 }

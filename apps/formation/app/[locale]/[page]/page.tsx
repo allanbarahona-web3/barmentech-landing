@@ -2,6 +2,7 @@ import { ActionLink, Container } from "@barmentech/ui";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
+import { FormationContact } from "../../components/formation-contact";
 import { FormationFaq } from "../../components/formation-faq";
 import { FormationLegalPage } from "../../components/formation-legal-page";
 import { SiteShell } from "../../components/site-shell";
@@ -13,6 +14,7 @@ import { getFormationContactMetadata, getFormationFaqMetadata, getFormationLegal
 
 type FormationPlaceholderPageProps = Readonly<{
   params: Promise<{ locale: string; page: string }>;
+  searchParams: Promise<{ interest?: string | string[] }>;
 }>;
 
 const placeholderMetadata: Metadata = {
@@ -51,8 +53,9 @@ export async function generateMetadata({ params }: FormationPlaceholderPageProps
   return placeholderMetadata;
 }
 
-export default async function FormationPlaceholderPage({ params }: FormationPlaceholderPageProps) {
+export default async function FormationPlaceholderPage({ params, searchParams }: FormationPlaceholderPageProps) {
   const { locale: localeParam, page } = await params;
+  const query = await searchParams;
 
   if (!isLocale(localeParam)) {
     notFound();
@@ -127,17 +130,7 @@ export default async function FormationPlaceholderPage({ params }: FormationPlac
   if (formationPage === "contact") {
     return (
       <SiteShell activePage={formationPage} locale={locale} path={page}>
-        <main id="main-content">
-          <Container className="px-5 py-16 sm:px-8 sm:py-24">
-            <section className="max-w-2xl space-y-5" aria-labelledby="contact-title">
-              <h1 className="text-4xl font-semibold tracking-[-0.03em] text-[var(--bm-text)] sm:text-5xl" id="contact-title">
-                {getFormationPageTitle(locale, formationPage)}
-              </h1>
-              <p className="text-lg leading-8 text-[var(--bm-text-muted)]">{copy.contactBody}</p>
-              <p className="border-t border-[var(--bm-border)] pt-5 text-base leading-7 text-[var(--bm-text)]">{copy.contactSupportingMessage}</p>
-            </section>
-          </Container>
-        </main>
+        <FormationContact initialInterest={typeof query.interest === "string" ? query.interest : undefined} locale={locale} />
       </SiteShell>
     );
   }

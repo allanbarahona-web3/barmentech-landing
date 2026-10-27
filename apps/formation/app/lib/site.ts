@@ -18,6 +18,36 @@ type FormationServicePanel = {
   title: string;
 };
 
+export type FormationContactContent = {
+  alternativeContactTitle: string;
+  companyLabel: string;
+  countryLabel: string;
+  emailInvalid: string;
+  emailLabel: string;
+  fallbackBody: string;
+  fallbackTitle: string;
+  fullNameLabel: string;
+  interestLabel: string;
+  interestOptions: Array<{ label: string; value: string }>;
+  interestPlaceholder: string;
+  messageHelper: string;
+  messageLabel: string;
+  phoneLabel: string;
+  privacyConsentEnd: string;
+  privacyConsentRequired: string;
+  privacyConsentStart: string;
+  privacyLinkLabel: string;
+  providerError: string;
+  requiredField: string;
+  responseTime: string;
+  sensitiveWarning: string;
+  submitting: string;
+  submit: string;
+  success: string;
+  title: string;
+  whatsappAlternative: string;
+};
+
 type FormationDifferentiator = {
   description: string;
   title: string;
@@ -75,6 +105,7 @@ type FormationLabels = {
   bookkeeping: string;
   contact: string;
   contactBody: string;
+  contactForm: FormationContactContent;
   contactSupportingMessage: string;
   contactCta: string;
   division: string;
@@ -237,8 +268,45 @@ const labels: Record<Locale, FormationLabels> = {
     businessServices: "Business services",
     bookkeeping: "Bookkeeping",
     contact: "Contact",
-    contactBody: "Online contact requests are not available yet. This page does not collect or submit information.",
-    contactSupportingMessage: "When a contact service is available, Barmentech will share the appropriate communication channel.",
+    contactBody: "Tell us what your business needs, and we will review the appropriate next step for your formation, tax, or operational-support inquiry.",
+    contactForm: {
+      alternativeContactTitle: "Other ways to reach us",
+      companyLabel: "Company (optional)",
+      countryLabel: "Country",
+      emailInvalid: "Enter a valid email address.",
+      emailLabel: "Email",
+      fallbackBody: "Online form submission is not available at the moment. Use WhatsApp when available or email us at info@barmentech.com.",
+      fallbackTitle: "Contact options",
+      fullNameLabel: "Full name",
+      interestLabel: "Service of interest",
+      interestOptions: [
+        { label: "Company formation", value: "company-formation" },
+        { label: "Tax services", value: "tax-services" },
+        { label: "Annual compliance", value: "annual-compliance" },
+        { label: "Banking and payment solutions", value: "banking-payments" },
+        { label: "Technology and digital presence", value: "technology-digital" },
+        { label: "In-person workshop", value: "workshop" },
+        { label: "Other", value: "other" },
+      ],
+      interestPlaceholder: "Select a service",
+      messageHelper: "Please keep your message to 2,000 characters or fewer.",
+      messageLabel: "How can we help?",
+      phoneLabel: "Phone or WhatsApp (optional)",
+      privacyConsentEnd: "and agree that Barmentech may use my information to respond to this inquiry.",
+      privacyConsentRequired: "Please confirm that you have read the privacy notice.",
+      privacyConsentStart: "I have read the",
+      privacyLinkLabel: "Privacy notice",
+      providerError: "We could not send your message right now. Please try again or use one of the contact options below.",
+      requiredField: "Please complete this field.",
+      responseTime: "We review new inquiries and respond through the appropriate channel as soon as reasonably possible.",
+      sensitiveWarning: "Do not submit Social Security numbers, ITINs, EINs, identity documents, banking information, payment-card information, tax returns, authentication credentials, or other sensitive documents through this public form.",
+      submitting: "Sending your message…",
+      submit: "Send inquiry",
+      success: "Thank you. Your inquiry was sent successfully.",
+      title: "Tell us how we can help",
+      whatsappAlternative: "Contact Barmentech on WhatsApp",
+    },
+    contactSupportingMessage: "Submitting this form does not automatically create a client, legal, tax, or professional-services relationship.",
     contactCta: "Contact",
     division: "Business services",
     footerNavigation: "Navigation",
@@ -589,8 +657,45 @@ const labels: Record<Locale, FormationLabels> = {
     businessServices: "Servicios empresariales",
     bookkeeping: "Bookkeeping",
     contact: "Contacto",
-    contactBody: "Las solicitudes de contacto en línea aún no están disponibles. Esta página no recopila ni envía información.",
-    contactSupportingMessage: "Cuando haya un servicio de contacto disponible, Barmentech compartirá el canal de comunicación apropiado.",
+    contactBody: "Cuéntanos qué necesita tu empresa y revisaremos el siguiente paso apropiado para tu consulta de formación, servicios fiscales o apoyo operativo.",
+    contactForm: {
+      alternativeContactTitle: "Otras formas de contactarnos",
+      companyLabel: "Empresa (opcional)",
+      countryLabel: "País",
+      emailInvalid: "Ingresa una dirección de correo electrónico válida.",
+      emailLabel: "Correo electrónico",
+      fallbackBody: "El envío del formulario en línea no está disponible en este momento. Usa WhatsApp cuando esté disponible o escríbenos a info@barmentech.com.",
+      fallbackTitle: "Opciones de contacto",
+      fullNameLabel: "Nombre completo",
+      interestLabel: "Servicio de interés",
+      interestOptions: [
+        { label: "Formación de empresas", value: "company-formation" },
+        { label: "Servicios fiscales", value: "tax-services" },
+        { label: "Cumplimiento anual", value: "annual-compliance" },
+        { label: "Soluciones de banca y pagos", value: "banking-payments" },
+        { label: "Tecnología y presencia digital", value: "technology-digital" },
+        { label: "Taller presencial", value: "workshop" },
+        { label: "Otro", value: "other" },
+      ],
+      interestPlaceholder: "Selecciona un servicio",
+      messageHelper: "Mantén tu mensaje en 2.000 caracteres o menos.",
+      messageLabel: "¿Cómo podemos ayudarte?",
+      phoneLabel: "Teléfono o WhatsApp (opcional)",
+      privacyConsentEnd: "y acepto que Barmentech use mi información para responder a esta consulta.",
+      privacyConsentRequired: "Confirma que has leído el aviso de privacidad.",
+      privacyConsentStart: "He leído el",
+      privacyLinkLabel: "Aviso de privacidad",
+      providerError: "No pudimos enviar tu mensaje en este momento. Inténtalo nuevamente o usa una de las opciones de contacto a continuación.",
+      requiredField: "Completa este campo.",
+      responseTime: "Revisamos las consultas nuevas y respondemos mediante el canal apropiado tan pronto como sea razonablemente posible.",
+      sensitiveWarning: "No envíes números de Seguro Social, ITIN, EIN, documentos de identidad, información bancaria, información de tarjetas de pago, declaraciones de impuestos, credenciales de autenticación ni otros documentos sensibles mediante este formulario público.",
+      submitting: "Enviando tu mensaje…",
+      submit: "Enviar consulta",
+      success: "Gracias. Tu consulta se envió correctamente.",
+      title: "Cuéntanos cómo podemos ayudarte",
+      whatsappAlternative: "Contactar a Barmentech por WhatsApp",
+    },
+    contactSupportingMessage: "Enviar este formulario no crea automáticamente una relación de cliente ni una relación de servicios legales, fiscales o profesionales.",
     contactCta: "Contacto",
     division: "Servicios empresariales",
     footerNavigation: "Navegación",
