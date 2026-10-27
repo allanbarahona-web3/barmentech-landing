@@ -1,20 +1,25 @@
-import { SiteFooter, SiteHeader } from "@barmentech/ui";
+import { SiteHeader } from "@barmentech/ui";
 import type { ReactNode } from "react";
 
+import { FormationFooter } from "./formation-footer";
+import { FormationSocialMark, getFormationSocialLabel } from "./formation-social-mark";
+import { FormationWhatsappAction } from "./formation-whatsapp-action";
 import type { Locale } from "../lib/i18n";
-import { getFormationFooterNavigation, getFormationLabels, getFormationNavigation, type FormationPage } from "../lib/site";
+import { getFormationPublicSettings } from "../lib/public-settings";
+import { getFormationLabels, getFormationNavigation, getFormationPortalDestination, type FormationPage } from "../lib/site";
 
 type SiteShellProps = {
   activePage: FormationPage;
   children: ReactNode;
   locale: Locale;
+  localizedPaths?: Partial<Record<Locale, string>>;
   path?: string;
 };
 
-export function SiteShell({ activePage, children, locale, path = "" }: SiteShellProps) {
+export function SiteShell({ activePage, children, locale, localizedPaths, path = "" }: SiteShellProps) {
   const copy = getFormationLabels(locale);
-  const alternateLocale = locale === "en" ? "es" : "en";
   const localizedPath = path ? `/${path}` : "";
+  const settings = getFormationPublicSettings();
 
   return (
     <>
@@ -24,39 +29,43 @@ export function SiteShell({ activePage, children, locale, path = "" }: SiteShell
       <SiteHeader
         brand={{
           alt: "Barmentech",
+          ariaLabel: copy.headerHomeLabel,
           division: copy.division,
           homeHref: `/${locale}`,
-          logoClassName: "h-auto w-28 shrink-0 sm:w-56",
-          logoSrc: "/images/barmentech-logo.png",
+          logoClassName: "h-8 w-8 shrink-0",
+          logoHeight: 500,
+          logoSrc: "/images/barmentech-isotype.webp",
+          logoWidth: 500,
         }}
         contact={{ href: `/${locale}/contact`, label: copy.contactCta }}
+        compact
+        desktopBreakpoint="wide"
+        hideDivisionAtWideDesktop
         language={{
           current: locale.toUpperCase(),
           label: copy.language,
           options: [
-            { href: `/en${localizedPath}`, label: "EN" },
-            { href: `/es${localizedPath}`, label: "ES" },
+            { href: `/en${localizedPaths?.en ?? localizedPath}`, label: "EN" },
+            { href: `/es${localizedPaths?.es ?? localizedPath}`, label: "ES" },
           ],
         }}
         menu={{ closeLabel: copy.menuClose, openLabel: copy.menuOpen }}
         navigation={getFormationNavigation(locale, activePage)}
+        portal={{ href: getFormationPortalDestination(locale), label: copy.portal }}
+        social={settings.socialLinks.length ? {
+          label: copy.footerSocialNavigation,
+          links: settings.socialLinks.map((social) => ({
+            href: social.url,
+            icon: <FormationSocialMark className="h-5 w-5" network={social.network} useBrandColor />,
+            label: getFormationSocialLabel(locale, social.network),
+          })),
+        } : undefined}
+        sticky
+        variant="formation"
       />
       {children}
-      <SiteFooter
-        brand={{
-          alt: "Barmentech",
-          division: copy.division,
-          homeHref: `/${locale}`,
-          logoSrc: "/images/barmentech-logo.png",
-        }}
-        copyright="Barmentech LLC"
-        legalLinks={[
-          { href: `/${locale}/privacy`, label: copy.privacy },
-          { href: `/${locale}/terms`, label: copy.terms },
-        ]}
-        navigation={getFormationFooterNavigation(locale)}
-        navigationLabel={copy.footerNavigation}
-      />
+      <FormationFooter locale={locale} />
+      <FormationWhatsappAction locale={locale} url={settings.whatsappUrl} />
     </>
   );
 }

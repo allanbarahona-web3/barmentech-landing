@@ -22,10 +22,13 @@ export function FormationCoverage({ locale }: FormationCoverageProps) {
             <p className="text-base leading-7 text-[var(--bm-text-muted)] sm:text-lg sm:leading-8">{copy.coverageBody}</p>
             <p className="border-l-2 border-[var(--bm-brand)] pl-5 text-lg font-medium leading-8 text-[var(--bm-text)]">{copy.coverageHighlightedStatement}</p>
           </div>
-          <div className="border-y border-[var(--bm-border)] py-8 sm:py-10 lg:justify-self-end lg:pl-10">
-            <p className="text-7xl font-semibold leading-none tracking-[-0.07em] text-[var(--bm-brand)] sm:text-8xl">50</p>
-            <p className="mt-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--bm-text)]">{copy.coverageStateLabel}</p>
-            <p className="mt-1 text-sm text-[var(--bm-text-muted)]">{copy.coverageVisualLabel}</p>
+          <div className="relative isolate flex min-h-52 items-center justify-center overflow-hidden border-y border-[var(--bm-border)] py-8 sm:py-10 lg:justify-self-end lg:min-w-80">
+            <img alt="" aria-hidden="true" className="pointer-events-none absolute right-[-12%] top-1/2 w-[130%] max-w-none -translate-y-1/2 animate-[coverage-map-reveal_1.2s_ease-out_forwards] opacity-20 motion-reduce:animate-none" height={593} src="/images/us-map-states.svg" width={959} />
+            <div className="relative z-10 text-center">
+              <p className="text-7xl font-semibold leading-none tracking-[-0.07em] text-[var(--bm-brand)] sm:text-8xl">50</p>
+              <p className="mt-3 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--bm-text)]">{copy.coverageStateLabel}</p>
+              <p className="mt-1 text-sm text-[var(--bm-text-muted)]">{copy.coverageVisualLabel}</p>
+            </div>
           </div>
         </div>
 

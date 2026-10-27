@@ -1,10 +1,10 @@
 import { Container } from "@barmentech/ui";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { SiteShell } from "../../../components/site-shell";
 import { isLocale } from "../../../lib/i18n";
-import { getFormationLabels, getFormationPageTitle, isFormationPage, type FormationPage } from "../../../lib/site";
+import { getFormationLabels, getFormationPageTitle, getFormationTaxServicesPath, isFormationPage, type FormationPage } from "../../../lib/site";
 
 type FormationServicePageProps = Readonly<{
   params: Promise<{ locale: string; service: string }>;
@@ -20,12 +20,21 @@ export const metadata: Metadata = {
 export default async function FormationServicePage({ params }: FormationServicePageProps) {
   const { locale: localeParam, service } = await params;
 
-  if (!isLocale(localeParam) || !isFormationPage(service) || !["bookkeeping", "business-formation", "business-services", "taxes"].includes(service)) {
+  if (!isLocale(localeParam)) {
     notFound();
   }
 
   const locale = localeParam;
-  const formationPage = service as Extract<FormationPage, "bookkeeping" | "business-formation" | "business-services" | "taxes">;
+
+  if (service === "taxes") {
+    redirect(`/${locale}/${getFormationTaxServicesPath(locale)}`);
+  }
+
+  if (!isFormationPage(service) || !["bookkeeping", "business-formation", "business-services"].includes(service)) {
+    notFound();
+  }
+
+  const formationPage = service as Extract<FormationPage, "bookkeeping" | "business-formation" | "business-services">;
   const copy = getFormationLabels(locale);
 
   return (

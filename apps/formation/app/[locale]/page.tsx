@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 
 import { FormationCoverage } from "../components/formation-coverage";
+import { FormationAnnualCompliance } from "../components/formation-annual-compliance";
 import { FormationHero } from "../components/formation-hero";
 import { FormationProcess } from "../components/formation-process";
+import { FormationPricing } from "../components/formation-pricing";
 import { FormationServices } from "../components/formation-services";
 import { FormationStructuredData } from "../components/formation-structured-data";
+import { FormationWhyBarmentech } from "../components/formation-why-barmentech";
 import { SiteShell } from "../components/site-shell";
 import { isLocale } from "../lib/i18n";
 import { getFormationHomepageMetadata } from "../lib/seo";
@@ -34,7 +37,10 @@ export default async function FormationHomePage({ params }: FormationHomePagePro
         <FormationHero locale={locale} />
         <FormationCoverage locale={locale} />
         <FormationProcess locale={locale} />
+        <FormationPricing locale={locale} />
         <FormationServices locale={locale} />
+        <FormationAnnualCompliance locale={locale} />
+        <FormationWhyBarmentech locale={locale} />
       </main>
     </SiteShell>
   );

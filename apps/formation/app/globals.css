@@ -1,3 +1,37 @@
 @import "tailwindcss";
 @import "../../../packages/ui/src/foundation.css";
 @source "../../../packages/ui/src";
+
+#services,
+#how-we-work,
+#pricing,
+#annual-compliance,
+#why-barmentech,
+#nationwide-coverage {
+  scroll-margin-top: 4rem;
+}
+
+@keyframes whatsapp-breathe {
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@keyframes contact-breathe {
+  50% {
+    transform: scale(1.025);
+  }
+}
+
+@keyframes coverage-map-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 0.2;
+  }
+}
+
