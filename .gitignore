@@ -30,6 +30,10 @@ coverage/
 *.bak
 *.backup
 
+# Private local Markdown documentation
+*.md
+!/README.md
+
 # Local approved source for Formation's hero; version the optimized WebP derivatives only.
 apps/formation/public/images/HeroFormationweb.png
 
