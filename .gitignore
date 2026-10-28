@@ -20,6 +20,15 @@ coverage/
 # Local tooling artifacts
 .DS_Store
 *.log
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.dump
+*.bak
+*.backup
 
 # Local approved source for Formation's hero; version the optimized WebP derivatives only.
 apps/formation/public/images/HeroFormationweb.png

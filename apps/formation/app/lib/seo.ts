@@ -46,10 +46,10 @@ const homepageSeoContent: Record<Locale, HomepageSeoContent> = {
     title: "U.S. Business Formation Services | Barmentech",
   },
   es: {
-    description: "Forma tu empresa en cualquiera de los 50 estados con acompañamiento bilingüe para el registro, EIN, documentos corporativos y preparación operativa.",
+    description: "Constituye tu empresa en cualquiera de los 50 estados con acompañamiento bilingüe para el registro, EIN, documentos corporativos y preparación operativa.",
     locale: "es_US",
-    serviceName: "Apoyo para la formación de empresas en Estados Unidos",
-    title: "Formación de empresas en Estados Unidos | Barmentech",
+    serviceName: "Apoyo para la constitución de empresas en Estados Unidos",
+    title: "Constitución de empresas en Estados Unidos | Barmentech",
   },
 };
 
@@ -70,8 +70,8 @@ const contactSeoContent: Record<Locale, ContactSeoContent> = {
     title: "Contact Barmentech | Company Formation and Tax Services",
   },
   es: {
-    description: "Contacta a Barmentech para conversar sobre formación de empresas, servicios fiscales, cumplimiento anual, soluciones de banca y pagos o servicios de tecnología.",
-    title: "Contacto Barmentech | Formación de empresas y servicios fiscales",
+    description: "Contacta a Barmentech para conversar sobre constitución de empresas, servicios fiscales, cumplimiento anual, soluciones de banca y pagos o servicios de tecnología.",
+    title: "Contacto Barmentech | Constitución de empresas y servicios fiscales",
   },
 };
 
@@ -83,7 +83,7 @@ const taxServicesSeoContent: Record<Locale, TaxServicesSeoContent> = {
     title: "U.S. Tax Preparation and Compliance Support | Barmentech",
   },
   es: {
-    description: "Apoyo para preparación y cumplimiento fiscal federal en Estados Unidos para empresas, propietarios extranjeros y personas después de la admisión, revisión de elegibilidad y confirmación del alcance.",
+    description: "Apoyo para preparación y cumplimiento fiscal federal en Estados Unidos para empresas, propietarios extranjeros y personas después de una evaluación inicial, revisión de elegibilidad y registros, y confirmación del alcance.",
     locale: "es_US",
     serviceName: "Apoyo para preparación y cumplimiento fiscal en Estados Unidos",
     title: "Preparación y cumplimiento fiscal en Estados Unidos | Barmentech",
@@ -97,9 +97,9 @@ const faqSeoContent: Record<Locale, FaqSeoContent> = {
     title: "Company Formation FAQ | Barmentech",
   },
   es: {
-    description: "Respuestas sobre formación de empresas en Estados Unidos, precios, asistencia con EIN, orientación bancaria, cumplimiento anual, servicios fiscales y el futuro Portal de clientes de Barmentech.",
+    description: "Respuestas sobre constitución de empresas en Estados Unidos, precios, asistencia con EIN, orientación bancaria, cumplimiento anual, servicios fiscales y el futuro Portal de clientes de Barmentech.",
     locale: "es_US",
-    title: "Preguntas frecuentes sobre formación de empresas | Barmentech",
+    title: "Preguntas frecuentes sobre constitución de empresas | Barmentech",
   },
 };
 

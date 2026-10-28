@@ -1,6 +1,13 @@
 import type { NextConfig } from "next";
 
+import { getFormationApiBaseUrl } from "./app/lib/public-settings";
+
 const isProduction = process.env.NODE_ENV === "production";
+const apiBaseUrl = getFormationApiBaseUrl(
+  process.env.NEXT_PUBLIC_API_BASE_URL,
+  process.env.NODE_ENV,
+);
+const apiConnectOrigin = apiBaseUrl ? new URL(apiBaseUrl).origin : undefined;
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -10,13 +17,14 @@ const contentSecurityPolicy = [
   "font-src 'self' data:",
   "style-src 'self' 'unsafe-inline'",
   `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"}`,
-  `connect-src 'self' https://formspree.io${isProduction ? "" : " ws:"}`,
+  `connect-src 'self'${apiConnectOrigin ? ` ${apiConnectOrigin}` : ""}${isProduction ? "" : " ws:"}`,
   "object-src 'none'",
   "worker-src 'self' blob:",
   ...(isProduction ? ["upgrade-insecure-requests"] : []),
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  productionBrowserSourceMaps: false,
   async headers() {
     const headers = [
       { key: "Content-Security-Policy", value: contentSecurityPolicy },

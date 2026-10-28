@@ -1,22 +1,48 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
+import { FormationContactSuccess } from "./formation-contact-success";
+import type { Locale } from "../lib/i18n";
+import {
+  FORMATION_LEAD_SOURCE_SITE,
+  getPublicLeadEndpoint,
+  getPublicLeadInterest,
+  getPublicLeadLocale,
+  isPublicLeadSuccessResponse,
+} from "../lib/public-lead-contract";
 import type { FormationContactContent } from "../lib/site";
 
 type FormationContactFormProps = {
+  apiBaseUrl?: string;
   copy: FormationContactContent;
-  endpoint?: string;
   initialInterest?: string;
+  locale: Locale;
   privacyHref: string;
   whatsappUrl?: string;
 };
 
-type SubmissionStatus = "idle" | "submitting" | "success" | "error";
+type SubmissionStatus =
+  | "error"
+  | "idle"
+  | "rate-limited"
+  | "submitting"
+  | "success"
+  | "validation-error";
 
-export function FormationContactForm({ copy, endpoint, initialInterest, privacyHref, whatsappUrl }: FormationContactFormProps) {
+const REQUEST_TIMEOUT_MS = 10_000;
+
+export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale, privacyHref, whatsappUrl }: FormationContactFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<SubmissionStatus>("idle");
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+  const endpoint = apiBaseUrl ? getPublicLeadEndpoint(apiBaseUrl) : undefined;
+
+  useEffect(() => {
+    if (status === "success") {
+      successHeadingRef.current?.focus();
+    }
+  }, [status]);
 
   if (!endpoint) {
     return (
@@ -29,6 +55,17 @@ export function FormationContactForm({ copy, endpoint, initialInterest, privacyH
           {whatsappUrl ? <a className="rounded-sm text-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href={whatsappUrl} rel="noopener noreferrer" target="_blank">{copy.whatsappAlternative}</a> : null}
         </div>
       </section>
+    );
+  }
+
+  if (status === "success") {
+    return (
+      <FormationContactSuccess
+        copy={copy.successPanel}
+        headingRef={successHeadingRef}
+        homeHref={`/${locale}`}
+        whatsappUrl={whatsappUrl}
+      />
     );
   }
 
@@ -70,29 +107,77 @@ export function FormationContactForm({ copy, endpoint, initialInterest, privacyH
       return;
     }
 
-    if (String(formData.get("website") ?? "").trim()) {
-      form.reset();
-      setStatus("success");
+    setStatus("submitting");
+    const interest = getPublicLeadInterest(
+      String(formData.get("interest") ?? ""),
+    );
+    if (!interest) {
+      setStatus("validation-error");
       return;
     }
 
-    setStatus("submitting");
+    const optionalValue = (field: string) => {
+      const value = String(formData.get(field) ?? "").trim();
+      return value || undefined;
+    };
+    const requestBody = {
+      fullName: String(formData.get("full_name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
+      phone: optionalValue("phone"),
+      country: String(formData.get("country") ?? "").trim(),
+      company: optionalValue("company"),
+      interest,
+      message: String(formData.get("message") ?? "").trim(),
+      locale: getPublicLeadLocale(locale),
+      sourceSite: FORMATION_LEAD_SOURCE_SITE,
+      privacyAccepted: true,
+      website: String(formData.get("website") ?? "").trim(),
+    };
+    const abortController = new AbortController();
+    const timeoutId = window.setTimeout(
+      () => abortController.abort(),
+      REQUEST_TIMEOUT_MS,
+    );
+
     try {
       const response = await fetch(endpoint, {
-        body: formData,
-        headers: { Accept: "application/json" },
+        body: JSON.stringify(requestBody),
+        credentials: "omit",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
         method: "POST",
+        signal: abortController.signal,
       });
 
-      if (!response.ok) {
-        throw new Error("Formspree submission failed");
+      if (response.status === 201) {
+        const responseBody: unknown = await response.json();
+        if (!isPublicLeadSuccessResponse(responseBody)) {
+          throw new Error("Invalid lead submission response.");
+        }
+
+        form.reset();
+        setErrors({});
+        setStatus("success");
+        return;
       }
 
-      form.reset();
-      setErrors({});
-      setStatus("success");
+      if (response.status === 400) {
+        setStatus("validation-error");
+        return;
+      }
+
+      if (response.status === 429) {
+        setStatus("rate-limited");
+        return;
+      }
+
+      setStatus("error");
     } catch {
       setStatus("error");
+    } finally {
+      window.clearTimeout(timeoutId);
     }
   }
 
@@ -151,8 +236,8 @@ export function FormationContactForm({ copy, endpoint, initialInterest, privacyH
         <input autoComplete="off" id="website" name="website" tabIndex={-1} type="text" />
       </div>
 
-      <p aria-live="polite" className={`mt-5 text-sm leading-6 ${status === "error" ? "text-[#9f1c1c]" : "text-[var(--bm-text)]"}`} id="contact-submission-status" role="status">
-        {status === "submitting" ? copy.submitting : status === "success" ? copy.success : status === "error" ? copy.providerError : ""}
+      <p aria-live="polite" className={`mt-5 text-sm leading-6 ${["error", "rate-limited", "validation-error"].includes(status) ? "text-[#9f1c1c]" : "text-[var(--bm-text)]"}`} id="contact-submission-status" role="status">
+        {status === "submitting" ? copy.submitting : status === "validation-error" ? copy.validationError : status === "rate-limited" ? copy.rateLimitError : status === "error" ? copy.temporaryError : ""}
       </p>
       <button className="mt-6 inline-flex min-h-[var(--bm-control-height)] w-full items-center justify-center rounded-[var(--bm-radius-control)] border border-[var(--bm-brand)] bg-[var(--bm-brand)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[var(--bm-brand-strong)] hover:bg-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto" disabled={status === "submitting"} type="submit">
         {status === "submitting" ? copy.submitting : copy.submit}

@@ -6,6 +6,7 @@ import {
   parsePublicWebOrigins,
 } from "./config/api-configuration";
 import { createApiApplication } from "./main";
+import { PrismaService } from "./prisma/prisma.service";
 
 test("parses valid public web origins with trimming and de-duplication", () => {
   assert.deepEqual(
@@ -44,20 +45,105 @@ test("requires valid public web origins in production", () => {
   );
 });
 
-test("serves the minimal health response at the versioned route", async (t) => {
-  const app = await createApiApplication(
+test("requires secure non-local public origins outside development and test", () => {
+  for (const publicWebOrigins of [
+    "http://formation-qa.example.test",
+    "http://localhost:3000",
+  ]) {
+    assert.throws(
+      () =>
+        getApiConfiguration({
+          NODE_ENV: "qa",
+          PUBLIC_WEB_ORIGINS: publicWebOrigins,
+        }),
+      /PUBLIC_WEB_ORIGINS must/,
+    );
+  }
+
+  assert.equal(
     getApiConfiguration({
-      NODE_ENV: "test",
-      PUBLIC_WEB_ORIGINS: "http://localhost:3000",
-    }),
+      NODE_ENV: "qa",
+      PUBLIC_WEB_ORIGINS: "https://formation-qa.example.test",
+      TRUST_PROXY: "loopback",
+    }).trustProxy,
+    "loopback",
   );
-  await app.listen(0, "127.0.0.1");
-  t.after(() => app.close());
+  assert.throws(
+    () => getApiConfiguration({ TRUST_PROXY: "true" }),
+    /TRUST_PROXY/,
+  );
+});
 
-  const address = app.getHttpServer().address();
-  assert.ok(address && typeof address !== "string");
+test("serves the minimal health response at the versioned route", async () => {
+  const originalConnect = PrismaService.prototype.$connect;
+  const originalDisconnect = PrismaService.prototype.$disconnect;
+  let app: Awaited<ReturnType<typeof createApiApplication>> | undefined;
+  Object.defineProperty(PrismaService.prototype, "$connect", {
+    configurable: true,
+    value: async () => undefined,
+  });
+  Object.defineProperty(PrismaService.prototype, "$disconnect", {
+    configurable: true,
+    value: async () => undefined,
+  });
 
-  const response = await fetch(`http://127.0.0.1:${address.port}/v1/health`);
-  assert.equal(response.status, 200);
-  assert.deepEqual(await response.json(), { status: "ok" });
+  try {
+    app = await createApiApplication(
+      getApiConfiguration({
+        NODE_ENV: "test",
+        PUBLIC_WEB_ORIGINS: "http://localhost:3000",
+      }),
+    );
+    await app.listen(0, "127.0.0.1");
+
+    const address = app.getHttpServer().address();
+    assert.ok(address && typeof address !== "string");
+
+    const response = await fetch(`http://127.0.0.1:${address.port}/v1/health`);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(response.headers.get("referrer-policy"), "no-referrer");
+    assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+    assert.equal(response.headers.get("x-frame-options"), "DENY");
+    assert.deepEqual(await response.json(), { status: "ok" });
+
+    const invalidResponse = await fetch(
+      `http://127.0.0.1:${address.port}/v1/public/leads`,
+      {
+        body: JSON.stringify({ unexpected: "value" }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      },
+    );
+    assert.equal(invalidResponse.status, 400);
+    assert.deepEqual(await invalidResponse.json(), {
+      message: "Invalid request.",
+      statusCode: 400,
+    });
+
+    const oversizedResponse = await fetch(
+      `http://127.0.0.1:${address.port}/v1/public/leads`,
+      {
+        body: JSON.stringify({ message: "x".repeat(17 * 1024) }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      },
+    );
+    assert.equal(oversizedResponse.status, 413);
+    assert.equal(oversizedResponse.headers.get("cache-control"), "no-store");
+    const oversizedBody = await oversizedResponse.text();
+    assert.equal(oversizedBody.includes("Request entity too large."), true);
+    assert.equal(oversizedBody.includes("node_modules"), false);
+    assert.equal(oversizedBody.includes("at "), false);
+  } finally {
+    await app?.close();
+    Object.defineProperty(PrismaService.prototype, "$connect", {
+      configurable: true,
+      value: originalConnect,
+    });
+    Object.defineProperty(PrismaService.prototype, "$disconnect", {
+      configurable: true,
+      value: originalDisconnect,
+    });
+  }
 });

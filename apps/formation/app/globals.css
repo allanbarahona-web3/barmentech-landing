@@ -23,6 +23,14 @@
   }
 }
 
+@keyframes contact-success-breathe {
+  50% {
+    box-shadow: 0 3px 12px rgb(21 115 71 / 26%);
+    opacity: 0.92;
+    transform: scale(1.04);
+  }
+}
+
 @keyframes coverage-map-reveal {
   from {
     clip-path: inset(0 100% 0 0);

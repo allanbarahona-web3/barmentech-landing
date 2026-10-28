@@ -2,6 +2,7 @@ export type ApiConfiguration = {
   nodeEnv: string;
   port: number;
   publicWebOrigins: string[];
+  trustProxy: false | "loopback";
 };
 
 const DEFAULT_PORT = 3001;
@@ -66,6 +67,43 @@ export function parsePublicWebOrigins(value: string | undefined): string[] {
   return [...new Set(origins.map(parseOrigin))];
 }
 
+function requiresSecurePublicOrigins(nodeEnv: string): boolean {
+  return nodeEnv !== "development" && nodeEnv !== "test";
+}
+
+function assertSecurePublicOrigins(origins: string[], nodeEnv: string): void {
+  if (!requiresSecurePublicOrigins(nodeEnv)) {
+    return;
+  }
+
+  for (const origin of origins) {
+    const url = new URL(origin);
+    if (url.protocol !== "https:") {
+      throw new Error(
+        "PUBLIC_WEB_ORIGINS must use https outside development and test.",
+      );
+    }
+
+    if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+      throw new Error(
+        "PUBLIC_WEB_ORIGINS must not use a local hostname outside development and test.",
+      );
+    }
+  }
+}
+
+function getTrustProxy(value: string | undefined): false | "loopback" {
+  if (value === undefined || value.trim() === "") {
+    return false;
+  }
+
+  if (value.trim() !== "loopback") {
+    throw new Error('TRUST_PROXY must be "loopback" when configured.');
+  }
+
+  return "loopback";
+}
+
 export function getApiConfiguration(
   environment: NodeJS.ProcessEnv = process.env,
 ): ApiConfiguration {
@@ -76,9 +114,12 @@ export function getApiConfiguration(
     throw new Error("PUBLIC_WEB_ORIGINS is required in production.");
   }
 
+  assertSecurePublicOrigins(publicWebOrigins, nodeEnv);
+
   return {
     nodeEnv,
     port: getPort(environment.PORT),
     publicWebOrigins,
+    trustProxy: getTrustProxy(environment.TRUST_PROXY),
   };
 }

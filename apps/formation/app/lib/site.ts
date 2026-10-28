@@ -37,14 +37,24 @@ export type FormationContactContent = {
   privacyConsentRequired: string;
   privacyConsentStart: string;
   privacyLinkLabel: string;
-  providerError: string;
+  rateLimitError: string;
   requiredField: string;
   responseTime: string;
   sensitiveWarning: string;
   submitting: string;
   submit: string;
-  success: string;
+  successPanel: {
+    heading: string;
+    homeAction: string;
+    introduction: string;
+    nextSteps: string[];
+    nextStepsHeading: string;
+    supportingNote: string;
+    whatsappAction: string;
+  };
+  temporaryError: string;
   title: string;
+  validationError: string;
   whatsappAlternative: string;
 };
 
@@ -135,6 +145,7 @@ type FormationLabels = {
   faqIntroduction: string;
   faqTitle: string;
   coverageBody: string;
+  coverageCta: string;
   coverageExamplesLabel: string;
   coverageHighlightedStatement: string;
   coverageMessage: string;
@@ -172,8 +183,6 @@ type FormationLabels = {
   pricingAdditionalServices: string;
   pricingCta: string;
   pricingEyebrow: string;
-  pricingFinalPriceBody: string;
-  pricingFinalPriceTitle: string;
   pricingIncludedTitle: string;
   pricingInclusions: string[];
   pricingIntro: string;
@@ -206,23 +215,24 @@ type FormationLabels = {
   taxServices: string;
   taxServicesAudience: string[];
   taxServicesAudienceTitle: string;
-  taxServicesBusiness: FormationTaxServiceGroup;
+  taxServicesCategories: FormationTaxServiceGroup[];
+  taxServicesCategoriesTitle: string;
   taxServicesCta: string;
   taxServicesCtaBody: string;
   taxServicesCtaTitle: string;
   taxServicesEngagementSteps: string[];
   taxServicesEngagementTitle: string;
   taxServicesEyebrow: string;
-  taxServicesForeignOwnerBody: string;
-  taxServicesForeignOwnerTitle: string;
   taxServicesHeroBody: string;
   taxServicesHeroCta: string;
   taxServicesHeroSecondaryCta: string;
-  taxServicesIndividual: FormationTaxServiceGroup;
   taxServicesScopeFactors: string[];
+  taxServicesScopeBody: string;
   taxServicesScopeTitle: string;
   taxServicesTitle: string;
   terms: string;
+  trustStripItems: string[];
+  trustStripLabel: string;
   whyBarmentechClosingBody: string;
   whyBarmentechClosingTitle: string;
   whyBarmentechDifferentiators: FormationDifferentiator[];
@@ -251,19 +261,19 @@ const labels: Record<Locale, FormationLabels> = {
         title: "Corporate maintenance",
       },
       {
-        description: "Tax and informational filing needs are based on the company’s entity classification, owners, residency, and activity. These services are evaluated and contracted separately.",
-        services: ["Coordination of applicable federal, state, tax, or informational filings when separately contracted."],
-        title: "Tax and informational compliance",
+        description: "Support depends on entity classification, owners, residency, activity, records, and separately contracted services.",
+        services: ["Applicable federal, state, tax, or informational filing coordination when separately contracted.", "Bookkeeping, accounting, mail, virtual-office, technology, and operational services evaluated separately."],
+        title: "Tax and operational support",
       },
     ],
-    annualComplianceCta: "Talk about your annual support",
+    annualComplianceCta: "Contact Barmentech",
     annualComplianceEyebrow: "After formation",
     annualComplianceIntroduction: "The initial Formation package includes registered-agent service for the first year. After that, annual renewal and compliance support can be selected based on the company’s needs.",
     annualCompliancePortalBody: "When available, the future Client Portal will allow customers to review their documents, services, invoices, and account status.",
     annualCompliancePortalCta: "Client portal (coming soon)",
     annualComplianceScopeBody: "Government fees, penalties, third-party costs, registered-agent renewal, and tax or accounting services depend on the case and confirmed scope.",
     annualComplianceScopeTitle: "Scope is confirmed for your company",
-    annualComplianceTitle: "Annual renewal and compliance support",
+    annualComplianceTitle: "Support after forming your company",
     businessFormation: "Business formation",
     businessServices: "Business services",
     bookkeeping: "Bookkeeping",
@@ -296,14 +306,28 @@ const labels: Record<Locale, FormationLabels> = {
       privacyConsentRequired: "Please confirm that you have read the privacy notice.",
       privacyConsentStart: "I have read the",
       privacyLinkLabel: "Privacy notice",
-      providerError: "We could not send your message right now. Please try again or use one of the contact options below.",
+      rateLimitError: "Too many requests were sent. Please wait a moment before trying again.",
       requiredField: "Please complete this field.",
       responseTime: "We review new inquiries and respond through the appropriate channel as soon as reasonably possible.",
       sensitiveWarning: "Do not submit Social Security numbers, ITINs, EINs, identity documents, banking information, payment-card information, tax returns, authentication credentials, or other sensitive documents through this public form.",
       submitting: "Sending your message…",
       submit: "Send inquiry",
-      success: "Thank you. Your inquiry was sent successfully.",
+      successPanel: {
+        heading: "We received your inquiry",
+        homeAction: "Return to Formation",
+        introduction: "Thank you for contacting Barmentech. We will review your information and contact you using the details provided.",
+        nextStepsHeading: "What happens next?",
+        nextSteps: [
+          "We will review your inquiry and selected service.",
+          "We will attempt to send an email confirmation. Check spam or promotions as well.",
+          "We will contact you to better understand your needs and explain the next steps.",
+        ],
+        supportingNote: "Do not email sensitive documents. We will provide a secure channel when necessary.",
+        whatsappAction: "Contact us on WhatsApp",
+      },
+      temporaryError: "We could not send your message right now. Please try again or use one of the contact options below.",
       title: "Tell us how we can help",
+      validationError: "Please review the information in your inquiry and try again.",
       whatsappAlternative: "Contact Barmentech on WhatsApp",
     },
     contactSupportingMessage: "Submitting this form does not automatically create a client, legal, tax, or professional-services relationship.",
@@ -386,6 +410,7 @@ const labels: Record<Locale, FormationLabels> = {
     faqIntroduction: "These answers describe the current public scope of Barmentech services. Final scope, third-party availability, and applicable requirements are confirmed for each case.",
     faqTitle: "Frequently asked questions about forming and operating a U.S. company",
     coverageBody: "We support business formation across all 50 states. We help you evaluate where to form based on your activity, location, operations, and growth plans.",
+    coverageCta: "Tell us where you plan to operate",
     coverageExamplesLabel: "Frequently considered examples",
     coverageEyebrow: "Nationwide U.S. coverage",
     disclaimer: "Disclaimer",
@@ -436,12 +461,10 @@ const labels: Record<Locale, FormationLabels> = {
         title: "We help you get started",
       },
     ],
-    processTitle: "How we form your company",
+    processTitle: "From your idea to a company ready to get started",
     pricingAdditionalServices: "Broader services may include registered-agent renewal and annual compliance, state annual reports, bookkeeping, federal or state tax and information filings, virtual office and CMRA/mail services, business websites, domains, business email, and other operational or technology services. These are scoped separately.",
-    pricingCta: "Talk about your formation",
+    pricingCta: "Request an estimate",
     pricingEyebrow: "Formation offer",
-    pricingFinalPriceBody: "Your final Formation price depends on the selected state, company structure (LLC or Corporation), number of owners, owner residency, registered-agent provider cost, provider availability, and case requirements.",
-    pricingFinalPriceTitle: "One reviewed final Formation price",
     pricingIncludedTitle: "Included in the initial Formation package",
     pricingInclusions: [
       "State company formation filing.",
@@ -456,11 +479,11 @@ const labels: Record<Locale, FormationLabels> = {
     pricingLabel: "Starting at",
     pricingNavigation: "Pricing",
     pricingPrice: "$575",
-    pricingPriceQualifier: "For a standard, eligible formation case.",
-    pricingProviderQualification: "Bank accounts and payment processors are subject to each independent provider’s eligibility requirements, review, availability, and approval. We assist with applications and setup, but do not guarantee approval.",
-    pricingRenewalQualification: "Registered-agent service is included for the first year. Renewal after the first year and annual compliance services are scoped separately.",
+    pricingPriceQualifier: "For a standard eligible case. Your final price depends on the selected state, entity structure, number and residency of owners, registered-agent cost, provider availability, and case requirements.",
+    pricingProviderQualification: "Bank and payment-provider applications remain subject to each independent provider’s eligibility requirements, review, availability, and approval. Barmentech assists with the application and setup but does not guarantee approval.",
+    pricingRenewalQualification: "Renewal after the first year and annual compliance services are scoped separately.",
     pricingSecondaryCta: "Explore broader services",
-    pricingTitle: "Company formation starting at $575",
+    pricingTitle: "Company formation",
     portal: "Client portal",
     portalBody: "We are building a secure workspace where clients will be able to review their services, documents, invoices, account status, and next steps in one place.",
     portalCta: "Contact Barmentech",
@@ -550,71 +573,88 @@ const labels: Record<Locale, FormationLabels> = {
     services: "Services",
     taxes: "Taxes",
     taxServices: "Tax Services",
-    taxServicesAudience: ["U.S. companies.", "Foreign owners of U.S. companies.", "Individuals with U.S. federal filing obligations.", "Existing companies that were formed elsewhere."],
+    taxServicesAudience: ["U.S. businesses.", "Foreign owners of U.S. entities.", "Individuals with U.S. federal filing needs.", "Existing entities formed through Barmentech or another provider."],
     taxServicesAudienceTitle: "Who we help",
-    taxServicesBusiness: {
-      description: "Business tax and informational filing support is available after intake, eligibility review, and scope confirmation.",
-      services: [
-        "Foreign-owned single-member LLC compliance when applicable.",
-        "Form 5472 with pro forma Form 1120 when applicable.",
-        "Partnership return support, including Form 1065 and related owner reporting when within approved scope.",
-        "C Corporation return support, including Form 1120 when within approved scope.",
-        "S Corporation return support, including Form 1120-S when the entity has a valid election and the case is within approved scope.",
-        "Extensions, prior-year filings, corrections, and other business returns only after evaluation.",
-        "Bookkeeping readiness and records review as separately scoped services.",
-      ],
-      title: "Business tax and informational filing support",
-    },
-    taxServicesCta: "Request an evaluation",
-    taxServicesCtaBody: "Tell us about the taxpayer, records, and filing needs so we can evaluate whether the requested support fits the available scope.",
+    taxServicesCategories: [
+      {
+        description: "Available after review of the taxpayer, records, eligibility, and written scope.",
+        services: [
+          "Foreign-owned single-member LLC compliance when applicable.",
+          "Form 5472 with pro forma Form 1120 when applicable.",
+          "Partnership returns, including Form 1065 and related owner reporting when within approved scope.",
+          "C Corporation returns, including Form 1120 when within approved scope.",
+          "S Corporation returns, including Form 1120-S only when a valid election exists and the case is within approved scope.",
+        ],
+        title: "Business tax and informational filings",
+      },
+      {
+        description: "Individual preparation is evaluated according to eligibility, records, and complexity.",
+        services: [
+          "Individual federal return preparation when within approved scope.",
+          "Nonresident and international situations subject to eligibility and complexity review.",
+          "Self-employed individuals and business owners.",
+          "Individuals receiving business-related reporting such as Schedule K-1.",
+        ],
+        title: "Individual federal tax preparation",
+      },
+      {
+        description: "A U.S. entity with foreign ownership may have federal informational filing obligations even when no federal income tax is due.",
+        services: [
+          "Requirements depend on the taxpayer’s facts, entity classification, ownership, activity, and records.",
+          "This public page does not provide individualized tax advice.",
+        ],
+        title: "Foreign-owner compliance",
+      },
+      {
+        description: "These services are reviewed and scoped separately before work begins.",
+        services: [
+          "Extensions, prior-year filings, and corrections or amended work.",
+          "Bookkeeping readiness and record review as separately scoped services.",
+          "Support remains subject to evaluation and written scope confirmation.",
+        ],
+        title: "Prior years, corrections, and record readiness",
+      },
+    ],
+    taxServicesCategoriesTitle: "Tax services by need",
+    taxServicesCta: "Request a tax-service evaluation",
+    taxServicesCtaBody: "We first review the taxpayer, records, filing needs, and requested scope before confirming whether support is available.",
     taxServicesCtaTitle: "Start with an evaluation",
     taxServicesEngagementSteps: [
-      "Initial intake.",
-      "Scope and records review.",
-      "Written quote or engagement confirmation.",
-      "Preparation and customer review.",
-      "Filing or delivery according to the approved engagement and available filing method.",
+      "Initial evaluation.",
+      "Records and scope review.",
+      "Written quote and service confirmation.",
+      "Preparation, client review, and filing or delivery according to the approved service scope.",
     ],
-    taxServicesEngagementTitle: "How the engagement works",
+    taxServicesEngagementTitle: "How we work",
     taxServicesEyebrow: "U.S. tax preparation and compliance",
-    taxServicesForeignOwnerBody: "Foreign-owned U.S. entities may have federal informational filing obligations even when they do not owe federal income tax. Whether an obligation applies depends on the taxpayer’s facts, entity classification, ownership, and records. This page does not provide individualized tax advice.",
-    taxServicesForeignOwnerTitle: "Foreign-owner compliance",
-    taxServicesHeroBody: "Barmentech assists businesses and individuals with U.S. federal tax preparation and compliance services after intake, eligibility review, and scope confirmation. Support is available to companies formed with us and to existing companies formed elsewhere.",
+    taxServicesHeroBody: "Barmentech assists businesses and individuals with U.S. federal tax preparation and compliance after initial evaluation, eligibility and records review, and written scope confirmation. Existing companies may request an evaluation whether or not Barmentech formed the company.",
     taxServicesHeroCta: "Request a tax-services evaluation",
     taxServicesHeroSecondaryCta: "Explore annual support",
-    taxServicesIndividual: {
-      description: "Individual tax preparation support is available after eligibility, records, and complexity review.",
-      services: [
-        "Individual federal return preparation when within approved scope.",
-        "Nonresident and international situations only after eligibility and complexity review.",
-        "Self-employed individuals and business owners.",
-        "Individuals receiving business-related reporting such as Schedule K-1.",
-        "Extensions, prior-year filings, or corrections only after evaluation.",
-      ],
-      title: "Individual tax preparation support",
-    },
-    taxServicesScopeFactors: ["Entity classification.", "Owner residency.", "Number of owners.", "Business activity.", "Transaction volume.", "Bookkeeping condition.", "Required federal or state filings.", "Prior-year or correction work."],
+    taxServicesScopeFactors: ["Entity classification.", "Number and residency of owners.", "Business activity.", "Transaction volume.", "Condition and completeness of records.", "Federal or state filing requirements.", "Prior-year work, corrections, or unresolved compliance issues."],
+    taxServicesScopeBody: "Before paid work begins, Barmentech confirms the requested scope and provides a written quote based on the facts of the case.",
     taxServicesScopeTitle: "What affects scope and price",
     taxServicesTitle: "U.S. tax preparation and compliance support",
     terms: "Terms",
-    whyBarmentechClosingBody: "We organize each service around the company’s needs and clearly identify scope, third-party costs, and next steps.",
-    whyBarmentechClosingTitle: "A relationship that can continue after formation",
+    trustStripItems: ["Coverage across all 50 states", "Support in English and Spanish", "Remote process available", "Formation starting at $575"],
+    trustStripLabel: "Formation highlights",
+    whyBarmentechClosingBody: "We can review your formation needs and explain the next steps before any scope is confirmed.",
+    whyBarmentechClosingTitle: "Ready to discuss your formation?",
     whyBarmentechDifferentiators: [
       {
-        description: "We work in English and Spanish so you can understand each stage, the required documents, and your company’s next steps.",
-        title: "Bilingual support",
+        description: "Clear communication in English and Spanish throughout the process.",
+        title: "Direct support in English and Spanish",
       },
       {
-        description: "We understand that forming a company from outside the United States requires additional coordination across documents, providers, and operational tools.",
-        title: "International-owner focus",
+        description: "We support international owners as they coordinate formation requirements and business tools.",
+        title: "Experience supporting international owners",
       },
       {
-        description: "We can help connect company formation with an EIN, corporate documents, an address, business tools, and a digital presence, depending on the contracted scope.",
-        title: "Formation connected to operations",
+        description: "A remote process helps you move forward without required travel.",
+        title: "A remote process without required travel",
       },
       {
-        description: "Our support can continue with organizing documents, renewals, state reports, and upcoming compliance steps.",
-        title: "Support beyond registration",
+        description: "Formation, compliance, and technology services can be evaluated together when relevant to your scope.",
+        title: "Formation, compliance, and technology connected",
       },
     ],
     whyBarmentechEyebrow: "Why Barmentech",
@@ -629,7 +669,7 @@ const labels: Record<Locale, FormationLabels> = {
     annualComplianceAdditionalTitle: "Soporte adicional, evaluado por separado",
     annualComplianceAreas: [
       {
-        description: "Para los registros de la empresa y los requisitos estatales que puedan aplicar después de la formación.",
+        description: "Para los registros de la empresa y los requisitos estatales que puedan aplicar después de constituirla.",
         services: [
           "Renovación del agente registrado.",
           "Preparación y apoyo para la presentación de reportes estatales anuales cuando corresponda.",
@@ -640,24 +680,24 @@ const labels: Record<Locale, FormationLabels> = {
         title: "Mantenimiento corporativo",
       },
       {
-        description: "Las necesidades de presentaciones fiscales e informativas se determinan según la clasificación de la entidad, los propietarios, su residencia y la actividad de la empresa. Estos servicios se evalúan y contratan por separado.",
-        services: ["Coordinación de presentaciones federales, estatales, fiscales o informativas aplicables cuando se contraten por separado."],
-        title: "Cumplimiento fiscal e informativo",
+        description: "El alcance depende de la clasificación de la entidad, propietarios, residencia, actividad, registros y servicios contratados por separado.",
+        services: ["Coordinación de presentaciones federales, estatales, fiscales o informativas aplicables cuando se contraten por separado.", "Servicios de contabilidad, correo, oficina virtual, tecnología y operación evaluados por separado."],
+        title: "Apoyo fiscal y operativo",
       },
     ],
-    annualComplianceCta: "Hablemos de tu soporte anual",
-    annualComplianceEyebrow: "Después de la formación",
-    annualComplianceIntroduction: "El paquete inicial de Formación incluye el servicio de agente registrado durante el primer año. Después, el servicio anual de renovación y cumplimiento puede contratarse según las necesidades de la empresa.",
+    annualComplianceCta: "Contactar a Barmentech",
+    annualComplianceEyebrow: "Después de constituir tu empresa",
+    annualComplianceIntroduction: "El paquete inicial de constitución incluye el servicio de agente registrado durante el primer año. Después, el servicio anual de renovación y cumplimiento puede contratarse según las necesidades de la empresa.",
     annualCompliancePortalBody: "Cuando esté disponible, el futuro Portal de clientes permitirá a los clientes revisar sus documentos, servicios, facturas y estado de cuenta.",
     annualCompliancePortalCta: "Portal de clientes (próximamente)",
     annualComplianceScopeBody: "Las tarifas gubernamentales, sanciones, costos de terceros, renovación del agente registrado y los servicios fiscales o contables dependen del caso y del alcance confirmado.",
     annualComplianceScopeTitle: "El alcance se confirma para tu empresa",
-    annualComplianceTitle: "Renovación anual y apoyo de cumplimiento",
-    businessFormation: "Formación de empresas",
+    annualComplianceTitle: "Continuidad después de constituir tu empresa",
+    businessFormation: "Constitución de empresas",
     businessServices: "Servicios empresariales",
     bookkeeping: "Bookkeeping",
     contact: "Contacto",
-    contactBody: "Cuéntanos qué necesita tu empresa y revisaremos el siguiente paso apropiado para tu consulta de formación, servicios fiscales o apoyo operativo.",
+    contactBody: "Cuéntanos qué necesita tu empresa y revisaremos el siguiente paso apropiado para tu consulta de constitución, servicios fiscales o apoyo operativo.",
     contactForm: {
       alternativeContactTitle: "Otras formas de contactarnos",
       companyLabel: "Empresa (opcional)",
@@ -669,7 +709,7 @@ const labels: Record<Locale, FormationLabels> = {
       fullNameLabel: "Nombre completo",
       interestLabel: "Servicio de interés",
       interestOptions: [
-        { label: "Formación de empresas", value: "company-formation" },
+        { label: "Constitución de empresa", value: "company-formation" },
         { label: "Servicios fiscales", value: "tax-services" },
         { label: "Cumplimiento anual", value: "annual-compliance" },
         { label: "Soluciones de banca y pagos", value: "banking-payments" },
@@ -685,21 +725,35 @@ const labels: Record<Locale, FormationLabels> = {
       privacyConsentRequired: "Confirma que has leído el aviso de privacidad.",
       privacyConsentStart: "He leído el",
       privacyLinkLabel: "Aviso de privacidad",
-      providerError: "No pudimos enviar tu mensaje en este momento. Inténtalo nuevamente o usa una de las opciones de contacto a continuación.",
+      rateLimitError: "Se enviaron demasiadas solicitudes. Espera un momento antes de intentarlo de nuevo.",
       requiredField: "Completa este campo.",
       responseTime: "Revisamos las consultas nuevas y respondemos mediante el canal apropiado tan pronto como sea razonablemente posible.",
       sensitiveWarning: "No envíes números de Seguro Social, ITIN, EIN, documentos de identidad, información bancaria, información de tarjetas de pago, declaraciones de impuestos, credenciales de autenticación ni otros documentos sensibles mediante este formulario público.",
       submitting: "Enviando tu mensaje…",
       submit: "Enviar consulta",
-      success: "Gracias. Tu consulta se envió correctamente.",
+      successPanel: {
+        heading: "Recibimos tu solicitud",
+        homeAction: "Volver a Barmentech",
+        introduction: "Gracias por contactar a Barmentech. Revisaremos tu información y nos comunicaremos utilizando los datos proporcionados.",
+        nextStepsHeading: "¿Qué sigue?",
+        nextSteps: [
+          "Revisaremos tu solicitud y el servicio de interés.",
+          "Intentaremos enviarte una confirmación por correo. Revisa también spam o promociones.",
+          "Nos comunicaremos contigo para conocer mejor tu caso y explicarte los siguientes pasos.",
+        ],
+        supportingNote: "No envíes documentos sensibles por correo electrónico. Cuando sea necesario, te indicaremos un canal seguro.",
+        whatsappAction: "Contactar por WhatsApp",
+      },
+      temporaryError: "No pudimos enviar tu mensaje en este momento. Inténtalo nuevamente o usa una de las opciones de contacto a continuación.",
       title: "Cuéntanos cómo podemos ayudarte",
+      validationError: "Revisa la información de tu consulta e inténtalo de nuevo.",
       whatsappAlternative: "Contactar a Barmentech por WhatsApp",
     },
     contactSupportingMessage: "Enviar este formulario no crea automáticamente una relación de cliente ni una relación de servicios legales, fiscales o profesionales.",
     contactCta: "Contacto",
     division: "Servicios empresariales",
     footerNavigation: "Navegación",
-    footerDescription: "Formación de empresas y servicios fiscales para emprendedores y compañías que operan en Estados Unidos. Apoyamos la constitución, organización y presentación de declaraciones según cada caso y el alcance contratado.",
+    footerDescription: "Constitución de empresas y servicios fiscales para emprendedores y compañías que operan en Estados Unidos. Apoyamos la constitución, organización y presentación de declaraciones según cada caso y el alcance contratado.",
     footerGeneralContact: "Contacto general",
     footerBusinessHours: "Lunes–viernes, 9:00 a. m.–6:00 p. m. ET",
     footerCostaRicaAppointment: "Atención presencial con cita previa",
@@ -714,7 +768,7 @@ const labels: Record<Locale, FormationLabels> = {
     footerUnitedStatesPhoneLabel: "Llamar a Barmentech Estados Unidos",
     footerCostaRicaPhoneLabel: "Llamar a Barmentech Costa Rica",
     footerWhatsappLabel: "Escribir a Barmentech por WhatsApp",
-    formation: "Formación",
+    formation: "Constitución",
     faq: "Preguntas frecuentes",
     faqCta: "Hablar con Barmentech",
     faqCtaBody: "Podemos revisar el servicio solicitado y explicar el siguiente paso antes de confirmar cualquier alcance.",
@@ -722,45 +776,45 @@ const labels: Record<Locale, FormationLabels> = {
     faqEyebrow: "Respuestas de Barmentech",
     faqGroups: [
       {
-        title: "Formación y elegibilidad",
+        title: "Constitución y elegibilidad",
         items: [
-          { question: "¿Puedo formar una empresa en Estados Unidos si no vivo allí?", answer: "En muchos casos, sí. Los propietarios no residentes e internacionales pueden solicitar una evaluación para formar una empresa en Estados Unidos. La estructura, los documentos, los proveedores y los siguientes pasos disponibles dependen del estado, la propiedad, la residencia y los hechos de la empresa." },
-          { question: "¿En qué estados brinda Barmentech apoyo para la formación?", answer: "Barmentech brinda apoyo para la formación en los 50 estados. Wyoming y Florida son ejemplos comunes, pero no son los únicos estados disponibles ni una recomendación universal." },
+          { question: "¿Puedo constituir una empresa en Estados Unidos si no vivo allí?", answer: "En muchos casos, sí. Los propietarios no residentes e internacionales pueden solicitar una evaluación para constituir una empresa en Estados Unidos. La estructura, los documentos, los proveedores y los siguientes pasos disponibles dependen del estado, la propiedad, la residencia y los hechos de la empresa." },
+          { question: "¿En qué estados brinda Barmentech apoyo para la constitución?", answer: "Barmentech brinda apoyo para la constitución de empresas en los 50 estados. Wyoming y Florida son ejemplos comunes, pero no son los únicos estados disponibles ni una recomendación universal." },
           { question: "¿Cuál es la diferencia entre una LLC y una Corporation?", answer: "Una LLC y una Corporation son estructuras de entidad estatales diferentes, con distintas consideraciones de propiedad, gobierno y tributación. La estructura adecuada depende de las circunstancias de la empresa, y esta información no constituye asesoramiento legal ni fiscal." },
-          { question: "¿Es una S Corporation una entidad empresarial estatal independiente?", answer: "No. Una S Corporation es una elección fiscal federal que puede evaluarse posteriormente para entidades y propietarios elegibles. No es un tipo de formación estatal independiente equivalente a una LLC o una Corporation." },
-          { question: "¿Puede Barmentech ayudar a una empresa formada por otro proveedor?", answer: "Sí, puede haber apoyo disponible para empresas existentes después de evaluar sus registros, necesidades y alcance solicitado. No es necesario haber formado la empresa con Barmentech para cada servicio operativo, de cumplimiento o de apoyo fiscal." },
+          { question: "¿Es una S Corporation una entidad empresarial estatal independiente?", answer: "No. Una S Corporation es una elección fiscal federal que puede evaluarse posteriormente para entidades y propietarios elegibles. No es un tipo de entidad estatal independiente equivalente a una LLC o una Corporation." },
+          { question: "¿Puede Barmentech ayudar a una empresa constituida por otro proveedor?", answer: "Sí, puede haber apoyo disponible para empresas existentes después de evaluar sus registros, necesidades y alcance solicitado. No es necesario haber constituido la empresa con Barmentech para cada servicio operativo, de cumplimiento o de apoyo fiscal." },
           { question: "¿Barmentech brinda asesoramiento legal?", answer: "No. Barmentech no brinda asesoramiento legal ni se presenta como una firma de abogados. Los clientes deben consultar a un abogado calificado para preguntas legales o asesoramiento sobre sus circunstancias específicas." },
         ],
       },
       {
         title: "Precio y alcance del paquete",
         items: [
-          { question: "¿Qué significa “formación de empresa desde $575”?", answer: "El precio inicial de USD 575 aplica a un caso estándar y elegible de formación. Barmentech revisa los detalles de la empresa y proporciona un precio final único de formación antes del pago." },
-          { question: "¿Qué incluye el paquete inicial de formación?", answer: "El paquete incluye la presentación de formación estatal, asistencia con EIN, documentos iniciales de la empresa, servicio de agente registrado durante el primer año, asistencia con solicitudes de cuenta bancaria empresarial y configuración de procesadores de pago cuando resulte adecuado, además de orientación inicial de incorporación y formación." },
+          { question: "¿Qué significa “constitución de empresa desde $575”?", answer: "El precio inicial de USD 575 aplica a un caso estándar y elegible de constitución. Barmentech revisa los detalles de la empresa y proporciona un precio final único de constitución antes del pago." },
+          { question: "¿Qué incluye el paquete inicial de constitución?", answer: "El paquete incluye la presentación de los documentos de constitución ante el estado, asistencia con EIN, documentos iniciales de la empresa, servicio de agente registrado durante el primer año, asistencia con solicitudes de cuenta bancaria empresarial y configuración de procesadores de pago cuando resulte adecuado, además de orientación inicial para comenzar a operar." },
           { question: "¿Por qué varía el precio final según el estado y la estructura de la empresa?", answer: "El precio final depende del estado seleccionado, tipo de entidad, número y residencia de los propietarios, costo del proveedor de agente registrado y requisitos del caso. Las tarifas gubernamentales, los costos de terceros y el alcance confirmado también pueden variar." },
-          { question: "¿Puedo solicitar una cotización personalizada antes de pagar?", answer: "Sí. Barmentech revisa los detalles de la formación y proporciona una cotización final antes del pago. La cotización refleja el alcance confirmado y los factores relevantes para el caso de la empresa." },
+          { question: "¿Puedo solicitar una cotización personalizada antes de pagar?", answer: "Sí. Barmentech revisa los detalles de la constitución y proporciona una cotización final antes del pago. La cotización refleja el alcance confirmado y los factores relevantes para el caso de la empresa." },
         ],
       },
       {
         title: "Tiempos, EIN, banca y proveedores de pago",
         items: [
-          { question: "¿Cuánto tarda la formación de una empresa?", answer: "Barmentech puede preparar y presentar una solicitud estándar completa con prontitud después de recibir la información requerida. El tiempo de procesamiento estatal varía según la jurisdicción, carga de trabajo, método de presentación y disponibilidad de servicio acelerado. El procesamiento estatal acelerado puede estar disponible por un costo adicional." },
+          { question: "¿Cuánto tarda la constitución de una empresa?", answer: "Barmentech puede preparar y presentar una solicitud estándar completa con prontitud después de recibir la información requerida. El tiempo de procesamiento estatal varía según la jurisdicción, carga de trabajo, método de presentación y disponibilidad de servicio acelerado. El procesamiento estatal acelerado puede estar disponible por un costo adicional." },
           { question: "¿Está garantizada la aprobación de la empresa en 48 horas?", answer: "No. La presentación estatal, emisión de EIN, revisión bancaria y aprobación del proveedor de pagos son procesos independientes. Barmentech no garantiza un plazo de aprobación estatal ni la entrega de una empresa operativa completa dentro de 48 horas." },
-          { question: "¿Está incluido el EIN?", answer: "La asistencia con EIN está incluida en el paquete inicial de formación. La emisión del EIN se determina mediante el proceso federal aplicable y depende de la información, elegibilidad y requisitos del caso." },
+          { question: "¿Está incluido el EIN?", answer: "La asistencia con EIN está incluida en el paquete inicial de constitución. La emisión del EIN se determina mediante el proceso federal aplicable y depende de la información, elegibilidad y requisitos del caso." },
           { question: "¿Barmentech garantiza la aprobación de Mercury, Relay, Stripe o PayPal?", answer: "No. Barmentech puede ayudar con solicitudes o configuración cuando resulte adecuado, pero la elegibilidad, revisión, disponibilidad y aprobación son controladas exclusivamente por cada proveedor independiente." },
         ],
       },
       {
         title: "Renovación anual y cumplimiento",
         items: [
-          { question: "¿Está incluido el servicio de agente registrado?", answer: "El servicio de agente registrado durante el primer año está incluido en el paquete inicial de formación. El servicio no está incluido indefinidamente en el precio inicial de formación." },
+          { question: "¿Está incluido el servicio de agente registrado?", answer: "El servicio de agente registrado durante el primer año está incluido en el paquete inicial de constitución. El servicio no está incluido indefinidamente en el precio inicial de constitución." },
           { question: "¿Qué sucede después del primer año?", answer: "Los clientes pueden adquirir apoyo para renovación anual y cumplimiento después del primer año. La renovación de agente registrado, reportes estatales, registros de la empresa, presentaciones fiscales o informativas y otros servicios dependen del estado, actividad de la empresa, alcance contratado y requisitos aplicables." },
         ],
       },
       {
         title: "Servicios fiscales",
         items: [
-          { question: "¿La formación de la empresa incluye contabilidad o preparación de declaraciones fiscales?", answer: "No. La contabilidad y la preparación de declaraciones fiscales no se incluyen automáticamente con la formación de la empresa. Pueden estar disponibles como servicios con alcance separado después de una evaluación." },
+          { question: "¿La constitución de la empresa incluye contabilidad o preparación de declaraciones fiscales?", answer: "No. La contabilidad y la preparación de declaraciones fiscales no se incluyen automáticamente con la constitución de la empresa. Pueden estar disponibles como servicios con alcance separado después de una evaluación." },
           { question: "¿Barmentech ofrece preparación de impuestos para empresas y personas?", answer: "El apoyo para preparación y cumplimiento fiscal puede estar disponible para empresas y personas después de la admisión, revisión de elegibilidad y confirmación del alcance. La disponibilidad depende de los hechos, registros y servicio solicitado por el contribuyente." },
           { question: "¿Puede Barmentech manejar requisitos de presentación informativa para propietarios extranjeros?", answer: "El apoyo para requisitos de presentación informativa de propietarios extranjeros puede estar disponible cuando corresponda y esté dentro del alcance confirmado. Los requisitos dependen de la clasificación de la entidad, propiedad, residencia, actividad y registros; estas preguntas frecuentes no brindan asesoramiento fiscal individualizado." },
         ],
@@ -773,25 +827,26 @@ const labels: Record<Locale, FormationLabels> = {
       },
     ],
     faqIntroduction: "Estas respuestas describen el alcance público actual de los servicios de Barmentech. El alcance final, la disponibilidad de terceros y los requisitos aplicables se confirman para cada caso.",
-    faqTitle: "Preguntas frecuentes sobre formar y operar una empresa en Estados Unidos",
-    coverageBody: "Ofrecemos formación de empresas en los 50 estados. Te ayudamos a evaluar dónde constituir tu compañía según tu actividad, ubicación, operaciones y planes de crecimiento.",
+    faqTitle: "Preguntas frecuentes sobre constituir y operar una empresa en Estados Unidos",
+    coverageBody: "Ofrecemos apoyo para constituir empresas en los 50 estados. Te ayudamos a evaluar dónde constituir tu compañía según tu actividad, ubicación, operaciones y planes de crecimiento.",
+    coverageCta: "Cuéntanos dónde planeas operar",
     coverageExamplesLabel: "Ejemplos que se consideran con frecuencia",
     coverageEyebrow: "Cobertura en todo Estados Unidos",
     disclaimer: "Descargo de responsabilidad",
     coverageFloridaDescription: "Una opción frecuente para negocios con presencia, operaciones o vínculos en Florida.",
     coverageHighlightedStatement: "No todas las empresas necesitan registrarse en el mismo estado.",
-    coverageMessage: "¿Necesitas otro estado? Podemos ayudarte con la formación en cualquiera de los 50 estados.",
+    coverageMessage: "¿Necesitas otro estado? Podemos ayudarte a constituir tu empresa en cualquiera de los 50 estados.",
     coverageStateLabel: "Estados",
-    coverageTitle: "Forma tu empresa en el estado adecuado para tus objetivos",
+    coverageTitle: "Constituye tu empresa en el estado adecuado para tus objetivos",
     coverageVisualLabel: "con cobertura nacional",
     coverageWyomingDescription: "Una opción que muchos emprendedores consideran por su estructura empresarial y mantenimiento continuo.",
     heroAlt: "Personas revisando documentos empresariales en una mesa",
-    heroDescription: "Te acompañamos en la formación y gestión de tu empresa, la organización de su contabilidad y la puesta en marcha de sus herramientas de negocio. Atención directa en español e inglés.",
+    heroDescription: "Te acompañamos en la constitución y gestión de tu empresa, la organización de su contabilidad y la puesta en marcha de sus herramientas de negocio. Atención directa en español e inglés.",
     heroEyebrow: "Servicios empresariales y fiscales",
     heroPrimaryCta: "Conversemos sobre tu negocio",
     heroSecondaryCta: "Explorar servicios",
     heroTitle: "Tu empresa en Estados Unidos. Acompañada desde el primer paso.",
-    headerHomeLabel: "Inicio de Barmentech Formación",
+    headerHomeLabel: "Inicio de Barmentech",
     home: "Inicio",
     howWeWork: "Cómo trabajamos",
     language: "Idioma",
@@ -818,61 +873,59 @@ const labels: Record<Locale, FormationLabels> = {
       },
       {
         description: "Coordinamos el registro de la empresa, el agente registrado y los documentos incluidos en el servicio contratado.",
-        title: "Preparamos la formación",
+        title: "Preparamos la constitución",
       },
       {
         description: "Podemos acompañarte con EIN, documentos corporativos, herramientas empresariales, presencia digital y continuidad operativa.",
         title: "Te ayudamos a comenzar",
       },
     ],
-    processTitle: "Cómo formamos tu empresa",
+    processTitle: "De tu idea a una empresa lista para comenzar",
     pricingAdditionalServices: "Los servicios complementarios pueden incluir renovación de agente registrado y cumplimiento anual, reportes estatales anuales, contabilidad, declaraciones y presentaciones federales o estatales de impuestos e información, oficina virtual y servicios CMRA/correo, sitios web empresariales, dominios, correo empresarial y otros servicios operativos o tecnológicos. Estos se definen por separado.",
-    pricingCta: "Hablemos de tu formación",
-    pricingEyebrow: "Oferta de formación",
-    pricingFinalPriceBody: "El precio final de formación depende del estado seleccionado, la estructura de la empresa (LLC o corporación), el número de propietarios, la residencia de los propietarios, el costo del proveedor de agente registrado, la disponibilidad de proveedores y los requisitos del caso.",
-    pricingFinalPriceTitle: "Un precio final de formación revisado",
-    pricingIncludedTitle: "Incluido en el paquete inicial de formación",
+    pricingCta: "Solicitar una estimación",
+    pricingEyebrow: "Servicio de constitución",
+    pricingIncludedTitle: "Incluido en el paquete inicial de constitución",
     pricingInclusions: [
-      "Presentación de formación de la empresa en el estado seleccionado.",
+      "Presentación de los documentos de constitución ante el estado seleccionado.",
       "Asistencia con el EIN.",
       "Documentos iniciales de la empresa.",
       "Servicio de agente registrado durante el primer año.",
       "Asistencia para solicitar una cuenta bancaria empresarial, por lo general con proveedores como Mercury o Relay cuando resulten adecuados.",
       "Asistencia para configurar procesadores de pago como Stripe o PayPal cuando resulten adecuados.",
-      "Orientación inicial para la incorporación y formación.",
+      "Orientación inicial para comenzar a operar.",
     ],
-    pricingIntro: "Un punto de partida claro para casos estándar que cumplen los requisitos. Revisamos los detalles de tu empresa antes de cualquier pago y te presentamos un precio final único para la formación.",
+    pricingIntro: "Un punto de partida claro para casos estándar que cumplen los requisitos. Revisamos los detalles de tu empresa antes de cualquier pago y te presentamos un precio final único de constitución.",
     pricingLabel: "Desde",
     pricingNavigation: "Precios",
     pricingPrice: "$575",
-    pricingPriceQualifier: "Para un caso estándar que cumple los requisitos.",
-    pricingProviderQualification: "Las cuentas bancarias y los procesadores de pago están sujetos a los requisitos de elegibilidad, revisión, disponibilidad y aprobación de cada proveedor independiente. Te ayudamos con solicitudes y configuración, pero no garantizamos aprobación.",
-    pricingRenewalQualification: "El servicio de agente registrado está incluido durante el primer año. La renovación después del primer año y los servicios de cumplimiento anual se definen por separado.",
+    pricingPriceQualifier: "Para un caso estándar elegible. El precio final depende del estado seleccionado, la estructura de la entidad, la cantidad y residencia de los propietarios, el costo del agente registrado, la disponibilidad de proveedores y los requisitos del caso.",
+    pricingProviderQualification: "Las solicitudes bancarias y de procesadores de pago están sujetas a los requisitos de elegibilidad, revisión, disponibilidad y aprobación de cada proveedor independiente. Barmentech brinda asistencia con la solicitud y configuración, pero no garantiza la aprobación.",
+    pricingRenewalQualification: "La renovación después del primer año y los servicios de cumplimiento anual se cotizan por separado.",
     pricingSecondaryCta: "Explorar servicios empresariales",
-    pricingTitle: "Formación de empresa desde $575",
+    pricingTitle: "Constitución de empresa",
     portal: "Portal de clientes",
     portalBody: "Estamos construyendo un espacio seguro donde nuestros clientes podrán consultar sus servicios, documentos, facturas, estado de cuenta y próximos pasos desde un solo lugar.",
     portalCta: "Contactar a Barmentech",
     portalImageAlt: "Fundador de Barmentech desarrollando el portal de clientes",
     portalSupportingMessage: "Si ya eres cliente de Barmentech, continúa utilizando el canal de comunicación que te proporcionamos mientras preparamos el portal.",
     servicesAvailability: "Los servicios se configuran según la empresa, el estado seleccionado y el alcance contratado. Los costos gubernamentales y de terceros se identifican por separado cuando corresponda.",
-    servicesCalloutBody: "Agenda una llamada inicial o contáctanos para revisar tus necesidades de formación, servicios fiscales o apoyo operativo.",
+    servicesCalloutBody: "Agenda una llamada inicial o contáctanos para revisar tus necesidades de constitución, servicios fiscales o apoyo operativo.",
     servicesCalloutContactLabel: "Contáctanos",
     servicesCalloutScheduleLabel: "Agendar una llamada",
     servicesCalloutTitle: "Conversemos sobre lo que necesita tu empresa",
-    servicesEyebrow: "Formación y soporte operativo",
-    servicesIntroduction: "Te ayudamos a avanzar desde la formación de tu compañía hasta la preparación de las herramientas necesarias para comenzar a operar. Los servicios disponibles dependen de las necesidades de tu empresa y del paquete seleccionado.",
+    servicesEyebrow: "Constitución y soporte operativo",
+    servicesIntroduction: "Te ayudamos a avanzar desde la constitución de tu compañía hasta la preparación de las herramientas necesarias para comenzar a operar. Los servicios disponibles dependen de las necesidades de tu empresa y del paquete seleccionado.",
     servicesPanels: [
       {
         image: "/images/service-company-formation.webp",
-        title: "Forma tu empresa",
+        title: "Constituye tu empresa",
         services: [
           {
             description: "Coordinamos la presentación de tu LLC o corporación en el estado seleccionado y organizamos los documentos emitidos durante el proceso.",
             title: "Registro de la empresa",
           },
           {
-            description: "Coordinamos el servicio de agente registrado requerido en el estado de formación, de acuerdo con el servicio contratado.",
+            description: "Coordinamos el servicio de agente registrado requerido en el estado de constitución, de acuerdo con el servicio contratado.",
             title: "Agente registrado",
           },
         ],
@@ -927,7 +980,7 @@ const labels: Record<Locale, FormationLabels> = {
         title: "Continuidad empresarial",
         services: [
           {
-            description: "Después de la formación, preparamos y presentamos los formularios, reportes estatales y declaraciones de impuestos aplicables dentro del alcance contratado, y organizamos los documentos y próximos pasos de cumplimiento de tu empresa.",
+            description: "Después de constituir tu empresa, preparamos y presentamos los formularios, reportes estatales y declaraciones de impuestos aplicables dentro del alcance contratado, y organizamos los documentos y próximos pasos de cumplimiento de tu empresa.",
             title: "Continuidad empresarial",
           },
         ],
@@ -939,75 +992,92 @@ const labels: Record<Locale, FormationLabels> = {
     services: "Servicios",
     taxes: "Impuestos",
     taxServices: "Servicios fiscales",
-    taxServicesAudience: ["Empresas en Estados Unidos.", "Propietarios extranjeros de empresas en Estados Unidos.", "Personas con obligaciones de presentación federal en Estados Unidos.", "Empresas existentes que se formaron en otro lugar."],
+    taxServicesAudience: ["Empresas en Estados Unidos.", "Propietarios extranjeros de entidades estadounidenses.", "Personas con necesidades de presentación federal en Estados Unidos.", "Entidades existentes constituidas con Barmentech u otro proveedor."],
     taxServicesAudienceTitle: "A quiénes ayudamos",
-    taxServicesBusiness: {
-      description: "El apoyo para presentaciones fiscales e informativas empresariales está disponible después de la admisión, revisión de elegibilidad y confirmación del alcance.",
-      services: [
-        "Cumplimiento de LLC de un solo miembro con propietario extranjero cuando corresponda.",
-        "Form 5472 con pro forma Form 1120 cuando corresponda.",
-        "Apoyo para declaraciones de sociedades, incluido Form 1065 y reportes relacionados para propietarios cuando estén dentro del alcance aprobado.",
-        "Apoyo para declaraciones de C Corporation, incluido Form 1120 cuando esté dentro del alcance aprobado.",
-        "Apoyo para declaraciones de S Corporation, incluido Form 1120-S cuando la entidad tenga una elección válida y el caso esté dentro del alcance aprobado.",
-        "Extensiones, declaraciones de años anteriores, correcciones y otras declaraciones empresariales solo después de una evaluación.",
-        "Preparación de bookkeeping y revisión de registros como servicios con alcance separado.",
-      ],
-      title: "Apoyo para presentaciones fiscales e informativas empresariales",
-    },
-    taxServicesCta: "Solicitar una evaluación",
-    taxServicesCtaBody: "Cuéntanos sobre el contribuyente, los registros y las necesidades de presentación para que podamos evaluar si el apoyo solicitado encaja dentro del alcance disponible.",
+    taxServicesCategories: [
+      {
+        description: "Disponibles después de revisar al contribuyente, los registros, la elegibilidad y el alcance por escrito.",
+        services: [
+          "Cumplimiento de LLC de un solo miembro con propietario extranjero cuando corresponda.",
+          "Form 5472 con pro forma Form 1120 cuando corresponda.",
+          "Declaraciones de sociedades, incluido Form 1065 y reportes relacionados para propietarios cuando estén dentro del alcance aprobado.",
+          "Declaraciones de C Corporation, incluido Form 1120 cuando estén dentro del alcance aprobado.",
+          "Declaraciones de S Corporation, incluido Form 1120-S, solo cuando exista una elección válida y el caso esté dentro del alcance aprobado.",
+        ],
+        title: "Declaraciones fiscales e informativas empresariales",
+      },
+      {
+        description: "La preparación individual se evalúa según elegibilidad, registros y complejidad.",
+        services: [
+          "Preparación de declaración federal individual cuando esté dentro del alcance aprobado.",
+          "Situaciones de no residentes e internacionales sujetas a revisión de elegibilidad y complejidad.",
+          "Personas independientes y propietarios de negocios.",
+          "Personas que reciben reportes relacionados con negocios, como Schedule K-1.",
+        ],
+        title: "Preparación federal de impuestos individuales",
+      },
+      {
+        description: "Una entidad estadounidense con propiedad extranjera puede tener obligaciones federales de presentación informativa incluso cuando no adeude impuesto federal sobre la renta.",
+        services: [
+          "Los requisitos dependen de los hechos del contribuyente, la clasificación de la entidad, la propiedad, la actividad y los registros.",
+          "Esta página pública no ofrece asesoramiento fiscal individualizado.",
+        ],
+        title: "Cumplimiento para propietarios extranjeros",
+      },
+      {
+        description: "Estos servicios se revisan y definen por separado antes de comenzar el trabajo.",
+        services: [
+          "Extensiones, declaraciones de años anteriores y correcciones o trabajo enmendado.",
+          "Preparación contable y revisión de registros como servicios con alcance separado.",
+          "El apoyo sigue sujeto a evaluación y confirmación escrita del alcance.",
+        ],
+        title: "Años anteriores, correcciones y preparación de registros",
+      },
+    ],
+    taxServicesCategoriesTitle: "Servicios fiscales según la necesidad",
+    taxServicesCta: "Solicitar una evaluación fiscal",
+    taxServicesCtaBody: "Primero revisamos al contribuyente, los registros, las necesidades de presentación y el alcance solicitado antes de confirmar si el apoyo está disponible.",
     taxServicesCtaTitle: "Comienza con una evaluación",
     taxServicesEngagementSteps: [
-      "Admisión inicial.",
-      "Revisión del alcance y de los registros.",
-      "Cotización por escrito o confirmación del encargo.",
-      "Preparación y revisión del cliente.",
-      "Presentación o entrega de acuerdo con el encargo aprobado y el método de presentación disponible.",
+      "Evaluación inicial.",
+      "Revisión de registros y alcance.",
+      "Cotización escrita y confirmación del servicio.",
+      "Preparación, revisión con el cliente y presentación o entrega según el alcance aprobado.",
     ],
-    taxServicesEngagementTitle: "Cómo funciona el encargo",
+    taxServicesEngagementTitle: "Cómo trabajamos",
     taxServicesEyebrow: "Preparación y cumplimiento fiscal en Estados Unidos",
-    taxServicesForeignOwnerBody: "Las entidades estadounidenses con propietarios extranjeros pueden tener obligaciones federales de presentación informativa incluso cuando no adeuden impuesto federal sobre la renta. La aplicación de una obligación depende de los hechos del contribuyente, la clasificación de la entidad, la propiedad y los registros. Esta página no ofrece asesoramiento fiscal individualizado.",
-    taxServicesForeignOwnerTitle: "Cumplimiento para propietarios extranjeros",
-    taxServicesHeroBody: "Barmentech ayuda a empresas y personas con servicios de preparación y cumplimiento fiscal federal en Estados Unidos después de la admisión, revisión de elegibilidad y confirmación del alcance. El apoyo está disponible para empresas formadas con nosotros y para empresas existentes formadas en otro lugar.",
+    taxServicesHeroBody: "Barmentech ayuda a empresas y personas con preparación y cumplimiento fiscal federal en Estados Unidos después de una evaluación inicial, revisión de elegibilidad y registros, y confirmación escrita del alcance. Las empresas existentes pueden solicitar una evaluación, aunque Barmentech no las haya constituido.",
     taxServicesHeroCta: "Solicitar una evaluación de servicios fiscales",
     taxServicesHeroSecondaryCta: "Explorar soporte anual",
-    taxServicesIndividual: {
-      description: "El apoyo para preparación de impuestos individuales está disponible después de revisar la elegibilidad, los registros y la complejidad.",
-      services: [
-        "Preparación de declaración federal individual cuando esté dentro del alcance aprobado.",
-        "Situaciones de no residentes e internacionales solo después de una revisión de elegibilidad y complejidad.",
-        "Personas independientes y propietarios de negocios.",
-        "Personas que reciben reportes relacionados con negocios como Schedule K-1.",
-        "Extensiones, declaraciones de años anteriores o correcciones solo después de una evaluación.",
-      ],
-      title: "Apoyo para preparación de impuestos individuales",
-    },
-    taxServicesScopeFactors: ["Clasificación de la entidad.", "Residencia de los propietarios.", "Número de propietarios.", "Actividad de la empresa.", "Volumen de transacciones.", "Condición de la contabilidad.", "Presentaciones federales o estatales requeridas.", "Trabajo de años anteriores o correcciones."],
+    taxServicesScopeFactors: ["Clasificación de la entidad.", "Número y residencia de los propietarios.", "Actividad de la empresa.", "Volumen de transacciones.", "Condición e integridad de los registros.", "Requisitos de presentación federal o estatal.", "Trabajo de años anteriores, correcciones o asuntos de cumplimiento sin resolver."],
+    taxServicesScopeBody: "Antes de iniciar trabajo remunerado, Barmentech confirma el alcance solicitado y proporciona una cotización escrita según los hechos del caso.",
     taxServicesScopeTitle: "Qué afecta el alcance y el precio",
     taxServicesTitle: "Apoyo para preparación y cumplimiento fiscal en Estados Unidos",
     terms: "Términos",
-    whyBarmentechClosingBody: "Organizamos cada servicio alrededor de las necesidades de la empresa y dejamos claros el alcance, los costos de terceros y los próximos pasos.",
-    whyBarmentechClosingTitle: "Una relación que puede continuar después de la formación",
+    trustStripItems: ["Cobertura en los 50 estados", "Atención en español e inglés", "Proceso disponible de forma remota", "Constitución desde $575"],
+    trustStripLabel: "Aspectos destacados de constitución",
+    whyBarmentechClosingBody: "Podemos revisar tus necesidades de constitución y explicarte los siguientes pasos antes de confirmar cualquier alcance.",
+    whyBarmentechClosingTitle: "¿Listo para conversar sobre tu empresa?",
     whyBarmentechDifferentiators: [
       {
-        description: "Trabajamos en español e inglés para que puedas comprender cada etapa, los documentos requeridos y los próximos pasos de tu empresa.",
-        title: "Atención bilingüe",
+        description: "Comunicación clara en español e inglés durante todo el proceso.",
+        title: "Atención directa en español e inglés",
       },
       {
-        description: "Entendemos que formar una empresa desde fuera de Estados Unidos requiere coordinación adicional con documentos, proveedores y herramientas operativas.",
-        title: "Enfoque en propietarios internacionales",
+        description: "Acompañamos a propietarios internacionales al coordinar requisitos de constitución y herramientas empresariales.",
+        title: "Acompañamiento a propietarios internacionales",
       },
       {
-        description: "Podemos ayudarte a conectar la constitución de la empresa con EIN, documentos corporativos, dirección, herramientas empresariales y presencia digital, según el alcance contratado.",
-        title: "Formación y operación conectadas",
+        description: "Un proceso remoto te permite avanzar sin necesidad de viajar.",
+        title: "Proceso remoto, sin necesidad de viajar",
       },
       {
-        description: "Nuestro acompañamiento puede continuar con la organización de documentos, renovaciones, reportes y próximos pasos de cumplimiento.",
-        title: "Continuidad después del registro",
+        description: "La constitución, el cumplimiento y la tecnología pueden evaluarse de forma conectada cuando sean relevantes para tu alcance.",
+        title: "Constitución, cumplimiento y tecnología conectados",
       },
     ],
     whyBarmentechEyebrow: "Por qué Barmentech",
-    whyBarmentechIntroduction: "Formar una empresa es solo el comienzo. Combinamos orientación bilingüe, preparación operativa y herramientas empresariales para ayudarte a avanzar con una estructura más organizada.",
+    whyBarmentechIntroduction: "Constituir una empresa es solo el comienzo. Combinamos orientación bilingüe, preparación operativa y herramientas empresariales para ayudarte a avanzar con una estructura más organizada.",
     whyBarmentechPrimaryCta: "Hablar con Barmentech",
     whyBarmentechSecondaryCta: "Portal de clientes",
     whyBarmentechTitle: "Acompañamiento pensado para construir, no solo registrar",

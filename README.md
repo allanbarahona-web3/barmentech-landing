@@ -7,7 +7,7 @@ This pnpm workspace prepares two independent Next.js commercial websites while t
 - Node.js `22.22.3` (declared in `.nvmrc`; the root engine range is Node 22)
 - pnpm `11.5.2` (declared in the root `packageManager` field)
 
-Node 22 is used because the installed Next.js 16.3.0 declares Node `>=20.9.0`, the Nest toolchain in the lockfile supports Node 22, and `22.22.3` is the runtime used to validate this workspace.
+Node 22 is used because the installed Next.js 16.4.1 declares Node `>=20.9.0`, the Nest toolchain in the lockfile supports Node 22, and `22.22.3` is the runtime used to validate this workspace.
 
 ## Applications
 
@@ -31,6 +31,22 @@ pnpm build:formation
 Run builds sequentially to limit memory use.
 
 The app build scripts explicitly select Webpack and Next's TypeScript API. This avoids Turbopack's internal-port requirement and the TypeScript CLI child-process issue observed in the constrained validation environment; application type checks remain explicit root commands.
+
+## Reproducible build and Prisma generation
+
+Use the following commands after a fresh, lockfile-respecting install:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm prisma:generate
+pnpm validate:formation:isolated-build
+```
+
+`pnpm prisma:generate` copies only the API Prisma schema to a temporary directory and runs `prisma generate` there with process-scoped, non-production placeholder database variables. It generates the client without applying migrations, inspecting a database, or reading an application `.env` file. Migrations remain a separately controlled deployment operation.
+
+pnpm permits only the required `@prisma/engines` install-time hook. The Prisma CLI preinstall and Prisma Client postinstall are explicitly disabled because the Client hook would implicitly discover a project schema and generate a client. The explicit root generation command is the sole supported client-generation path for local development, CI, QA, and production.
+
+`pnpm validate:formation:isolated-build` creates a temporary workspace containing only Formation and shared-UI build inputs, then invokes the existing Formation production build with non-secret public configuration. It copies no environment files and deletes only that temporary validation workspace after the command finishes. QA and production runtime configuration must instead be supplied from protected server or CI secret storage.
 
 ## Shared foundation
 

@@ -2,6 +2,7 @@ import { Container } from "@barmentech/ui";
 
 import type { Locale } from "../lib/i18n";
 import { getFormationLegalPath } from "../lib/legal";
+import { getPublicLeadInterest } from "../lib/public-lead-contract";
 import { getFormationPublicSettings } from "../lib/public-settings";
 import { getFormationLabels, getFormationPageTitle } from "../lib/site";
 import { FormationContactForm } from "./formation-contact-form";
@@ -14,7 +15,9 @@ type FormationContactProps = {
 export function FormationContact({ initialInterest, locale }: FormationContactProps) {
   const copy = getFormationLabels(locale);
   const settings = getFormationPublicSettings();
-  const selectedInterest = copy.contactForm.interestOptions.some((option) => option.value === initialInterest) ? initialInterest : undefined;
+  const selectedInterest = getPublicLeadInterest(initialInterest)
+    ? initialInterest
+    : undefined;
 
   return (
     <main id="main-content">
@@ -49,7 +52,7 @@ export function FormationContact({ initialInterest, locale }: FormationContactPr
             <p className="text-sm leading-6 text-[var(--bm-text-muted)]">{copy.contactForm.responseTime}</p>
           </aside>
 
-          <FormationContactForm copy={copy.contactForm} endpoint={settings.formspreeEndpoint} initialInterest={selectedInterest} privacyHref={`/${locale}/${getFormationLegalPath(locale, "privacy")}`} whatsappUrl={settings.whatsappUrl} />
+          <FormationContactForm apiBaseUrl={settings.apiBaseUrl} copy={copy.contactForm} initialInterest={selectedInterest} locale={locale} privacyHref={`/${locale}/${getFormationLegalPath(locale, "privacy")}`} whatsappUrl={settings.whatsappUrl} />
         </div>
       </Container>
     </main>

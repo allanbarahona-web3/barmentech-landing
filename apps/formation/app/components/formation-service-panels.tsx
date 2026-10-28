@@ -44,7 +44,7 @@ export function FormationServicePanels({ panels, selectLabel, selectedLabel }: F
 
   return (
     <div className="lg:grid lg:grid-cols-[minmax(18rem,0.78fr)_minmax(0,1.22fr)] lg:items-stretch lg:gap-12 xl:gap-16">
-      <div className="relative lg:min-h-[31rem]">
+      <div className="relative lg:min-h-[28rem]">
         {panels.map((panel, panelIndex) => {
           const isActive = activeIndex === panelIndex;
           const isLeaving = leavingIndex === panelIndex;
@@ -69,7 +69,7 @@ export function FormationServicePanels({ panels, selectLabel, selectedLabel }: F
         })}
       </div>
 
-      <div className="mt-6 flex flex-col gap-2 lg:mt-0 lg:h-[31rem] lg:flex-row lg:overflow-hidden" role="group">
+      <div className="mt-6 flex flex-col gap-2 lg:mt-0 lg:h-[28rem] lg:flex-row lg:overflow-hidden" role="group">
         {panels.map((panel, panelIndex) => {
           const isActive = activeIndex === panelIndex;
           const controlId = `formation-services-panel-control-${panelIndex}`;

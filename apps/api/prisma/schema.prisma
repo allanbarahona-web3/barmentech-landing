@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("MIGRATION_DATABASE_URL")
 }
 
 enum LeadSourceSite {
@@ -51,6 +52,28 @@ enum EmailDeliveryStatus {
   @@map("email_delivery_status")
 }
 
+enum PrivacyRequestType {
+  ACCESS
+  CORRECTION
+  DELETION
+  WITHDRAW_CONSENT
+  INFORMATION
+  OTHER
+
+  @@map("privacy_request_type")
+}
+
+enum PrivacyRequestStatus {
+  RECEIVED
+  IDENTITY_VERIFICATION_REQUIRED
+  IN_REVIEW
+  COMPLETED
+  DECLINED
+  CLOSED
+
+  @@map("privacy_request_status")
+}
+
 model Lead {
   id                         String              @id @default(uuid()) @db.Uuid
   sourceSite                 LeadSourceSite      @map("source_site")
@@ -78,4 +101,24 @@ model Lead {
   @@index([interest, createdAt], map: "leads_interest_created_at_idx")
   @@index([email], map: "leads_email_idx")
   @@map("leads")
+}
+
+model PrivacyRequest {
+  id                         String               @id @default(uuid()) @db.Uuid
+  locale                     LeadLocale           @map("locale")
+  requestType                PrivacyRequestType   @map("request_type")
+  status                     PrivacyRequestStatus @default(RECEIVED) @map("status")
+  email                      String               @map("email") @db.VarChar(320)
+  message                    String?              @map("message") @db.VarChar(1000)
+  privacyNoticeAcceptedAt    DateTime             @map("privacy_notice_accepted_at") @db.Timestamptz(3)
+  internalNotificationStatus EmailDeliveryStatus  @default(PENDING) @map("internal_notification_status")
+  visitorConfirmationStatus  EmailDeliveryStatus  @default(PENDING) @map("visitor_confirmation_status")
+  createdAt                  DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt                  DateTime             @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([status, createdAt], map: "privacy_requests_status_created_at_idx")
+  @@index([requestType, createdAt], map: "privacy_requests_request_type_created_at_idx")
+  @@index([email], map: "privacy_requests_email_idx")
+  @@index([createdAt], map: "privacy_requests_created_at_idx")
+  @@map("privacy_requests")
 }

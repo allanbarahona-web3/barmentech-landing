@@ -2,6 +2,8 @@ import { Container } from "@barmentech/ui";
 
 import type { Locale } from "../lib/i18n";
 import { getFormationLegalContent, type FormationLegalPage } from "../lib/legal";
+import { getFormationPublicSettings } from "../lib/public-settings";
+import { FormationPrivacyRequestDialog } from "./formation-privacy-request-dialog";
 
 type FormationLegalPageProps = {
   locale: Locale;
@@ -10,6 +12,7 @@ type FormationLegalPageProps = {
 
 export function FormationLegalPage({ locale, page }: FormationLegalPageProps) {
   const content = getFormationLegalContent(locale, page);
+  const settings = getFormationPublicSettings();
 
   return (
     <main id="main-content">
@@ -32,6 +35,11 @@ export function FormationLegalPage({ locale, page }: FormationLegalPageProps) {
                     <p key={paragraph}>{paragraph}</p>
                   ))}
                 </div>
+                {section.action ? (
+                  <div className="mt-6">
+                    {page === "privacy" ? <FormationPrivacyRequestDialog apiBaseUrl={settings.apiBaseUrl} locale={locale} privacyHref={`/${locale}/${page === "privacy" ? (locale === "es" ? "privacidad" : "privacy") : page}`} /> : null}
+                  </div>
+                ) : null}
               </section>
             ))}
           </div>

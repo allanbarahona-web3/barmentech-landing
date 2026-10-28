@@ -1,7 +1,28 @@
 packages:
   - "apps/*"
   - "packages/*"
+allowBuilds:
+  # Prisma Client's postinstall would discover a project schema and implicitly
+  # run generation. Generation is deliberately performed by the isolated root
+  # command documented in README.md instead.
+  '@prisma/client': false
+  # Prisma engines has the only required install-time setup hook. It does not
+  # inspect application configuration or generate a client.
+  '@prisma/engines': true
+  # Prisma CLI's preinstall hook is not required for this workspace; explicit
+  # client generation is performed after installation.
+  prisma: false
 minimumReleaseAgeExclude:
   - '@nestjs/common@11.1.29'
   - '@nestjs/core@11.1.29'
   - '@nestjs/platform-express@11.1.29'
+overrides:
+  # Remove each override once its direct framework dependency resolves the
+  # corresponding patched release without an override.
+  body-parser: 2.4.0
+  deepmerge-ts: 8.0.0
+  effect: 3.20.0
+  multer: 2.5.0
+  proxy-addr: 2.0.8
+  qs: 6.16.1
+  source-map-js: 1.2.2

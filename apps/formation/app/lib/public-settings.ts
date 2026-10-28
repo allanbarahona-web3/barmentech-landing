@@ -1,8 +1,8 @@
 export type FormationSocialNetwork = "facebook" | "instagram" | "linkedin" | "x" | "youtube";
 
 export type FormationPublicSettings = {
+  apiBaseUrl?: string;
   bookingUrl?: string;
-  formspreeEndpoint?: string;
   socialLinks: Array<{
     network: FormationSocialNetwork;
     url: string;
@@ -30,14 +30,53 @@ function getFormationWhatsappUrl(value: string | undefined) {
   return getHttpsUrl(value) === formationWhatsappUrl ? formationWhatsappUrl : undefined;
 }
 
-function getFormspreeEndpoint(value: string | undefined) {
-  const url = getHttpsUrl(value);
-  if (!url) {
+export function getFormationApiBaseUrl(
+  value: string | undefined,
+  nodeEnv: string | undefined = process.env.NODE_ENV,
+) {
+  if (!value?.trim()) {
     return undefined;
   }
 
-  const parsed = new URL(url);
-  return parsed.hostname === "formspree.io" && parsed.port === "" && parsed.username === "" && parsed.password === "" && parsed.search === "" && parsed.hash === "" && /^\/f\/[A-Za-z0-9_-]+\/?$/.test(parsed.pathname) ? parsed.toString() : undefined;
+  try {
+    const normalizedValue = value.trim();
+    if (
+      /[\u0000-\u001F\u007F]/u.test(normalizedValue) ||
+      normalizedValue.includes("?") ||
+      normalizedValue.includes("#")
+    ) {
+      return undefined;
+    }
+
+    const url = new URL(normalizedValue);
+    const isAllowedApiBasePath =
+      url.pathname === "/" || url.pathname === "/api" || url.pathname === "/api/";
+    if (
+      url.username ||
+      url.password ||
+      url.search ||
+      url.hash ||
+      !isAllowedApiBasePath
+    ) {
+      return undefined;
+    }
+
+    const normalizedBaseUrl =
+      url.pathname === "/" ? url.origin : `${url.origin}/api`;
+
+    if (url.protocol === "https:") {
+      return normalizedBaseUrl;
+    }
+
+    const isDevelopmentLocalhost =
+      nodeEnv === "development" &&
+      url.protocol === "http:" &&
+      url.port !== "" &&
+      (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+    return isDevelopmentLocalhost ? normalizedBaseUrl : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 export function getFormationPublicSettings(environment: NodeJS.ProcessEnv = process.env): FormationPublicSettings {
@@ -50,8 +89,11 @@ export function getFormationPublicSettings(environment: NodeJS.ProcessEnv = proc
   ];
 
   return {
+    apiBaseUrl: getFormationApiBaseUrl(
+      environment.NEXT_PUBLIC_API_BASE_URL,
+      environment.NODE_ENV,
+    ),
     bookingUrl: getHttpsUrl(environment.NEXT_PUBLIC_BOOKING_URL),
-    formspreeEndpoint: getFormspreeEndpoint(environment.NEXT_PUBLIC_FORMSPREE_ENDPOINT),
     socialLinks: socialEntries.flatMap(([network, value]) => {
       const url = getHttpsUrl(value);
       return url ? [{ network, url }] : [];

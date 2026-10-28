@@ -12,6 +12,8 @@
     "build:formation": "pnpm --filter @barmentech/formation build",
     "type-check:web": "pnpm --filter @barmentech/web type-check",
     "type-check:formation": "pnpm --filter @barmentech/formation type-check",
-    "type-check:ui": "pnpm --filter @barmentech/ui type-check"
+    "type-check:ui": "pnpm --filter @barmentech/ui type-check",
+    "prisma:generate": "node scripts/generate-prisma-client-isolated.mjs",
+    "validate:formation:isolated-build": "node scripts/validate-formation-isolated-build.mjs"
   }
 }

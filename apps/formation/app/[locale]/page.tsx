@@ -7,7 +7,9 @@ import { FormationProcess } from "../components/formation-process";
 import { FormationPricing } from "../components/formation-pricing";
 import { FormationServices } from "../components/formation-services";
 import { FormationStructuredData } from "../components/formation-structured-data";
+import { FormationTrustStrip } from "../components/formation-trust-strip";
 import { FormationWhyBarmentech } from "../components/formation-why-barmentech";
+import { FormationFinalCta } from "../components/formation-final-cta";
 import { SiteShell } from "../components/site-shell";
 import { isLocale } from "../lib/i18n";
 import { getFormationHomepageMetadata } from "../lib/seo";
@@ -35,12 +37,14 @@ export default async function FormationHomePage({ params }: FormationHomePagePro
       <main id="main-content">
         <FormationStructuredData locale={locale} />
         <FormationHero locale={locale} />
+        <FormationTrustStrip locale={locale} />
         <FormationCoverage locale={locale} />
         <FormationProcess locale={locale} />
         <FormationPricing locale={locale} />
         <FormationServices locale={locale} />
         <FormationAnnualCompliance locale={locale} />
         <FormationWhyBarmentech locale={locale} />
+        <FormationFinalCta locale={locale} />
       </main>
     </SiteShell>
   );

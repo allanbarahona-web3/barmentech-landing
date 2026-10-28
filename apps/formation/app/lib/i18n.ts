@@ -14,7 +14,7 @@ const messages = {
     sharedAction: "View foundation status",
   },
   es: {
-    applicationName: "Barmentech Formación",
+    applicationName: "Barmentech | Constitución de empresas",
     developmentStatus: "Base del sitio de servicios empresariales en desarrollo.",
     languageLabel: "Idioma",
     sharedAction: "Ver estado de la base",

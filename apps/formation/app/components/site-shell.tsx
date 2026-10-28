@@ -2,7 +2,6 @@ import { SiteHeader } from "@barmentech/ui";
 import type { ReactNode } from "react";
 
 import { FormationFooter } from "./formation-footer";
-import { FormationSocialMark, getFormationSocialLabel } from "./formation-social-mark";
 import { FormationWhatsappAction } from "./formation-whatsapp-action";
 import type { Locale } from "../lib/i18n";
 import { getFormationPublicSettings } from "../lib/public-settings";
@@ -52,14 +51,6 @@ export function SiteShell({ activePage, children, locale, localizedPaths, path =
         menu={{ closeLabel: copy.menuClose, openLabel: copy.menuOpen }}
         navigation={getFormationNavigation(locale, activePage)}
         portal={{ href: getFormationPortalDestination(locale), label: copy.portal }}
-        social={settings.socialLinks.length ? {
-          label: copy.footerSocialNavigation,
-          links: settings.socialLinks.map((social) => ({
-            href: social.url,
-            icon: <FormationSocialMark className="h-5 w-5" network={social.network} useBrandColor />,
-            label: getFormationSocialLabel(locale, social.network),
-          })),
-        } : undefined}
         sticky
         variant="formation"
       />
