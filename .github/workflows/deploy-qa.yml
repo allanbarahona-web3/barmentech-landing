@@ -1,0 +1,32 @@
+name: Deploy QA
+
+on:
+  push:
+    branches:
+      - qa
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: barmentech-new-services-qa-deploy
+  # A deployment must finish or fail before the next approved QA SHA runs.
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Manual dispatches from any branch other than qa are intentionally skipped.
+    if: github.ref == 'refs/heads/qa'
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - barmentech-new-services-qa
+    timeout-minutes: 45
+
+    steps:
+      - name: Deploy the triggering QA revision
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+        run: /home/allan/.local/lib/barmentech-new-web-services-qa/deploy-qa.sh "$DEPLOY_SHA"
