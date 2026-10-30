@@ -19,7 +19,7 @@ function isUniqueViolation(error: unknown): boolean {
 export class PublicLeadsService {
   private readonly logger = new Logger(PublicLeadsService.name);
 
-  constructor(private readonly prisma: PrismaService, _legacyNotifications?: unknown) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async replayIfKnown(lead: CreatePublicLeadDto, idempotencyKey: string, correlationId: string): Promise<PublicLeadSubmissionResponse | undefined> {
     const existing = await this.prisma.leadSubmission.findUnique({ where: { idempotencyKey }, select: { contentHash: true } });

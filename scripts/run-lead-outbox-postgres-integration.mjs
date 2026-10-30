@@ -1,5 +1,6 @@
 import { spawn } from "node:child_process";
-import { cp, mkdtemp, rm, symlink } from "node:fs/promises";
+import { cp, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -48,6 +49,106 @@ function lifecycleSummary(events, status) {
     signal: status?.signal ?? null,
     lifecycle: events,
   });
+}
+
+function delay(milliseconds) {
+  return new Promise((resolveDelay) => setTimeout(resolveDelay, milliseconds));
+}
+
+async function findAvailablePort() {
+  const server = createServer();
+  await new Promise((resolveListen, rejectListen) => {
+    server.once("error", rejectListen);
+    server.listen(0, "127.0.0.1", resolveListen);
+  });
+  const address = server.address();
+  await new Promise((resolveClose, rejectClose) => server.close((error) => error ? rejectClose(error) : resolveClose()));
+  if (!address || typeof address === "string") throw new Error("Unable to reserve an isolated API test port.");
+  return address.port;
+}
+
+async function waitForHealth(port) {
+  const deadline = Date.now() + 5_000;
+  while (Date.now() < deadline) {
+    try {
+      const response = await fetch(`http://127.0.0.1:${port}/v1/health`, {
+        signal: AbortSignal.timeout(500),
+      });
+      if (response.status === 200) return true;
+    } catch {
+      // The compiled server may still be initializing.
+    }
+    await delay(100);
+  }
+  return false;
+}
+
+async function createCompiledApiShutdownProbe(temporaryRoot) {
+  const markerPath = join(temporaryRoot, "compiled-api-shutdown.log");
+  const probePath = join(temporaryRoot, "compiled-api-shutdown-probe.cjs");
+  const prismaServicePath = join(apiRoot, "dist", "prisma", "prisma.service.js");
+  await writeFile(
+    probePath,
+    `const { appendFileSync } = require("node:fs");
+const { PrismaService } = require(${JSON.stringify(prismaServicePath)});
+const markerPath = process.env.COMPILED_API_SHUTDOWN_MARKER;
+const mark = (event) => appendFileSync(markerPath, event + "\\n");
+process.once("SIGTERM", () => mark("sigterm_received"));
+const originalDisconnect = PrismaService.prototype.$disconnect;
+PrismaService.prototype.$disconnect = async function (...args) {
+  try {
+    return await originalDisconnect.apply(this, args);
+  } finally {
+    mark("prisma_disconnect_completed");
+  }
+};
+`,
+  );
+  return { markerPath, probePath };
+}
+
+async function readShutdownEvents(markerPath) {
+  try {
+    return (await readFile(markerPath, "utf8"))
+      .split("\n")
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+async function runCompiledApi(runtimeEnvironment, temporaryRoot) {
+  const port = await findAvailablePort();
+  const { markerPath, probePath } = await createCompiledApiShutdownProbe(temporaryRoot);
+  const child = spawn(process.execPath, ["--require", probePath, join(apiRoot, "dist", "main.js")], {
+    cwd: apiRoot,
+    env: {
+      ...runtimeEnvironment,
+      COMPILED_API_SHUTDOWN_MARKER: markerPath,
+      PORT: String(port),
+      PUBLIC_WEB_ORIGINS: "http://localhost:3002",
+    },
+    stdio: ["ignore", "ignore", "ignore"],
+  });
+  const exit = new Promise((resolveExit, rejectExit) => {
+    child.once("error", rejectExit);
+    child.once("close", (code, signal) => resolveExit({ code, signal }));
+  });
+
+  const healthy = await waitForHealth(port);
+  if (!healthy) {
+    child.kill("SIGTERM");
+    const status = await within(exit, 5_000, undefined);
+    throw new Error(`Compiled API did not become healthy: ${lifecycleSummary([], status)}`);
+  }
+  if (!child.kill("SIGTERM")) throw new Error("Unable to stop compiled API.");
+  const status = await within(exit, 10_000, undefined);
+  const events = await readShutdownEvents(markerPath);
+  const shutdownCompleted = events.includes("sigterm_received") && events.includes("prisma_disconnect_completed");
+  if (!status || status.code !== null || status.signal !== "SIGTERM" || !shutdownCompleted) {
+    throw new Error(`Compiled API did not complete Nest shutdown: ${lifecycleSummary(events, status)}`);
+  }
+  console.log("Compiled API returned 200 from health and completed Nest shutdown without sending a public lead.");
 }
 
 async function runCompiledWorker(runtimeEnvironment) {
@@ -161,6 +262,7 @@ try {
     stdio: "inherit",
   });
   await runCompiledWorker(runtimeEnvironment);
+  await runCompiledApi(runtimeEnvironment, temporaryRoot);
   console.log("PostgreSQL outbox integration and compiled-worker checks passed.");
 } finally {
   await rm(temporaryRoot, { recursive: true, force: true });
