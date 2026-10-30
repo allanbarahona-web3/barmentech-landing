@@ -35,7 +35,9 @@ const REQUEST_TIMEOUT_MS = 10_000;
 export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale, privacyHref, whatsappUrl }: FormationContactFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<SubmissionStatus>("idle");
+  const [rateLimitSeconds, setRateLimitSeconds] = useState<number | null>(null);
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
+  const idempotencyRef = useRef<{ key: string; payload: string } | null>(null);
   const endpoint = apiBaseUrl ? getPublicLeadEndpoint(apiBaseUrl) : undefined;
 
   useEffect(() => {
@@ -133,6 +135,10 @@ export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale
       privacyAccepted: true,
       website: String(formData.get("website") ?? "").trim(),
     };
+    const payload = JSON.stringify(requestBody);
+    if (!idempotencyRef.current || idempotencyRef.current.payload !== payload) {
+      idempotencyRef.current = { key: crypto.randomUUID(), payload };
+    }
     const abortController = new AbortController();
     const timeoutId = window.setTimeout(
       () => abortController.abort(),
@@ -141,11 +147,12 @@ export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale
 
     try {
       const response = await fetch(endpoint, {
-        body: JSON.stringify(requestBody),
+        body: payload,
         credentials: "omit",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "Idempotency-Key": idempotencyRef.current.key,
         },
         method: "POST",
         signal: abortController.signal,
@@ -158,6 +165,7 @@ export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale
         }
 
         form.reset();
+        idempotencyRef.current = null;
         setErrors({});
         setStatus("success");
         return;
@@ -169,6 +177,7 @@ export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale
       }
 
       if (response.status === 429) {
+        setRateLimitSeconds(getRetryAfterSeconds(response.headers.get("Retry-After")));
         setStatus("rate-limited");
         return;
       }
@@ -237,13 +246,26 @@ export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale
       </div>
 
       <p aria-live="polite" className={`mt-5 text-sm leading-6 ${["error", "rate-limited", "validation-error"].includes(status) ? "text-[#9f1c1c]" : "text-[var(--bm-text)]"}`} id="contact-submission-status" role="status">
-        {status === "submitting" ? copy.submitting : status === "validation-error" ? copy.validationError : status === "rate-limited" ? copy.rateLimitError : status === "error" ? copy.temporaryError : ""}
+        {status === "submitting" ? copy.submitting : status === "validation-error" ? copy.validationError : status === "rate-limited" ? formatRateLimitError(copy.rateLimitError, rateLimitSeconds, locale) : status === "error" ? copy.temporaryError : ""}
       </p>
       <button className="mt-6 inline-flex min-h-[var(--bm-control-height)] w-full items-center justify-center rounded-[var(--bm-radius-control)] border border-[var(--bm-brand)] bg-[var(--bm-brand)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[var(--bm-brand-strong)] hover:bg-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto" disabled={status === "submitting"} type="submit">
         {status === "submitting" ? copy.submitting : copy.submit}
       </button>
     </form>
   );
+}
+
+function getRetryAfterSeconds(value: string | null): number | null {
+  if (!value || !/^\d+$/.test(value.trim())) return null;
+  const seconds = Number(value);
+  return Number.isSafeInteger(seconds) && seconds > 0 && seconds <= 86_400 ? seconds : null;
+}
+
+function formatRateLimitError(copy: string, seconds: number | null, locale: Locale): string {
+  if (!seconds) return copy.replace("{seconds}", locale === "es" ? "un momento" : "a moment");
+  const minutes = Math.floor(seconds / 60);
+  const remainder = seconds % 60;
+  return copy.replace("{seconds}", minutes > 0 ? `${minutes}m ${remainder}s` : `${remainder}s`);
 }
 
 function Field({ children, className, inputId, label, required = false }: { children: ReactNode; className?: string; inputId: string; label: string; required?: boolean }) {

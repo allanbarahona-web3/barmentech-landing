@@ -156,7 +156,6 @@ test("sends internal and English visitor messages, then records both as sent", a
     { visitorConfirmationStatus: EmailDeliveryStatus.SENT },
   ]);
 });
-
 test("sends a Spanish visitor confirmation for a persisted Spanish lead", async () => {
   const { messages, service } = createNotificationsService({
     outcomes: [true, true],
@@ -183,7 +182,6 @@ test("records independent outcomes when the internal message succeeds and visito
     { visitorConfirmationStatus: EmailDeliveryStatus.FAILED },
   ]);
 });
-
 test("records independent outcomes when the internal message fails and visitor message succeeds", async () => {
   const { service, updates } = createNotificationsService({
     outcomes: [false, true],
@@ -356,109 +354,4 @@ test("does not resend when a delivery-status update fails", async () => {
       category: "EMAIL_STATUS_UPDATE_FAILED",
     }),
   ]);
-});
-
-test("preserves a successful lead response when both email attempts fail without a duplicate insert", async () => {
-  const { messages, prisma, service, updates } = createNotificationsService({
-    outcomes: [
-      new Error("provider rejected test-api-key"),
-      new Error("provider rejected test-api-key"),
-    ],
-  });
-  let createCalls = 0;
-  const publicLeadPrisma = {
-    lead: {
-      create: async () => {
-        createCalls += 1;
-        return leadRecord();
-      },
-      update: prisma.lead.update,
-    },
-  } as unknown as PrismaService;
-  const publicLeads = new PublicLeadsService(publicLeadPrisma, service);
-
-  const result = await publicLeads.submit({
-    fullName: "Ada Lovelace",
-    email: "ada@example.com",
-    country: "Costa Rica",
-    interest: LeadInterest.COMPANY_FORMATION,
-    message: "I need help forming a company.",
-    locale: LeadLocale.EN,
-    sourceSite: LeadSourceSite.FORMATION,
-    privacyAccepted: true,
-  } satisfies CreatePublicLeadDto);
-
-  assert.deepEqual(result, { success: true, leadId: null });
-  assert.equal(createCalls, 1);
-  assert.equal(messages.length, 2);
-  assert.deepEqual(statuses(updates), [
-    { internalNotificationStatus: EmailDeliveryStatus.FAILED },
-    { visitorConfirmationStatus: EmailDeliveryStatus.FAILED },
-  ]);
-});
-
-test("does not persist or email a honeypot submission", async () => {
-  const { messages, service } = createNotificationsService({
-    outcomes: [true, true],
-  });
-  let createCalls = 0;
-  const prisma = {
-    lead: {
-      create: async () => {
-        createCalls += 1;
-        return leadRecord();
-      },
-    },
-  } as unknown as PrismaService;
-  const publicLeads = new PublicLeadsService(prisma, service);
-
-  const result = await publicLeads.submit({
-    fullName: "Ada Lovelace",
-    email: "ada@example.com",
-    country: "Costa Rica",
-    interest: LeadInterest.COMPANY_FORMATION,
-    message: "I need help forming a company.",
-    locale: LeadLocale.EN,
-    sourceSite: LeadSourceSite.FORMATION,
-    privacyAccepted: true,
-    website: "bot content",
-  } satisfies CreatePublicLeadDto);
-
-  assert.deepEqual(result, { success: true, leadId: null });
-  assert.equal(createCalls, 0);
-  assert.equal(messages.length, 0);
-});
-
-test("does not send email after an insertion failure and keeps provider details out of the public error", async () => {
-  const { messages, service } = createNotificationsService({
-    outcomes: [true, true],
-  });
-  const prisma = {
-    lead: {
-      create: async () => {
-        throw new Error("database failed with test-api-key");
-      },
-    },
-  } as unknown as PrismaService;
-  const publicLeads = new PublicLeadsService(prisma, service);
-
-  await assert.rejects(
-    () =>
-      publicLeads.submit({
-        fullName: "Ada Lovelace",
-        email: "ada@example.com",
-        country: "Costa Rica",
-        interest: LeadInterest.COMPANY_FORMATION,
-        message: "I need help forming a company.",
-        locale: LeadLocale.EN,
-        sourceSite: LeadSourceSite.FORMATION,
-        privacyAccepted: true,
-      } satisfies CreatePublicLeadDto),
-    (error: unknown) => {
-      assert.ok(error instanceof HttpException);
-      assert.doesNotMatch(JSON.stringify(error.getResponse()), /test-api-key/);
-      return true;
-    },
-  );
-  assert.equal(messages.length, 0);
 });

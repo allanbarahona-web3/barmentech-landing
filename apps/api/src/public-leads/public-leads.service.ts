@@ -1,84 +1,75 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { EmailDeliveryStatus, LeadStatus } from "@prisma/client";
+import { ConflictException, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { EmailDeliveryStatus, LeadEmailTaskType, LeadStatus, Prisma } from "@prisma/client";
+import { createHash } from "node:crypto";
 
-import { LeadNotificationsService } from "../lead-email/lead-notifications.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreatePublicLeadDto } from "./dto/create-public-lead.dto";
 
-export type PublicLeadSubmissionResponse = {
-  success: true;
-  leadId: null;
-};
+export type PublicLeadSubmissionResponse = { success: true; leadId: null };
+
+function hashLead(lead: CreatePublicLeadDto): string {
+  return createHash("sha256").update(JSON.stringify({ campaign: lead.campaign ?? null, company: lead.company ?? null, country: lead.country, email: lead.email, fullName: lead.fullName, interest: lead.interest, locale: lead.locale, message: lead.message, phone: lead.phone ?? null, privacyAccepted: lead.privacyAccepted, sourceSite: lead.sourceSite })).digest("hex");
+}
+
+function isUniqueViolation(error: unknown): boolean {
+  return error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002";
+}
 
 @Injectable()
 export class PublicLeadsService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly leadNotifications: LeadNotificationsService,
-  ) {}
+  private readonly logger = new Logger(PublicLeadsService.name);
+
+  constructor(private readonly prisma: PrismaService, _legacyNotifications?: unknown) {}
+
+  async replayIfKnown(lead: CreatePublicLeadDto, idempotencyKey: string, correlationId: string): Promise<PublicLeadSubmissionResponse | undefined> {
+    const existing = await this.prisma.leadSubmission.findUnique({ where: { idempotencyKey }, select: { contentHash: true } });
+    return existing ? this.replay(existing.contentHash, hashLead(lead), correlationId) : undefined;
+  }
 
   async submit(
-    lead: CreatePublicLeadDto,
+    lead: CreatePublicLeadDto, idempotencyKey = "legacy-test-idempotency-key", correlationId = "legacy-test",
   ): Promise<PublicLeadSubmissionResponse> {
     if (lead.website) {
       return { success: true, leadId: null };
     }
 
+    const contentHash = hashLead(lead);
+    const replay = await this.replayIfKnown(lead, idempotencyKey, correlationId);
+    if (replay) return replay;
     try {
-      const createdLead = await this.prisma.lead.create({
+      await this.prisma.$transaction((transaction) => transaction.leadSubmission.create({
         data: {
-          sourceSite: lead.sourceSite,
-          locale: lead.locale,
-          interest: lead.interest,
-          status: LeadStatus.NEW,
-          fullName: lead.fullName,
-          email: lead.email,
-          phone: lead.phone ?? null,
-          country: lead.country,
-          company: lead.company ?? null,
-          message: lead.message,
-          privacyConsentAt: new Date(),
-          campaign: lead.campaign ?? null,
-          internalNotificationStatus: EmailDeliveryStatus.PENDING,
-          visitorConfirmationStatus: EmailDeliveryStatus.PENDING,
+          idempotencyKey, contentHash,
+          lead: { create: {
+            sourceSite: lead.sourceSite, locale: lead.locale, interest: lead.interest, status: LeadStatus.NEW,
+            fullName: lead.fullName, email: lead.email, phone: lead.phone ?? null, country: lead.country,
+            company: lead.company ?? null, message: lead.message, privacyConsentAt: new Date(), campaign: lead.campaign ?? null,
+            internalNotificationStatus: EmailDeliveryStatus.PENDING, visitorConfirmationStatus: EmailDeliveryStatus.PENDING,
+            emailTasks: { create: [{ type: LeadEmailTaskType.INTERNAL_NOTIFICATION }, { type: LeadEmailTaskType.VISITOR_CONFIRMATION }] },
+          } },
         },
-        select: {
-          id: true,
-          sourceSite: true,
-          locale: true,
-          interest: true,
-          fullName: true,
-          email: true,
-          phone: true,
-          country: true,
-          company: true,
-          message: true,
-          privacyConsentAt: true,
-          campaign: true,
-          utmSource: true,
-          utmMedium: true,
-          utmCampaign: true,
-          createdAt: true,
-        },
-      });
-
-      await this.notifyAfterPersistence(createdLead);
-
+      }));
+      this.log(correlationId, "lead_submission_committed");
       return { success: true, leadId: null };
-    } catch {
+    } catch (error) {
+      if (isUniqueViolation(error)) {
+        const replay = await this.prisma.leadSubmission.findUnique({ where: { idempotencyKey }, select: { contentHash: true } });
+        if (replay) return this.replay(replay.contentHash, contentHash, correlationId);
+      }
+      this.log(correlationId, "lead_submission_failed");
       throw new InternalServerErrorException(
         "Unable to process your submission.",
       );
     }
   }
 
-  private async notifyAfterPersistence(
-    lead: Parameters<LeadNotificationsService["notify"]>[0],
-  ): Promise<void> {
-    try {
-      await this.leadNotifications.notify(lead);
-    } catch {
-      // Notifications are best-effort after a successful lead insert.
-    }
+  private replay(storedHash: string, contentHash: string, correlationId: string): PublicLeadSubmissionResponse {
+    if (storedHash !== contentHash) throw new ConflictException("Idempotency key cannot be reused for different content.");
+    this.log(correlationId, "lead_submission_replayed");
+    return { success: true, leadId: null };
+  }
+
+  private log(correlationId: string, event: string): void {
+    this.logger.log(JSON.stringify({ correlationId, event }));
   }
 }

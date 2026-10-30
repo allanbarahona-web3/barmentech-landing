@@ -1,0 +1,15 @@
+# Candidate only. Merge into the protected Barmentech QA deployment configuration after manual review.
+# The API image must be built and tagged once from the approved SHA, then reused unchanged here.
+services:
+  lead-email-worker:
+    image: ${BARMENTECH_API_IMAGE:?set an immutable API image reference for the approved SHA}
+    command: ["node", "dist/lead-email/worker.js"]
+    restart: unless-stopped
+    env_file:
+      - ${BARMENTECH_WORKER_RUNTIME_ENV:?set a protected worker runtime env file}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - qa_data
+    # Deliberately no ports: the worker consumes PostgreSQL outbox rows only.

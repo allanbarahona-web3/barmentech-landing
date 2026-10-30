@@ -6,8 +6,11 @@
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main.js",
+    "start:lead-email-worker": "node dist/lead-email/worker.js",
+    "dev:lead-email-worker": "nest start --watch --entryFile lead-email/worker",
     "type-check": "tsc --noEmit",
     "test:foundation": "rm -rf .test-dist && tsc -p tsconfig.test.json && mkdir -p .test-dist/lead-email/assets && cp src/lead-email/assets/barmentech-logo.png .test-dist/lead-email/assets/barmentech-logo.png && node --test .test-dist/**/*.spec.js && rm -rf .test-dist",
+    "test:lead-email-postgres-integration": "node ../../scripts/run-lead-outbox-postgres-integration.mjs",
     "prisma:format": "prisma format",
     "prisma:validate": "prisma validate"
   },

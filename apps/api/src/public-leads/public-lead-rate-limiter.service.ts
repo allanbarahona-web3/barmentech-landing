@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 
-const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 15 * 60 * 1_000;
+const DEFAULT_MAX_ATTEMPTS = 12;
+const DEFAULT_WINDOW_SECONDS = 15 * 60;
 const MAX_TRACKED_CLIENTS = 10_000;
 const CAPACITY_RETRY_AFTER_SECONDS = 60;
 
@@ -15,9 +15,20 @@ export type RateLimitResult = {
   retryAfterSeconds: number;
 };
 
+function readInteger(name: string, fallback: number, minimum: number, maximum: number): number {
+  const value = process.env[name]?.trim();
+  if (!value) return fallback;
+  if (!/^\d+$/.test(value)) throw new Error(`${name} must be an integer.`);
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed < minimum || parsed > maximum) throw new Error(`${name} must be between ${minimum} and ${maximum}.`);
+  return parsed;
+}
+
 @Injectable()
 export class PublicLeadRateLimiterService {
   private readonly entries = new Map<string, RateLimitEntry>();
+  private readonly maxAttempts = readInteger("PUBLIC_LEAD_RATE_LIMIT_MAX_ATTEMPTS", DEFAULT_MAX_ATTEMPTS, 1, 50);
+  private readonly windowMs = readInteger("PUBLIC_LEAD_RATE_LIMIT_WINDOW_SECONDS", DEFAULT_WINDOW_SECONDS, 60, 3_600) * 1_000;
 
   // This in-memory limiter is suitable only for a single local or QA instance.
   // Replace it with centralized storage before horizontally scaled production use.
@@ -35,12 +46,12 @@ export class PublicLeadRateLimiterService {
 
       this.entries.set(clientIp, {
         attempts: 1,
-        resetAt: now + WINDOW_MS,
+        resetAt: now + this.windowMs,
       });
       return { allowed: true, retryAfterSeconds: 0 };
     }
 
-    if (entry.attempts >= MAX_ATTEMPTS) {
+    if (entry.attempts >= this.maxAttempts) {
       return {
         allowed: false,
         retryAfterSeconds: Math.max(1, Math.ceil((entry.resetAt - now) / 1_000)),

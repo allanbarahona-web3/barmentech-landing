@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Headers,
   HttpCode,
   HttpException,
   HttpStatus,
@@ -18,7 +20,10 @@ import {
 
 type ClientRequest = {
   ip?: string;
+  correlationId?: string;
 };
+
+const IDEMPOTENCY_KEY = /^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$/;
 
 type HeaderResponse = {
   setHeader(name: string, value: string): unknown;
@@ -37,12 +42,20 @@ export class PublicLeadsController {
     @Body() lead: CreatePublicLeadDto,
     @Req() request: ClientRequest,
     @Res({ passthrough: true }) response: HeaderResponse,
+    @Headers("idempotency-key") idempotencyKey: string | undefined = undefined,
   ): Promise<PublicLeadSubmissionResponse> {
     // Express trusts no proxy headers unless the deployment explicitly sets the
     // restricted TRUST_PROXY=loopback configuration.
     if (lead.website) {
-      return this.publicLeadsService.submit(lead);
+      return { success: true, leadId: null };
     }
+
+    if (!idempotencyKey || !IDEMPOTENCY_KEY.test(idempotencyKey)) {
+      throw new BadRequestException("A valid Idempotency-Key header is required.");
+    }
+
+    const replay = await this.publicLeadsService.replayIfKnown(lead, idempotencyKey, request.correlationId ?? "unknown");
+    if (replay) return replay;
 
     const rateLimit = this.rateLimiter.consume(request.ip || "unknown");
     if (!rateLimit.allowed) {
@@ -56,6 +69,10 @@ export class PublicLeadsController {
       );
     }
 
-    return this.publicLeadsService.submit(lead);
+    return this.publicLeadsService.submit(
+      lead,
+      idempotencyKey,
+      request.correlationId ?? "unknown",
+    );
   }
 }

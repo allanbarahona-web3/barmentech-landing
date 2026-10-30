@@ -16,6 +16,10 @@ export type TransactionalEmail = {
   attachments?: Attachment[];
 };
 
+export type EmailDeliveryOptions = {
+  idempotencyKey?: string;
+};
+
 export type EmailDeliveryResult =
   | { accepted: true }
   | {
@@ -26,7 +30,7 @@ export type EmailDeliveryResult =
     };
 
 export interface EmailDeliveryService {
-  send(message: TransactionalEmail): Promise<EmailDeliveryResult>;
+  send(message: TransactionalEmail, options?: EmailDeliveryOptions): Promise<EmailDeliveryResult>;
 }
 
 export const EMAIL_DELIVERY_SERVICE = Symbol("EMAIL_DELIVERY_SERVICE");
@@ -42,7 +46,7 @@ export class ResendEmailDeliveryService implements EmailDeliveryService {
     this.resend = configuration ? new Resend(configuration.apiKey) : undefined;
   }
 
-  async send(message: TransactionalEmail): Promise<EmailDeliveryResult> {
+  async send(message: TransactionalEmail, options?: EmailDeliveryOptions): Promise<EmailDeliveryResult> {
     if (!this.resend) {
       return { accepted: false, category: "EMAIL_PROVIDER_REJECTED" };
     }
@@ -56,7 +60,7 @@ export class ResendEmailDeliveryService implements EmailDeliveryService {
         html: message.html,
         replyTo: message.replyTo,
         attachments: message.attachments,
-      });
+      }, options?.idempotencyKey ? { idempotencyKey: options.idempotencyKey } : undefined);
 
       if (data && !error) {
         return { accepted: true };
