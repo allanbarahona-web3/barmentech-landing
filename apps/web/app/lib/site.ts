@@ -9,21 +9,14 @@ type TechnologyLabels = {
   contact: string;
   contactCta: string;
   customSoftware: string;
-  developmentLabel: string;
   division: string;
   formation: string;
   footerNavigation: string;
   home: string;
   howWeWork: string;
-  howWeWorkBody: string;
-  howWeWorkTitle: string;
   language: string;
   menuClose: string;
   menuOpen: string;
-  previewBody: string;
-  previewPrimary: string;
-  previewSecondary: string;
-  previewTitle: string;
   privacy: string;
   provisionalBody: string;
   provisionalLabel: string;
@@ -38,56 +31,42 @@ const labels: Record<Locale, TechnologyLabels> = {
     automation: "Automation",
     contact: "Contact",
     contactCta: "Contact",
-    customSoftware: "Custom software",
-    developmentLabel: "Development preview",
+    customSoftware: "Custom systems & SaaS",
     division: "Technology",
     formation: "Formation",
     footerNavigation: "Footer navigation",
     home: "Home",
     howWeWork: "How we work",
-    howWeWorkBody: "This section is the future destination for the working-process explanation. Its final content is pending review.",
-    howWeWorkTitle: "How we work",
     language: "Language",
     menuClose: "Close menu",
     menuOpen: "Open menu",
-    previewBody: "This provisional page establishes the shared visual system, navigation and bilingual routes. Commercial content is intentionally pending.",
-    previewPrimary: "View contact placeholder",
-    previewSecondary: "View how we work",
-    previewTitle: "Technology website shell",
     privacy: "Privacy",
     provisionalBody: "This is a development placeholder. Content is pending review before publication.",
     provisionalLabel: "Content pending",
     services: "Services",
     terms: "Terms",
-    webDevelopment: "Web development",
+    webDevelopment: "Websites & e-commerce",
   },
   es: {
     about: "Nosotros",
     automation: "Automatización",
     contact: "Contacto",
     contactCta: "Contacto",
-    customSoftware: "Software a medida",
-    developmentLabel: "Vista de desarrollo",
+    customSoftware: "Sistemas a medida y SaaS",
     division: "Tecnología",
     formation: "Formación",
     footerNavigation: "Navegación del pie de página",
     home: "Inicio",
     howWeWork: "Cómo trabajamos",
-    howWeWorkBody: "Esta sección será el destino futuro de la explicación del proceso de trabajo. Su contenido final está pendiente de revisión.",
-    howWeWorkTitle: "Cómo trabajamos",
     language: "Idioma",
     menuClose: "Cerrar menú",
     menuOpen: "Abrir menú",
-    previewBody: "Esta página provisional establece el sistema visual compartido, la navegación y las rutas bilingües. El contenido comercial queda deliberadamente pendiente.",
-    previewPrimary: "Ver contacto provisional",
-    previewSecondary: "Ver cómo trabajamos",
-    previewTitle: "Shell de tecnología",
     privacy: "Privacidad",
     provisionalBody: "Este es un marcador de desarrollo. El contenido está pendiente de revisión antes de publicarse.",
     provisionalLabel: "Contenido pendiente",
     services: "Servicios",
     terms: "Términos",
-    webDevelopment: "Desarrollo web",
+    webDevelopment: "Sitios web y comercio electrónico",
   },
 };
 

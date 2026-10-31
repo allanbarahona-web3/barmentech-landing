@@ -1,3 +1,333 @@
 @import "tailwindcss";
 @import "../../../packages/ui/src/foundation.css";
 @source "../../../packages/ui/src";
+
+@keyframes technology-hero-enter {
+  from {
+    opacity: 0.92;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes technology-section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.technology-hero-media {
+  transform: translate3d(0, var(--technology-hero-parallax-y, 0px), 0) scale(var(--technology-hero-scroll-scale, 1.065));
+  will-change: transform;
+}
+
+.technology-hero-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgb(191 225 255 / 0.55);
+  box-shadow: 0 0 0.8rem rgb(116 183 255 / 0.6);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .technology-hero-media {
+    animation: technology-hero-cinematic 10s ease-in-out infinite alternate;
+  }
+
+  .technology-scroll-reveal[data-technology-revealed="true"] {
+    animation: technology-section-reveal 480ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--technology-reveal-delay, 0ms) both;
+  }
+
+  .technology-hero-scroll-cue {
+    animation: technology-scroll-cue 1.4s ease-in-out infinite;
+  }
+
+  .technology-hero-particle {
+    animation: technology-particle-drift 7s ease-in-out infinite alternate;
+  }
+
+  .technology-hero-particle:nth-child(3n) {
+    animation-delay: -2.4s;
+    animation-duration: 5.8s;
+  }
+
+  .technology-hero-particle:nth-child(3n + 1) {
+    animation-delay: -4.1s;
+    animation-duration: 8.4s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .technology-hero-media {
+    transform: scale(1.06) !important;
+  }
+}
+
+[data-technology-shell] > header {
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+[data-technology-shell][data-technology-scrolled="true"] > header {
+  border-color: rgb(170 194 222 / 0.8);
+  background-color: rgb(239 246 255 / 0.9);
+  box-shadow: 0 0.45rem 1.5rem rgb(18 48 84 / 0.09);
+}
+
+.technology-service-rail-section {
+  --technology-rail-travel: 0px;
+}
+
+.technology-service-rail-viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.technology-service-rail-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.technology-service-rail-track {
+  display: grid;
+  grid-auto-columns: minmax(17.5rem, 82vw);
+  grid-auto-flow: column;
+  gap: 1.25rem;
+  width: max-content;
+}
+
+.technology-service-rail-card {
+  height: 31rem;
+  perspective: 72rem;
+  scroll-snap-align: start;
+}
+
+.technology-service-rail-image {
+  height: clamp(13.5rem, 18vw, 16rem);
+}
+
+.technology-service-rail-card-inner {
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.technology-service-rail-card[data-flipped] .technology-service-rail-card-inner {
+  transform: rotateY(180deg);
+}
+
+.technology-service-rail-face {
+  backface-visibility: hidden;
+  border: 1px solid var(--bm-border);
+  display: flex;
+  flex-direction: column;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+.technology-service-rail-front {
+  background: white;
+}
+
+.technology-service-rail-back {
+  transform: rotateY(180deg);
+}
+
+.technology-service-details-button,
+.technology-service-back-button,
+.technology-service-back-link,
+.technology-service-rail-control {
+  align-items: center;
+  border-radius: var(--bm-radius-control);
+  display: inline-flex;
+  font-size: 0.875rem;
+  font-weight: 600;
+  justify-content: center;
+  min-height: var(--bm-control-height);
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.technology-service-details-button {
+  color: var(--bm-brand);
+  gap: 0.5rem;
+  justify-content: flex-start;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--bm-brand) 42%, transparent);
+  text-underline-offset: 0.3rem;
+  width: fit-content;
+}
+
+.technology-service-details-button:hover {
+  color: var(--bm-brand-strong);
+  text-decoration-color: var(--bm-brand-strong);
+}
+
+.technology-service-back-button {
+  border: 1px solid rgb(255 255 255 / 0.52);
+  color: white;
+  padding: 0.4rem 0.8rem;
+}
+
+.technology-service-back-button:hover {
+  background: rgb(255 255 255 / 0.12);
+  border-color: white;
+}
+
+.technology-service-back-link {
+  color: white;
+  gap: 0.45rem;
+  text-decoration: underline;
+  text-decoration-color: rgb(255 255 255 / 0.5);
+  text-underline-offset: 0.3rem;
+}
+
+.technology-service-back-link:hover {
+  text-decoration-color: white;
+}
+
+.technology-service-rail-control {
+  border: 1px solid var(--bm-border-strong);
+  color: var(--bm-text);
+  height: var(--bm-control-height);
+  width: var(--bm-control-height);
+}
+
+.technology-service-rail-control:hover:not(:disabled) {
+  background: #e8f1ff;
+  border-color: var(--bm-brand);
+  color: var(--bm-brand-strong);
+}
+
+.technology-service-rail-control:disabled {
+  color: color-mix(in srgb, var(--bm-text-muted) 55%, transparent);
+  cursor: not-allowed;
+}
+
+.technology-service-details-button:focus-visible,
+.technology-service-back-button:focus-visible,
+.technology-service-back-link:focus-visible,
+.technology-service-rail-control:focus-visible {
+  outline: 2px solid var(--bm-focus);
+  outline-offset: 3px;
+}
+
+.technology-service-rail-noscript {
+  background: #f5f9ff;
+  border: 1px solid var(--bm-border);
+  border-top: 0;
+  color: var(--bm-text);
+  padding: 1.25rem;
+}
+
+.technology-service-rail-noscript ul {
+  list-style: disc;
+  margin: 0.8rem 0 1rem 1.1rem;
+}
+
+.technology-service-rail-noscript a {
+  color: var(--bm-brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .technology-service-rail-track {
+    grid-auto-columns: minmax(20rem, 58vw);
+  }
+}
+
+@media (min-width: 768px) {
+  .technology-service-rail-track {
+    grid-auto-columns: minmax(16rem, 40vw);
+  }
+
+  .technology-service-rail-section[data-technology-rail-pinned] {
+    height: calc(100svh + var(--technology-rail-travel));
+  }
+
+  .technology-service-rail-section[data-technology-rail-pinned] .technology-service-rail-sticky {
+    display: flex;
+    flex-direction: column;
+    height: calc(100svh - 3.5rem);
+    justify-content: center;
+    position: sticky;
+    top: 3.5rem;
+  }
+
+  .technology-service-rail-section[data-technology-rail-pinned] .technology-service-rail-viewport {
+    scroll-snap-type: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .technology-service-rail-track {
+    width: 100%;
+    grid-auto-columns: calc((100% - 3.75rem) / 4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .technology-service-rail-card-inner,
+  .technology-service-rail-card[data-flipped] .technology-service-rail-card-inner,
+  .technology-service-rail-back {
+    transform: none;
+    transition: none;
+  }
+
+  .technology-service-rail-card[data-flipped] .technology-service-rail-front {
+    display: none;
+  }
+
+  .technology-service-rail-card[data-flipped] .technology-service-rail-back {
+    display: flex;
+  }
+
+  .technology-service-rail-back {
+    display: none;
+  }
+}
+
+@keyframes technology-hero-cinematic {
+  from {
+    transform: translate3d(-0.8%, var(--technology-hero-parallax-y, 0px), 0) scale(calc(var(--technology-hero-scroll-scale, 1.065) + 0.004));
+  }
+
+  to {
+    transform: translate3d(0.8%, calc(var(--technology-hero-parallax-y, 0px) - 2px), 0) scale(calc(var(--technology-hero-scroll-scale, 1.065) + 0.014));
+  }
+}
+
+@keyframes technology-scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(0.3rem);
+  }
+}
+
+@keyframes technology-particle-drift {
+  from {
+    opacity: 0.25;
+    transform: translate3d(-0.2rem, 0.25rem, 0) scale(0.8);
+  }
+
+  to {
+    opacity: 0.75;
+    transform: translate3d(0.25rem, -0.3rem, 0) scale(1.15);
+  }
+}

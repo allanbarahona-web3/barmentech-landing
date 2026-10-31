@@ -25,11 +25,13 @@ type SiteHeaderProps = {
     logoHeight?: number;
     logoSrc: string;
     logoWidth?: number;
+    showDivision?: boolean;
   };
   contact: {
     href: string;
     label: string;
   };
+  contactPulse?: boolean;
   language: {
     current: string;
     label: string;
@@ -65,7 +67,7 @@ type SiteHeaderProps = {
 const interactiveLinkClass =
   "rounded-md px-3 py-2 text-sm font-medium text-[var(--bm-text-muted)] transition-colors hover:bg-[var(--bm-surface-subtle)] hover:text-[var(--bm-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]";
 
-export function SiteHeader({ brand, compact = false, contact, desktopBreakpoint = "standard", hideDivisionAtWideDesktop = false, language, menu, navigation, portal, social, sticky = false, variant = "default" }: SiteHeaderProps) {
+export function SiteHeader({ brand, compact = false, contact, contactPulse = true, desktopBreakpoint = "standard", hideDivisionAtWideDesktop = false, language, menu, navigation, portal, social, sticky = false, variant = "default" }: SiteHeaderProps) {
   const [desktopServicesOpen, setDesktopServicesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
@@ -73,6 +75,7 @@ export function SiteHeader({ brand, compact = false, contact, desktopBreakpoint 
   const mobileMenuButton = useRef<HTMLButtonElement>(null);
   const mobileServicesButton = useRef<HTMLButtonElement>(null);
   const isFormation = variant === "formation";
+  const shouldPulseContact = isFormation && contactPulse;
   const desktopVisibility = isFormation ? "min-[1280px]:flex" : desktopBreakpoint === "wide" ? "min-[1400px]:flex" : portal ? "xl:flex" : "lg:flex";
   const mobileVisibility = isFormation ? "min-[1280px]:hidden" : desktopBreakpoint === "wide" ? "min-[1400px]:hidden" : portal ? "xl:hidden" : "lg:hidden";
   const navigationLinkClass = isFormation
@@ -120,8 +123,8 @@ export function SiteHeader({ brand, compact = false, contact, desktopBreakpoint 
       <div className={`mx-auto flex w-full max-w-[var(--bm-content-width)] items-center justify-between px-5 sm:px-8 ${isFormation ? "min-h-14 gap-3" : `min-h-20 ${compact ? "gap-2" : "gap-4"}`}`}>
         <a aria-label={brand.ariaLabel} className={`flex items-center gap-3 rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--bm-focus)] ${isFormation || compact ? "shrink-0" : "min-w-0"}`} href={brand.homeHref}>
           <img alt={brand.ariaLabel ? "" : brand.alt} className={brand.logoClassName ?? "h-auto w-28 shrink-0 sm:w-32"} height={brand.logoHeight} src={brand.logoSrc} width={brand.logoWidth} />
-          {!isFormation ? (
-            <span className={`max-w-24 text-[10px] font-semibold uppercase leading-4 tracking-[0.1em] text-[var(--bm-text-muted)] sm:max-w-none sm:text-xs lg:border-l lg:border-[var(--bm-border)] lg:pl-3 lg:tracking-[0.12em] ${hideDivisionAtWideDesktop ? "min-[1400px]:hidden" : ""}`}>
+          {!isFormation || brand.showDivision ? (
+            <span className={isFormation ? "border-l border-slate-200 pl-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--bm-text-muted)]" : `max-w-24 text-[10px] font-semibold uppercase leading-4 tracking-[0.1em] text-[var(--bm-text-muted)] sm:max-w-none sm:text-xs lg:border-l lg:border-[var(--bm-border)] lg:pl-3 lg:tracking-[0.12em] ${hideDivisionAtWideDesktop ? "min-[1400px]:hidden" : ""}`}>
               {brand.division}
             </span>
           ) : null}
@@ -178,7 +181,7 @@ export function SiteHeader({ brand, compact = false, contact, desktopBreakpoint 
               {portal.label}
             </a>
           ) : null}
-          <a className={`inline-flex ${isFormation ? "h-8 w-[120px] shrink-0 animate-[contact-breathe_3s_ease-in-out_infinite] justify-center px-2 text-[13px] hover:animate-none focus-visible:animate-none motion-reduce:animate-none" : "min-h-[var(--bm-control-height)] px-4 text-sm"} items-center rounded-[var(--bm-radius-control)] bg-[var(--bm-brand)] font-semibold text-white transition-colors hover:bg-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] ${compact ? "whitespace-nowrap" : ""}`} href={contact.href}>
+          <a className={`inline-flex ${isFormation ? `h-8 w-[120px] shrink-0 justify-center px-2 text-[13px] ${shouldPulseContact ? "animate-[contact-breathe_3s_ease-in-out_infinite] hover:animate-none focus-visible:animate-none motion-reduce:animate-none" : ""}` : "min-h-[var(--bm-control-height)] px-4 text-sm"} items-center rounded-[var(--bm-radius-control)] bg-[var(--bm-brand)] font-semibold text-white transition-colors hover:bg-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] ${compact ? "whitespace-nowrap" : ""}`} href={contact.href}>
             {contact.label}
           </a>
           <div aria-label={language.label} className={`flex items-center gap-1 rounded-md border border-[var(--bm-border)] ${isFormation ? "h-8 w-[120px] shrink-0 bg-white/60 p-0.5" : "p-1"}`}>
