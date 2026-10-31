@@ -2,6 +2,7 @@ import { SiteFooter, SiteHeader } from "@barmentech/ui";
 import type { ReactNode } from "react";
 
 import type { Locale } from "../lib/i18n";
+import { getTechnologyFormationUrl } from "../lib/public-settings";
 import { getTechnologyFooterNavigation, getTechnologyLabels, getTechnologyNavigation, type TechnologyPage } from "../lib/site";
 
 type SiteShellProps = {
@@ -13,6 +14,7 @@ type SiteShellProps = {
 
 export function SiteShell({ activePage, children, locale, path = "" }: SiteShellProps) {
   const copy = getTechnologyLabels(locale);
+  const formationHref = getTechnologyFormationUrl(locale);
   const localizedPath = path ? `/${path}` : "";
 
   return (
@@ -37,7 +39,7 @@ export function SiteShell({ activePage, children, locale, path = "" }: SiteShell
           ],
         }}
         menu={{ closeLabel: copy.menuClose, openLabel: copy.menuOpen }}
-        navigation={getTechnologyNavigation(locale, activePage)}
+        navigation={getTechnologyNavigation(locale, activePage, formationHref)}
       />
       {children}
       <SiteFooter
@@ -52,7 +54,7 @@ export function SiteShell({ activePage, children, locale, path = "" }: SiteShell
           { href: `/${locale}/privacy`, label: copy.privacy },
           { href: `/${locale}/terms`, label: copy.terms },
         ]}
-        navigation={getTechnologyFooterNavigation(locale)}
+        navigation={getTechnologyFooterNavigation(locale, formationHref)}
         navigationLabel={copy.footerNavigation}
       />
     </>

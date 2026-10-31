@@ -11,6 +11,7 @@ type TechnologyLabels = {
   customSoftware: string;
   developmentLabel: string;
   division: string;
+  formation: string;
   footerNavigation: string;
   home: string;
   howWeWork: string;
@@ -40,6 +41,7 @@ const labels: Record<Locale, TechnologyLabels> = {
     customSoftware: "Custom software",
     developmentLabel: "Development preview",
     division: "Technology",
+    formation: "Formation",
     footerNavigation: "Footer navigation",
     home: "Home",
     howWeWork: "How we work",
@@ -67,6 +69,7 @@ const labels: Record<Locale, TechnologyLabels> = {
     customSoftware: "Software a medida",
     developmentLabel: "Vista de desarrollo",
     division: "Tecnología",
+    formation: "Formación",
     footerNavigation: "Navegación del pie de página",
     home: "Inicio",
     howWeWork: "Cómo trabajamos",
@@ -121,7 +124,7 @@ export function getTechnologyPageTitle(locale: Locale, page: Exclude<TechnologyP
   return pageTitles[locale][page];
 }
 
-export function getTechnologyNavigation(locale: Locale, activePage: TechnologyPage): NavigationItem[] {
+export function getTechnologyNavigation(locale: Locale, activePage: TechnologyPage, formationHref: string): NavigationItem[] {
   const copy = getTechnologyLabels(locale);
   const serviceItems = [
     { href: `/${locale}/services/web-development`, id: "web-development", label: copy.webDevelopment },
@@ -138,11 +141,12 @@ export function getTechnologyNavigation(locale: Locale, activePage: TechnologyPa
     },
     { href: `/${locale}#how-we-work`, id: "how-we-work", label: copy.howWeWork },
     { active: activePage === "about", href: `/${locale}/about`, id: "about", label: copy.about },
+    { href: formationHref, id: "formation", label: copy.formation },
     { active: activePage === "contact", href: `/${locale}/contact`, id: "contact", label: copy.contact },
   ];
 }
 
-export function getTechnologyFooterNavigation(locale: Locale) {
+export function getTechnologyFooterNavigation(locale: Locale, formationHref: string) {
   const copy = getTechnologyLabels(locale);
 
   return [
@@ -152,6 +156,7 @@ export function getTechnologyFooterNavigation(locale: Locale) {
     { href: `/${locale}/services/automation`, label: copy.automation },
     { href: `/${locale}#how-we-work`, label: copy.howWeWork },
     { href: `/${locale}/about`, label: copy.about },
+    { href: formationHref, label: copy.formation },
     { href: `/${locale}/contact`, label: copy.contact },
   ];
 }
