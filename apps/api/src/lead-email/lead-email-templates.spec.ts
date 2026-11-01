@@ -97,6 +97,49 @@ test("builds complete Spanish internal and visitor templates from the persisted 
   assert.match(visitor.html, /Atención en español e inglés/);
 });
 
+test("uses Technology-specific bilingual email presentation without changing the shared delivery flow", () => {
+  const englishLead = leadRecord({
+    sourceSite: LeadSourceSite.TECHNOLOGY,
+    interest: LeadInterest.TECHNOLOGY_AND_DIGITAL,
+    message: "Technology need: Automation and integrations\n\nWe need to connect existing systems.",
+  });
+  const spanishLead = leadRecord({
+    sourceSite: LeadSourceSite.TECHNOLOGY,
+    locale: LeadLocale.ES,
+    interest: LeadInterest.TECHNOLOGY_AND_DIGITAL,
+    message: "Necesidad tecnológica: Automatización e integraciones\n\nNecesitamos conectar sistemas existentes.",
+  });
+
+  const englishInternal = createInternalLeadNotificationTemplate(englishLead);
+  const englishVisitor = createVisitorConfirmationTemplate(englishLead);
+  const spanishInternal = createInternalLeadNotificationTemplate(spanishLead);
+  const spanishVisitor = createVisitorConfirmationTemplate(spanishLead);
+
+  assert.equal(
+    englishInternal.subject,
+    "New Technology inquiry: Technology and digital support | Barmentech Technology",
+  );
+  assert.equal(
+    englishVisitor.subject,
+    "We received your Technology inquiry | Barmentech Technology",
+  );
+  assert.match(englishInternal.html, /New Barmentech Technology inquiry/);
+  assert.match(englishInternal.html, /Technology need: Automation and integrations/);
+  assert.match(englishVisitor.html, /Barmentech Technology Team/);
+  assert.doesNotMatch(englishVisitor.html, /Barmentech Formation/);
+  assert.equal(
+    spanishInternal.subject,
+    "Nueva consulta de Tecnología: Tecnología y apoyo digital | Barmentech Tecnología",
+  );
+  assert.equal(
+    spanishVisitor.subject,
+    "Recibimos tu consulta de Tecnología | Barmentech Tecnología",
+  );
+  assert.match(spanishInternal.html, /Nueva consulta de Barmentech Tecnología/);
+  assert.match(spanishVisitor.html, /Equipo de Barmentech Tecnología/);
+  assert.doesNotMatch(spanishVisitor.html, /Formación y apoyo empresarial/);
+});
+
 test("attaches the complete logo through an in-memory inline CID reference", () => {
   const visitor = createVisitorConfirmationTemplate(leadRecord());
   const attachment = visitor.attachments?.[0];

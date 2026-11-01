@@ -22,7 +22,13 @@ export class PublicLeadsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async replayIfKnown(lead: CreatePublicLeadDto, idempotencyKey: string, correlationId: string): Promise<PublicLeadSubmissionResponse | undefined> {
-    const existing = await this.prisma.leadSubmission.findUnique({ where: { idempotencyKey }, select: { contentHash: true } });
+    let existing: { contentHash: string } | null;
+    try {
+      existing = await this.prisma.leadSubmission.findUnique({ where: { idempotencyKey }, select: { contentHash: true } });
+    } catch (error) {
+      this.logPersistenceFailure(correlationId, "leadSubmission.findUnique", error);
+      throw error;
+    }
     return existing ? this.replay(existing.contentHash, hashLead(lead), correlationId) : undefined;
   }
 
@@ -56,7 +62,7 @@ export class PublicLeadsService {
         const replay = await this.prisma.leadSubmission.findUnique({ where: { idempotencyKey }, select: { contentHash: true } });
         if (replay) return this.replay(replay.contentHash, contentHash, correlationId);
       }
-      this.log(correlationId, "lead_submission_failed");
+      this.logPersistenceFailure(correlationId, "leadSubmission.create", error);
       throw new InternalServerErrorException(
         "Unable to process your submission.",
       );
@@ -71,5 +77,22 @@ export class PublicLeadsService {
 
   private log(correlationId: string, event: string): void {
     this.logger.log(JSON.stringify({ correlationId, event }));
+  }
+
+  private logPersistenceFailure(correlationId: string, operation: string, error: unknown): void {
+    const errorClass = error instanceof Error && /^[A-Za-z][A-Za-z0-9_]{0,79}$/.test(error.name)
+      ? error.name
+      : "UnknownError";
+    const prismaCode = error instanceof Prisma.PrismaClientKnownRequestError
+      && /^[A-Z][0-9]{4}$/.test(error.code)
+      ? error.code
+      : undefined;
+    this.logger.error(JSON.stringify({
+      correlationId,
+      event: "lead_submission_persistence_failed",
+      operation,
+      errorClass,
+      ...(prismaCode ? { prismaCode } : {}),
+    }));
   }
 }

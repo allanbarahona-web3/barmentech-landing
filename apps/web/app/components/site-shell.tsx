@@ -1,10 +1,12 @@
-import { SiteFooter, SiteHeader } from "@barmentech/ui";
+import { SiteHeader } from "@barmentech/ui";
 import type { ReactNode } from "react";
 
 import { TechnologyHeaderSurface } from "./technology-header-surface";
+import { TechnologyFooter } from "./technology-footer";
+import { TechnologyWhatsappAction } from "./technology-whatsapp-action";
 import type { Locale } from "../lib/i18n";
-import { getTechnologyFormationUrl } from "../lib/public-settings";
-import { getTechnologyFooterNavigation, getTechnologyLabels, getTechnologyNavigation, type TechnologyPage } from "../lib/site";
+import { getTechnologyFormationUrl, getTechnologyPublicSettings } from "../lib/public-settings";
+import { getTechnologyLabels, getTechnologyNavigation, type TechnologyPage } from "../lib/site";
 
 type SiteShellProps = {
   activePage: TechnologyPage;
@@ -16,6 +18,7 @@ type SiteShellProps = {
 export function SiteShell({ activePage, children, locale, path = "" }: SiteShellProps) {
   const copy = getTechnologyLabels(locale);
   const formationHref = getTechnologyFormationUrl(locale);
+  const settings = getTechnologyPublicSettings();
   const localizedPath = path ? `/${path}` : "";
 
   return (
@@ -54,21 +57,8 @@ export function SiteShell({ activePage, children, locale, path = "" }: SiteShell
         variant="formation"
       />
       {children}
-      <SiteFooter
-        brand={{
-          alt: "Barmentech",
-          division: copy.division,
-          homeHref: `/${locale}`,
-          logoSrc: "/images/barmentech-logo.png",
-        }}
-        copyright="Barmentech LLC"
-        legalLinks={[
-          { href: `/${locale}/privacy`, label: copy.privacy },
-          { href: `/${locale}/terms`, label: copy.terms },
-        ]}
-        navigation={getTechnologyFooterNavigation(locale, formationHref)}
-        navigationLabel={copy.footerNavigation}
-      />
+      <TechnologyFooter formationHref={formationHref} locale={locale} settings={settings} />
+      <TechnologyWhatsappAction locale={locale} url={settings.whatsappUrl} />
     </div>
   );
 }

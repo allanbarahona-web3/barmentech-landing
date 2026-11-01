@@ -1,6 +1,7 @@
 import { ActionLink, Container } from "@barmentech/ui";
 
 import { TechnologyHomeMotion } from "./technology-home-motion";
+import { TechnologyProcessCycle } from "./technology-process-cycle";
 import { TechnologyServiceRail } from "./technology-service-rail";
 import type { Locale } from "../lib/i18n";
 import { getTechnologyFormationUrl } from "../lib/public-settings";
@@ -53,17 +54,21 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      <Container className="px-5 py-16 sm:px-8 sm:py-24 lg:py-28">
-        <section aria-labelledby="technology-value-title" className="technology-scroll-reveal grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16" data-technology-reveal>
-          <div>
+      <Container className="px-5 pb-0 pt-14 sm:px-8 sm:pb-0 sm:pt-[4.5rem] lg:pt-[5.5rem]">
+        <section aria-labelledby="technology-value-title" className="technology-scroll-reveal grid gap-10 rounded-[var(--bm-radius-panel)] border border-[#ceddf0] bg-[#f4f8fd] px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16 lg:px-12 lg:py-12" data-technology-reveal>
+          <div className="flex flex-col items-start">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{content.hero.eyebrow}</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="technology-value-title">{content.value.title}</h2>
+            <span aria-hidden="true" className="mt-8 h-px w-12 bg-[var(--bm-brand)]" />
           </div>
-          <div className="border-l-2 border-[var(--bm-brand)] pl-6 sm:pl-8">
+          <div>
             <p className="text-lg leading-8 text-[var(--bm-text-muted)]">{content.value.body}</p>
-            <ul className="mt-7 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-              {content.value.points.map((point) => <li className="border-t border-[var(--bm-border)] pt-3 text-sm leading-6 text-[var(--bm-text)]" key={point}>{point}</li>)}
-            </ul>
+            <ol className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+              {content.value.points.map((point, index) => <li className={`border-t border-[#c9d9eb] pt-3 ${index === content.value.points.length - 1 ? "sm:col-span-2" : ""}`} key={point}>
+                <span className="text-xs font-semibold tabular-nums tracking-[0.14em] text-[var(--bm-brand)]">{String(index + 1).padStart(2, "0")}</span>
+                <p className="mt-2 text-sm leading-6 text-[var(--bm-text)]">{point}</p>
+              </li>)}
+            </ol>
           </div>
         </section>
 
@@ -75,44 +80,17 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
           title={content.services.title}
         />
 
-        <section aria-labelledby="technology-maintenance-title" className="technology-scroll-reveal mt-20 overflow-hidden rounded-[var(--bm-radius-panel)] bg-[#0b2c58] px-6 py-10 text-white sm:mt-28 sm:px-10 sm:py-14 lg:px-14 lg:py-16" data-technology-reveal>
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9fc5ff]">{content.hero.eyebrow}</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] sm:text-4xl" id="technology-maintenance-title">{content.maintenance.title}</h2>
-            </div>
-            <div>
-              <p className="text-base leading-7 text-white/80 sm:text-lg">{content.maintenance.body}</p>
-              <ul className="mt-7 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                {content.maintenance.items.map((item) => <li className="border-t border-white/20 py-3 text-sm leading-6 text-white/90" key={item}>{item}</li>)}
-              </ul>
-              <a className="mt-8 inline-flex min-h-[var(--bm-control-height)] items-center rounded-[var(--bm-radius-control)] border border-white/45 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-[#0b2c58] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" href={`/${locale}/contact`}>
-                {content.maintenance.contactLabel}<span aria-hidden="true" className="ml-2">↗</span>
-              </a>
-            </div>
-          </div>
-        </section>
+      </Container>
 
-        <section aria-labelledby="how-we-work-title" className="mt-20 sm:mt-28" id="how-we-work">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="how-we-work-title">{content.process.title}</h2>
-            <p className="mt-4 text-base leading-7 text-[var(--bm-text-muted)] sm:text-lg">{content.process.introduction}</p>
-          </div>
-          <ol className="relative mt-10 grid gap-7 border-l border-[var(--bm-border-strong)] pl-6 sm:pl-8 lg:grid-cols-5 lg:gap-6 lg:border-l-0 lg:pl-0">
-            <span aria-hidden="true" className="absolute left-[1.25rem] right-0 top-[1.25rem] hidden border-t border-[var(--bm-border-strong)] lg:block" />
-            {content.process.steps.map((step, index) => (
-              <li className="technology-scroll-reveal relative" data-technology-reveal data-technology-reveal-delay={index * 65} key={step.title}>
-                <span className="relative z-10 inline-flex h-10 w-10 -translate-x-[2.25rem] items-center justify-center rounded-full bg-[var(--bm-brand)] text-sm font-semibold text-white lg:translate-x-0">{String(index + 1).padStart(2, "0")}</span>
-                <div className="-mt-2 lg:mt-5">
-                  <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--bm-text)]">{step.title}</h3>
-                  <p className="mt-3 text-[15px] leading-6 text-[var(--bm-text-muted)]">{step.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
+      <TechnologyProcessCycle
+        eyebrow={content.hero.eyebrow}
+        introduction={content.process.introduction}
+        steps={content.process.steps}
+        title={content.process.title}
+      />
 
-        <section aria-labelledby="technology-company-title" className="technology-scroll-reveal mt-20 grid gap-8 border-y border-[var(--bm-border)] py-12 sm:mt-28 sm:py-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16" data-technology-reveal>
+      <Container className="px-5 pb-14 pt-16 sm:px-8 sm:pb-[4.5rem] sm:pt-20 lg:pb-[5.5rem]">
+        <section aria-labelledby="technology-company-title" className="technology-scroll-reveal grid gap-8 border-y border-[var(--bm-border)] py-12 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16" data-technology-reveal>
           <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="technology-company-title">{content.company.title}</h2>
           <div>
             <p className="text-base leading-7 text-[var(--bm-text-muted)] sm:text-lg">{content.company.body}</p>
@@ -120,7 +98,7 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section aria-labelledby="technology-contact-title" className="technology-scroll-reveal mt-20 overflow-hidden rounded-[var(--bm-radius-panel)] bg-[#0b2c58] px-6 py-12 text-white sm:mt-28 sm:px-10 sm:py-16 lg:px-14 lg:py-20" data-technology-reveal>
+        <section aria-labelledby="technology-contact-title" className="technology-scroll-reveal mt-16 overflow-hidden rounded-[var(--bm-radius-panel)] bg-[#0b2c58] px-6 py-12 text-white sm:mt-20 sm:px-10 sm:py-14 lg:px-14 lg:py-16" data-technology-reveal>
           <div className="max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9fc5ff]">{content.hero.eyebrow}</p>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] sm:text-5xl" id="technology-contact-title">{content.finalCta.title}</h2>

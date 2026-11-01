@@ -14,6 +14,16 @@ export type LeadEmailTemplate = Pick<
 
 export type EmailLocale = "en" | "es";
 type LocalizedText = Record<EmailLocale, string>;
+type SiteEmailCopy = {
+  descriptor: string;
+  internalHeading: string;
+  internalSubject: string;
+  name: string;
+  relationship: string;
+  security: string;
+  team: string;
+  visitorSubject: string;
+};
 
 const LOGO_CONTENT_ID = "barmentech-logo";
 
@@ -55,7 +65,6 @@ const SOURCE_SITE_LABELS = {
 
 const BRAND = {
   company: "Barmentech LLC",
-  email: "formation@barmentech.com",
   usPhone: "+1 (786) 391-8722",
   costaRicaPhone: "+506 7006-7572",
   miamiAddress: "1110 Brickell Ave #400K-101, Miami, Florida 33131, United States",
@@ -63,9 +72,63 @@ const BRAND = {
     "Oficentro Momentum Pinares, Piso 4 – Republic Workspace, Sánchez, Curridabat, San José 11803, Costa Rica",
 } as const;
 
+const SITE_EMAIL_COPY = {
+  [LeadSourceSite.FORMATION]: {
+    en: {
+      name: "Barmentech Formation",
+      descriptor: "U.S. company formation and business support",
+      internalHeading: "New Barmentech Formation inquiry",
+      internalSubject: "New inquiry",
+      visitorSubject: "We received your inquiry | Barmentech Formation",
+      security:
+        "For your security, do not email passwords, payment information, tax returns, identity documents, government identification numbers, or other sensitive records. We will provide a secure channel when appropriate.",
+      relationship:
+        "Submitting this inquiry does not automatically create a professional, legal, tax, or contractual relationship. Any service remains subject to separate review, scope, and confirmation.",
+      team: "Barmentech Formation Team",
+    },
+    es: {
+      name: "Barmentech Formation",
+      descriptor: "Formación y apoyo empresarial en Estados Unidos",
+      internalHeading: "Nueva solicitud de Barmentech Formation",
+      internalSubject: "Nueva solicitud",
+      visitorSubject: "Recibimos tu solicitud | Barmentech Formation",
+      security:
+        "Por tu seguridad, no envíes contraseñas, información de pago, declaraciones fiscales, documentos de identidad, números de identificación gubernamental ni otros documentos sensibles por correo electrónico. Cuando sea necesario, te indicaremos un canal seguro.",
+      relationship:
+        "El envío de esta solicitud no crea automáticamente una relación profesional, legal, fiscal o contractual. Cualquier servicio estará sujeto a revisión, alcance y confirmación por separado.",
+      team: "Equipo de Barmentech Formation",
+    },
+  },
+  [LeadSourceSite.TECHNOLOGY]: {
+    en: {
+      name: "Barmentech Technology",
+      descriptor: "Digital solutions for business",
+      internalHeading: "New Barmentech Technology inquiry",
+      internalSubject: "New Technology inquiry",
+      visitorSubject: "We received your Technology inquiry | Barmentech Technology",
+      security:
+        "For your security, do not email passwords, authentication credentials, banking or payment information, identity documents, or other sensitive records. We will provide a secure channel when appropriate.",
+      relationship:
+        "Submitting this inquiry does not automatically create a professional or contractual relationship. Any service remains subject to separate review, scope, and confirmation.",
+      team: "Barmentech Technology Team",
+    },
+    es: {
+      name: "Barmentech Tecnología",
+      descriptor: "Soluciones digitales para empresas",
+      internalHeading: "Nueva consulta de Barmentech Tecnología",
+      internalSubject: "Nueva consulta de Tecnología",
+      visitorSubject: "Recibimos tu consulta de Tecnología | Barmentech Tecnología",
+      security:
+        "Por tu seguridad, no envíes contraseñas, credenciales de acceso, información bancaria o de pago, documentos de identidad ni otros registros sensibles por correo electrónico. Cuando sea necesario, te indicaremos un canal seguro.",
+      relationship:
+        "El envío de esta consulta no crea automáticamente una relación profesional o contractual. Cualquier servicio estará sujeto a revisión, alcance y confirmación por separado.",
+      team: "Equipo de Barmentech Tecnología",
+    },
+  },
+} satisfies Record<LeadSourceSite, Record<EmailLocale, SiteEmailCopy>>;
+
 const TEMPLATE_COPY = {
   en: {
-    descriptor: "U.S. company formation and business support",
     notProvided: "Not provided",
     confirmed: "Confirmed",
     locale: "English",
@@ -88,9 +151,6 @@ const TEMPLATE_COPY = {
     utmCampaign: "UTM campaign",
     privacy: "Privacy consent",
     reply: "Reply to this person",
-    internalHeading: "New Barmentech Formation inquiry",
-    internalSubject: "New inquiry",
-    visitorSubject: "We received your inquiry | Barmentech Formation",
     greeting: (name: string) => `Hello ${name},`,
     received:
       "Thank you for contacting Barmentech. We received your inquiry, and our team will review the information you provided.",
@@ -101,19 +161,13 @@ const TEMPLATE_COPY = {
       "We will contact you to better understand your needs and define the scope.",
       "We will explain the next steps before any service begins.",
     ],
-    security:
-      "For your security, do not email passwords, payment information, tax returns, identity documents, government identification numbers, or other sensitive records. We will provide a secure channel when appropriate.",
-    relationship:
-      "Submitting this inquiry does not automatically create a professional, legal, tax, or contractual relationship. Any service remains subject to separate review, scope, and confirmation.",
     closing: "Sincerely,",
-    team: "Barmentech Formation Team",
     footerAvailability: "Monday–Friday, 9:00 AM–6:00 PM ET · English and Spanish support",
     footerSafety:
       "For your security, do not send sensitive records by ordinary email. We will provide a secure channel when appropriate.",
     timeZone: "Time zone",
   },
   es: {
-    descriptor: "Formación y apoyo empresarial en Estados Unidos",
     notProvided: "No proporcionado",
     confirmed: "Confirmado",
     locale: "Español",
@@ -136,9 +190,6 @@ const TEMPLATE_COPY = {
     utmCampaign: "Campaña UTM",
     privacy: "Consentimiento de privacidad",
     reply: "Responder a la persona",
-    internalHeading: "Nueva solicitud de Barmentech Formation",
-    internalSubject: "Nueva solicitud",
-    visitorSubject: "Recibimos tu solicitud | Barmentech Formation",
     greeting: (name: string) => `Hola, ${name}:`,
     received:
       "Gracias por contactar a Barmentech. Recibimos tu solicitud y nuestro equipo revisará la información que proporcionaste.",
@@ -149,12 +200,7 @@ const TEMPLATE_COPY = {
       "Nos comunicaremos contigo para conocer mejor tu caso y definir el alcance.",
       "Te explicaremos los siguientes pasos antes de iniciar cualquier servicio.",
     ],
-    security:
-      "Por tu seguridad, no envíes contraseñas, información de pago, declaraciones fiscales, documentos de identidad, números de identificación gubernamental ni otros documentos sensibles por correo electrónico. Cuando sea necesario, te indicaremos un canal seguro.",
-    relationship:
-      "El envío de esta solicitud no crea automáticamente una relación profesional, legal, fiscal o contractual. Cualquier servicio estará sujeto a revisión, alcance y confirmación por separado.",
     closing: "Atentamente,",
-    team: "Equipo de Barmentech Formation",
     footerAvailability:
       "Lunes a viernes, 9:00 a. m.–6:00 p. m. ET · Atención en español e inglés",
     footerSafety:
@@ -204,15 +250,16 @@ function formatSubmittedAt(date: Date, locale: EmailLocale): string {
   }).format(date);
 }
 
-function renderHeader(locale: EmailLocale): string {
-  const copy = TEMPLATE_COPY[locale];
-  return `<tr><td style="padding:28px 32px 24px;background-color:#f1f3f5;border-bottom:1px solid #d9dee4;color:#0b2545;text-align:center;"><img src="cid:${LOGO_CONTENT_ID}" width="180" alt="Barmentech" style="display:block;width:180px;max-width:100%;height:auto;margin:0 auto 16px;border:0;outline:none;text-decoration:none;" /><div style="font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:28px;font-weight:700;">Barmentech Formation</div><div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:21px;color:#526174;margin-top:4px;">${copy.descriptor}</div></td></tr>`;
+function renderHeader(locale: EmailLocale, sourceSite: LeadSourceSite): string {
+  const site = SITE_EMAIL_COPY[sourceSite][locale];
+  return `<tr><td style="padding:28px 32px 24px;background-color:#f1f3f5;border-bottom:1px solid #d9dee4;color:#0b2545;text-align:center;"><img src="cid:${LOGO_CONTENT_ID}" width="180" alt="Barmentech" style="display:block;width:180px;max-width:100%;height:auto;margin:0 auto 16px;border:0;outline:none;text-decoration:none;" /><div style="font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:28px;font-weight:700;">${escapeEmailHtml(site.name)}</div><div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:21px;color:#526174;margin-top:4px;">${escapeEmailHtml(site.descriptor)}</div></td></tr>`;
 }
 
-function renderFooter(locale: EmailLocale): string {
+function renderFooter(locale: EmailLocale, sourceSite: LeadSourceSite): string {
   const copy = TEMPLATE_COPY[locale];
   const year = new Date().getUTCFullYear();
-  return `<tr><td style="padding:24px 32px 28px;background-color:#f1f5f9;border-top:1px solid #dbe3ec;font-family:Arial,Helvetica,sans-serif;color:#475569;font-size:12px;line-height:18px;"><strong style="color:#0b2545;">${BRAND.company}</strong><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(BRAND.email)}</span><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(`${BRAND.usPhone} · ${BRAND.costaRicaPhone}`)}</span><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(BRAND.miamiAddress)}</span><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(BRAND.costaRicaAddress)}</span><br />${copy.footerAvailability}<p style="margin:14px 0 0;color:#64748b;">${copy.footerSafety}</p><p style="margin:10px 0 0;color:#64748b;">© ${year} ${BRAND.company}</p></td></tr>`;
+  const site = SITE_EMAIL_COPY[sourceSite][locale];
+  return `<tr><td style="padding:24px 32px 28px;background-color:#f1f5f9;border-top:1px solid #dbe3ec;font-family:Arial,Helvetica,sans-serif;color:#475569;font-size:12px;line-height:18px;"><strong style="color:#0b2545;">${escapeEmailHtml(site.name)}</strong><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(`${BRAND.usPhone} · ${BRAND.costaRicaPhone}`)}</span><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(BRAND.miamiAddress)}</span><br /><span style="color:#475569;text-decoration:none;">${renderNonLinkedText(BRAND.costaRicaAddress)}</span><br />${copy.footerAvailability}<p style="margin:14px 0 0;color:#64748b;">${copy.footerSafety}</p><p style="margin:10px 0 0;color:#64748b;">© ${year} ${BRAND.company}</p></td></tr>`;
 }
 
 function renderNonLinkedText(value: string): string {
@@ -224,8 +271,9 @@ function renderNonLinkedText(value: string): string {
 export function createBrandedEmailHtml(
   locale: EmailLocale,
   content: string,
+  sourceSite: LeadSourceSite = LeadSourceSite.FORMATION,
 ): string {
-  return `<!doctype html><html lang="${locale}"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /></head><body style="margin:0;padding:0;background-color:#e8eef5;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#e8eef5;"><tr><td align="center" style="padding:24px 12px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:620px;background-color:#ffffff;border:1px solid #dbe3ec;border-radius:12px;overflow:hidden;">${renderHeader(locale)}<tr><td style="padding:32px;font-family:Arial,Helvetica,sans-serif;color:#172033;font-size:16px;line-height:24px;">${content}</td></tr>${renderFooter(locale)}</table></td></tr></table></body></html>`;
+  return `<!doctype html><html lang="${locale}"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /></head><body style="margin:0;padding:0;background-color:#e8eef5;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;background-color:#e8eef5;"><tr><td align="center" style="padding:24px 12px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:620px;background-color:#ffffff;border:1px solid #dbe3ec;border-radius:12px;overflow:hidden;">${renderHeader(locale, sourceSite)}<tr><td style="padding:32px;font-family:Arial,Helvetica,sans-serif;color:#172033;font-size:16px;line-height:24px;">${content}</td></tr>${renderFooter(locale, sourceSite)}</table></td></tr></table></body></html>`;
 }
 
 function tableRows(rows: Array<[string, string]>): string {
@@ -257,6 +305,7 @@ export function createInternalLeadNotificationTemplate(
 ): LeadEmailTemplate {
   const locale = localeFor(lead);
   const copy = TEMPLATE_COPY[locale];
+  const site = SITE_EMAIL_COPY[lead.sourceSite][locale];
   const interest = getLocalizedInterestLabel(lead.interest, locale);
   const sourceSite = SOURCE_SITE_LABELS[lead.sourceSite][locale];
   const submitted = `${formatSubmittedAt(lead.createdAt, locale)} (${copy.timeZone}: America/Costa_Rica)`;
@@ -287,7 +336,7 @@ export function createInternalLeadNotificationTemplate(
     : "";
 
   const text = [
-    copy.internalHeading,
+    site.internalHeading,
     "",
     `${copy.leadId}: ${lead.id}`,
     `${copy.submitted}: ${submitted}`,
@@ -313,7 +362,7 @@ export function createInternalLeadNotificationTemplate(
     `${copy.privacy}: ${copy.confirmed}`,
     replyLink ? `\n${copy.reply}: ${replyLink}` : "",
     "",
-    `${BRAND.company} · ${BRAND.email}`,
+    `${BRAND.company} · ${site.name}`,
     `${BRAND.usPhone} · ${BRAND.costaRicaPhone}`,
     BRAND.miamiAddress,
     BRAND.costaRicaAddress,
@@ -325,11 +374,12 @@ export function createInternalLeadNotificationTemplate(
 
   const html = createBrandedEmailHtml(
     locale,
-    `<h1 style="margin:0 0 20px;color:#0b2545;font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:32px;">${escapeEmailHtml(copy.internalHeading)}</h1>${summaryTable(priorityRows)}${section(copy.contact, summaryTable(contactRows))}${section(copy.request, `${summaryTable(requestRows)}<h3 style="margin:20px 0 8px;color:#0b2545;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;">${escapeEmailHtml(copy.message)}</h3><div style="padding:16px;background-color:#f8fafc;border-left:4px solid #075eaa;color:#172033;word-break:break-word;">${htmlWithLineBreaks(lead.message)}</div>`)}${replyAction}`,
+    `<h1 style="margin:0 0 20px;color:#0b2545;font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:32px;">${escapeEmailHtml(site.internalHeading)}</h1>${summaryTable(priorityRows)}${section(copy.contact, summaryTable(contactRows))}${section(copy.request, `${summaryTable(requestRows)}<h3 style="margin:20px 0 8px;color:#0b2545;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:22px;">${escapeEmailHtml(copy.message)}</h3><div style="padding:16px;background-color:#f8fafc;border-left:4px solid #075eaa;color:#172033;word-break:break-word;">${htmlWithLineBreaks(lead.message)}</div>`)}${replyAction}`,
+    lead.sourceSite,
   );
 
   return {
-    subject: `${copy.internalSubject}: ${interest} | Barmentech Formation`,
+    subject: `${site.internalSubject}: ${interest} | ${site.name}`,
     text,
     html,
     attachments: [createLeadEmailLogoAttachment()],
@@ -341,6 +391,7 @@ export function createVisitorConfirmationTemplate(
 ): LeadEmailTemplate {
   const locale = localeFor(lead);
   const copy = TEMPLATE_COPY[locale];
+  const site = SITE_EMAIL_COPY[lead.sourceSite][locale];
   const interest = getLocalizedInterestLabel(lead.interest, locale);
   const summaryRows: Array<[string, string]> = [
     [copy.serviceInterest, interest],
@@ -363,14 +414,14 @@ export function createVisitorConfirmationTemplate(
     copy.nextSteps,
     ...copy.steps.map((step, index) => `${index + 1}. ${step}`),
     "",
-    copy.security,
+    site.security,
     "",
-    copy.relationship,
+    site.relationship,
     "",
     copy.closing,
-    copy.team,
+    site.team,
     "",
-    `${BRAND.company} · ${BRAND.email}`,
+    `${BRAND.company} · ${site.name}`,
     `${BRAND.usPhone} · ${BRAND.costaRicaPhone}`,
     BRAND.miamiAddress,
     BRAND.costaRicaAddress,
@@ -379,11 +430,12 @@ export function createVisitorConfirmationTemplate(
   ].join("\n");
   const html = createBrandedEmailHtml(
     locale,
-    `<h1 style="margin:0 0 20px;color:#0b2545;font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:32px;">${escapeEmailHtml(copy.greeting(lead.fullName))}</h1><p style="margin:0 0 20px;">${escapeEmailHtml(copy.received)}</p>${summaryTable(summaryRows)}${section(copy.nextSteps, `<ol style="margin:0;padding-left:24px;">${list}</ol>`)}<div style="margin:28px 0 0;padding:16px;background-color:#eff6ff;border-left:4px solid #075eaa;color:#172033;"><strong>${locale === "es" ? "Seguridad" : "Security"}</strong><br />${escapeEmailHtml(copy.security)}</div><p style="margin:22px 0 0;color:#475569;font-size:14px;line-height:21px;">${escapeEmailHtml(copy.relationship)}</p><p style="margin:24px 0 0;">${escapeEmailHtml(copy.closing)}<br /><strong>${escapeEmailHtml(copy.team)}</strong></p>`,
+    `<h1 style="margin:0 0 20px;color:#0b2545;font-family:Arial,Helvetica,sans-serif;font-size:26px;line-height:32px;">${escapeEmailHtml(copy.greeting(lead.fullName))}</h1><p style="margin:0 0 20px;">${escapeEmailHtml(copy.received)}</p>${summaryTable(summaryRows)}${section(copy.nextSteps, `<ol style="margin:0;padding-left:24px;">${list}</ol>`)}<div style="margin:28px 0 0;padding:16px;background-color:#eff6ff;border-left:4px solid #075eaa;color:#172033;"><strong>${locale === "es" ? "Seguridad" : "Security"}</strong><br />${escapeEmailHtml(site.security)}</div><p style="margin:22px 0 0;color:#475569;font-size:14px;line-height:21px;">${escapeEmailHtml(site.relationship)}</p><p style="margin:24px 0 0;">${escapeEmailHtml(copy.closing)}<br /><strong>${escapeEmailHtml(site.team)}</strong></p>`,
+    lead.sourceSite,
   );
 
   return {
-    subject: copy.visitorSubject,
+    subject: site.visitorSubject,
     text,
     html,
     attachments: [createLeadEmailLogoAttachment()],

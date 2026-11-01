@@ -194,7 +194,7 @@ export function TechnologyServiceRail({ cards, introduction, labels, locale, tit
   };
 
   return (
-    <section aria-labelledby="technology-services-title" className="technology-service-rail-section mt-20 sm:mt-28" id="services" ref={section}>
+    <section aria-labelledby="technology-services-title" className="technology-service-rail-section mt-16 sm:mt-20" id="services" ref={section}>
       <div className="technology-service-rail-sticky">
         <div className="technology-scroll-reveal flex flex-wrap items-end justify-between gap-6" data-technology-reveal>
           <div className="max-w-2xl">
@@ -214,7 +214,7 @@ export function TechnologyServiceRail({ cards, introduction, labels, locale, tit
 
         <div className="technology-service-rail-viewport mt-10" ref={viewport}>
           <div className="technology-service-rail-track" ref={track}>
-            {cards.map((card, index) => {
+            {cards.map((card) => {
               const isOpen = openCard === card.id;
               const href = card.serviceId ? getTechnologyServicePath(locale, card.serviceId) : `/${locale}/contact`;
               const ctaLabel = card.serviceId ? labels.exploreServiceLabel : labels.discussNeedLabel;
@@ -231,7 +231,6 @@ export function TechnologyServiceRail({ cards, introduction, labels, locale, tit
                     <div aria-hidden={isOpen || undefined} className="technology-service-rail-face technology-service-rail-front" inert={isOpen || undefined}>
                       <div className="technology-service-rail-image relative overflow-hidden bg-[#dcecff]">
                         <Image alt="" className="h-full w-full object-cover" fill sizes="(min-width: 1280px) 19rem, (min-width: 768px) 36vw, 82vw" src={card.image} />
-                        <span className="absolute left-5 top-5 inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-white/95 px-2 text-xs font-semibold tabular-nums text-[var(--bm-brand)]">{String(index + 1).padStart(2, "0")}</span>
                       </div>
                       <div className="flex flex-1 flex-col bg-white px-5 pb-5 pt-6 sm:px-6 sm:pb-6">
                         <h3 className="text-2xl font-semibold tracking-[-0.03em] text-[var(--bm-text)]">{card.title}</h3>
@@ -247,8 +246,7 @@ export function TechnologyServiceRail({ cards, introduction, labels, locale, tit
 
                     <div aria-hidden={!isOpen} className="technology-service-rail-face technology-service-rail-back" id={detailsId} inert={!isOpen || undefined}>
                       <div className="flex h-full flex-col bg-[#082a55] p-6 text-white sm:p-7">
-                        <p className="text-xs font-semibold tracking-[0.14em] text-[#9fc5ff]">{String(index + 1).padStart(2, "0")}</p>
-                        <p className="mt-5 text-2xl font-semibold tracking-[-0.03em]">{card.title}</p>
+                        <p className="text-2xl font-semibold tracking-[-0.03em]">{card.title}</p>
                         <ul className="mt-6 space-y-3 text-sm leading-6 text-white/85">
                           {card.capabilities.map((capability) => <li className="flex gap-3" key={capability}><span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#9fc5ff]" />{capability}</li>)}
                         </ul>

@@ -2,6 +2,7 @@ import { Container } from "@barmentech/ui";
 import { notFound } from "next/navigation";
 
 import { SiteShell } from "../../components/site-shell";
+import { TechnologyContact } from "../../components/technology-contact";
 import { isLocale } from "../../lib/i18n";
 import { getTechnologyLabels, getTechnologyPageTitle, isTechnologyPage, type TechnologyPage } from "../../lib/site";
 
@@ -18,6 +19,15 @@ export default async function TechnologyPlaceholderPage({ params }: TechnologyPl
 
   const locale = localeParam;
   const technologyPage = page as Exclude<TechnologyPage, "home">;
+
+  if (technologyPage === "contact") {
+    return (
+      <SiteShell activePage="contact" locale={locale} path={page}>
+        <TechnologyContact locale={locale} />
+      </SiteShell>
+    );
+  }
+
   const copy = getTechnologyLabels(locale);
 
   return (

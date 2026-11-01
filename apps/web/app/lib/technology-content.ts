@@ -12,6 +12,46 @@ export type TechnologyRailCard = {
   title: string;
 };
 
+export type TechnologyContactContent = {
+  body: string;
+  form: {
+    companyLabel: string;
+    countryLabel: string;
+    emailInvalid: string;
+    emailLabel: string;
+    fullNameLabel: string;
+    interestLabel: string;
+    interestOptions: Array<{
+      label: string;
+      value: string;
+    }>;
+    interestPlaceholder: string;
+    messageHelper: string;
+    messageLabel: string;
+    messageTooShort: string;
+    phoneLabel: string;
+    privacyConsentEnd: string;
+    privacyConsentRequired: string;
+    privacyConsentStart: string;
+    privacyLinkLabel: string;
+    rateLimitError: string;
+    requiredField: string;
+    sensitiveWarning: string;
+    submitting: string;
+    submit: string;
+    success: {
+      body: string;
+      homeLabel: string;
+      title: string;
+    };
+    temporaryError: string;
+    title: string;
+    validationError: string;
+  };
+  supporting: string;
+  title: string;
+};
+
 type ServicePageContent = {
   build: {
     intro: string;
@@ -42,6 +82,7 @@ type ServicePageContent = {
 
 type TechnologyContent = {
   capabilities: string[];
+  contact: TechnologyContactContent;
   company: {
     body: string;
     formationLabel: string;
@@ -58,12 +99,6 @@ type TechnologyContent = {
     secondaryLabel: string;
     title: string;
     body: string;
-  };
-  maintenance: {
-    body: string;
-    contactLabel: string;
-    items: string[];
-    title: string;
   };
   process: {
     introduction: string;
@@ -100,6 +135,50 @@ const content: Record<Locale, TechnologyContent> = {
       body: "We design, build, integrate, and evolve websites, e-commerce experiences, business systems, SaaS platforms, automation, and integrations—while maintaining and modernizing the solutions your team already uses.",
       primaryLabel: "Talk to Barmentech",
       secondaryLabel: "Explore services",
+    },
+    contact: {
+      title: "Let’s talk about the digital work ahead.",
+      body: "Tell us whether you are planning a new website, improving an existing system, connecting tools, or defining a practical next step for your operation.",
+      supporting: "We begin by understanding the context, the people involved, and the work the solution needs to support.",
+      form: {
+        title: "Tell us what you need to move forward",
+        fullNameLabel: "Full name",
+        emailLabel: "Email",
+        emailInvalid: "Enter a valid email address.",
+        phoneLabel: "Phone or WhatsApp (optional)",
+        countryLabel: "Country",
+        companyLabel: "Company (optional)",
+        interestLabel: "Technology need",
+        interestPlaceholder: "Select an area",
+        interestOptions: [
+          { label: "Websites and e-commerce", value: "websites-ecommerce" },
+          { label: "Custom systems and SaaS", value: "custom-systems-saas" },
+          { label: "Automation and integrations", value: "automation-integrations" },
+          { label: "Maintenance and modernization", value: "maintenance-modernization" },
+          { label: "Digital product and experience", value: "digital-product-experience" },
+          { label: "Data and applied AI", value: "data-applied-ai" },
+          { label: "Another technology need", value: "other" },
+        ],
+        messageLabel: "How can we help?",
+        messageHelper: "Please keep your message to 1,800 characters or fewer.",
+        messageTooShort: "Add a little more detail so we can understand your request.",
+        sensitiveWarning: "Do not send passwords, authentication credentials, banking or payment information, identity documents, tax records, or other sensitive documents through this public form.",
+        privacyConsentStart: "I have read the",
+        privacyLinkLabel: "Privacy notice",
+        privacyConsentEnd: "and agree that Barmentech may use my information to respond to this inquiry.",
+        privacyConsentRequired: "Please confirm that you have read the privacy notice.",
+        requiredField: "Please complete this field.",
+        validationError: "Please review the information in your inquiry and try again.",
+        rateLimitError: "Too many requests were sent. Please wait {seconds} before trying again.",
+        temporaryError: "We could not send your message right now. Please try again shortly.",
+        submitting: "Sending your message…",
+        submit: "Send inquiry",
+        success: {
+          title: "We received your inquiry",
+          body: "Thank you for contacting Barmentech. We will review your information and reach out using the details you provided.",
+          homeLabel: "Return to Technology",
+        },
+      },
     },
     value: {
       title: "Technology with a practical business focus.",
@@ -156,12 +235,6 @@ const content: Record<Locale, TechnologyContent> = {
           image: "/images/Analysts%20reviewing%20AI%20insights-6.webp",
         },
       ],
-    },
-    maintenance: {
-      title: "Maintenance, modernization, and continuous improvement.",
-      body: "Technology work does not always begin with a new build. We can assess an existing solution, stabilize the foundations, and plan improvements in stages when the scope is confirmed.",
-      contactLabel: "Discuss an existing solution",
-      items: ["Maintain existing websites and systems", "Modernize interfaces, dependencies, and technical foundations", "Improve mobile usability and accessibility", "Add features progressively and document existing solutions"],
     },
     process: {
       title: "How we work",
@@ -238,6 +311,50 @@ const content: Record<Locale, TechnologyContent> = {
       primaryLabel: "Hablar con Barmentech",
       secondaryLabel: "Explorar servicios",
     },
+    contact: {
+      title: "Conversemos sobre el trabajo digital que sigue.",
+      body: "Cuéntanos si estás planificando un sitio web nuevo, mejorando un sistema existente, conectando herramientas o definiendo un siguiente paso práctico para tu operación.",
+      supporting: "Nosotros comenzamos entendiendo el contexto, las personas involucradas y el trabajo que la solución debe respaldar.",
+      form: {
+        title: "Cuéntanos qué necesitas para avanzar",
+        fullNameLabel: "Nombre completo",
+        emailLabel: "Correo electrónico",
+        emailInvalid: "Ingresa una dirección de correo electrónico válida.",
+        phoneLabel: "Teléfono o WhatsApp (opcional)",
+        countryLabel: "País",
+        companyLabel: "Empresa (opcional)",
+        interestLabel: "Necesidad de tecnología",
+        interestPlaceholder: "Selecciona un área",
+        interestOptions: [
+          { label: "Sitios web y comercio electrónico", value: "websites-ecommerce" },
+          { label: "Sistemas a medida y SaaS", value: "custom-systems-saas" },
+          { label: "Automatización e integraciones", value: "automation-integrations" },
+          { label: "Mantenimiento y modernización", value: "maintenance-modernization" },
+          { label: "Producto digital y experiencia", value: "digital-product-experience" },
+          { label: "Datos e IA aplicada", value: "data-applied-ai" },
+          { label: "Otra necesidad tecnológica", value: "other" },
+        ],
+        messageLabel: "¿Cómo podemos ayudarte?",
+        messageHelper: "Mantén tu mensaje en 1.800 caracteres o menos.",
+        messageTooShort: "Agrega un poco más de detalle para que podamos comprender tu consulta.",
+        sensitiveWarning: "No envíes contraseñas, credenciales de autenticación, información bancaria o de pagos, documentos de identidad, registros fiscales ni otros documentos sensibles mediante este formulario público.",
+        privacyConsentStart: "He leído el",
+        privacyLinkLabel: "Aviso de privacidad",
+        privacyConsentEnd: "y acepto que Barmentech use mi información para responder a esta consulta.",
+        privacyConsentRequired: "Confirma que has leído el aviso de privacidad.",
+        requiredField: "Completa este campo.",
+        validationError: "Revisa la información de tu consulta e inténtalo de nuevo.",
+        rateLimitError: "Se enviaron demasiadas solicitudes. Espera {seconds} antes de intentarlo de nuevo.",
+        temporaryError: "No pudimos enviar tu mensaje en este momento. Inténtalo nuevamente en breve.",
+        submitting: "Enviando tu mensaje…",
+        submit: "Enviar consulta",
+        success: {
+          title: "Recibimos tu consulta",
+          body: "Gracias por contactar a Barmentech. Revisaremos tu información y nos comunicaremos utilizando los datos que proporcionaste.",
+          homeLabel: "Volver a Tecnología",
+        },
+      },
+    },
     value: {
       title: "Tecnología con un enfoque práctico de negocio.",
       body: "Nosotros comenzamos antes de la interfaz o la integración: con el contexto de negocio y una comprensión clara de lo que debe funcionar mejor.",
@@ -293,12 +410,6 @@ const content: Record<Locale, TechnologyContent> = {
           image: "/images/Analysts%20reviewing%20AI%20insights-6.webp",
         },
       ],
-    },
-    maintenance: {
-      title: "Mantenimiento, modernización y mejora continua.",
-      body: "El trabajo tecnológico no siempre empieza con un desarrollo nuevo. Nosotros podemos evaluar una solución existente, estabilizar sus bases y planificar mejoras por etapas cuando el alcance está confirmado.",
-      contactLabel: "Conversar sobre una solución existente",
-      items: ["Mantener sitios web y sistemas existentes", "Modernizar interfaces, dependencias y bases técnicas", "Mejorar la usabilidad móvil y la accesibilidad", "Incorporar funciones progresivamente y documentar soluciones existentes"],
     },
     process: {
       title: "Cómo trabajamos",
