@@ -13,7 +13,26 @@ export type TechnologyRailCard = {
 };
 
 export type TechnologyContactContent = {
+  booking: {
+    action: string;
+    body: string;
+    eyebrow: string;
+    newTab: string;
+    supportingNote: string;
+    title: string;
+  };
   body: string;
+  guidance: {
+    closing: string;
+    emailAction: string;
+    eyebrow: string;
+    intro: string;
+    items: string[];
+    listTitle: string;
+    title: string;
+    whatsappAction: string;
+    directTitle: string;
+  };
   form: {
     companyLabel: string;
     countryLabel: string;
@@ -45,10 +64,15 @@ export type TechnologyContactContent = {
       title: string;
     };
     temporaryError: string;
+    fallback: {
+      body: string;
+      emailAction: string;
+      title: string;
+      whatsappAction: string;
+    };
     title: string;
     validationError: string;
   };
-  supporting: string;
   title: string;
 };
 
@@ -139,7 +163,25 @@ const content: Record<Locale, TechnologyContent> = {
     contact: {
       title: "Let’s talk about the digital work ahead.",
       body: "Tell us whether you are planning a new website, improving an existing system, connecting tools, or defining a practical next step for your operation.",
-      supporting: "We begin by understanding the context, the people involved, and the work the solution needs to support.",
+      booking: {
+        eyebrow: "Prefer a conversation?",
+        title: "Schedule an initial call",
+        body: "Choose a convenient time for a 30-minute conversation about your technology needs and the next practical step.",
+        action: "Schedule a call",
+        supportingNote: "Google Meet · 30 minutes",
+        newTab: "opens in a new tab",
+      },
+      guidance: {
+        eyebrow: "Barmentech Technology",
+        title: "Start with the context.",
+        intro: "Tell us what needs to work better, what your team uses today, and the outcome you are trying to reach. We will review the context and help define a practical next step.",
+        listTitle: "Helpful details to include",
+        items: ["The current process, system, or business need.", "The tools, platforms, or information already involved.", "The result your team or customers need.", "Any known priority, dependency, or operational constraint."],
+        directTitle: "Prefer a direct conversation?",
+        whatsappAction: "Continue on WhatsApp",
+        emailAction: "Email support@barmentech.com",
+        closing: "Please do not send passwords, authentication credentials, banking information, identity documents, tax records, or other sensitive files through these public channels.",
+      },
       form: {
         title: "Tell us what you need to move forward",
         fullNameLabel: "Full name",
@@ -171,6 +213,12 @@ const content: Record<Locale, TechnologyContent> = {
         validationError: "Please review the information in your inquiry and try again.",
         rateLimitError: "Too many requests were sent. Please wait {seconds} before trying again.",
         temporaryError: "We could not send your message right now. Please try again shortly.",
+        fallback: {
+          title: "Contact Barmentech directly",
+          body: "We could not send your inquiry through the form. Your information remains here. You can try again or contact Barmentech directly through WhatsApp or email.",
+          whatsappAction: "Continue on WhatsApp",
+          emailAction: "Email support@barmentech.com",
+        },
         submitting: "Sending your message…",
         submit: "Send inquiry",
         success: {
@@ -314,7 +362,25 @@ const content: Record<Locale, TechnologyContent> = {
     contact: {
       title: "Conversemos sobre el trabajo digital que sigue.",
       body: "Cuéntanos si estás planificando un sitio web nuevo, mejorando un sistema existente, conectando herramientas o definiendo un siguiente paso práctico para tu operación.",
-      supporting: "Nosotros comenzamos entendiendo el contexto, las personas involucradas y el trabajo que la solución debe respaldar.",
+      booking: {
+        eyebrow: "¿Prefieres conversar?",
+        title: "Agenda una llamada inicial",
+        body: "Elige un horario conveniente para conversar durante 30 minutos sobre tus necesidades tecnológicas y el siguiente paso práctico.",
+        action: "Agendar una llamada",
+        supportingNote: "Google Meet · 30 minutos",
+        newTab: "se abre en una pestaña nueva",
+      },
+      guidance: {
+        eyebrow: "Barmentech Tecnología",
+        title: "Empecemos por el contexto.",
+        intro: "Cuéntanos qué necesita funcionar mejor, qué utiliza hoy tu equipo y qué resultado deseas alcanzar. Revisaremos el contexto y te ayudaremos a definir un siguiente paso práctico.",
+        listTitle: "Información útil para comenzar",
+        items: ["El proceso, sistema o necesidad actual del negocio.", "Las herramientas, plataformas o información involucradas.", "El resultado que necesita tu equipo o tus clientes.", "Alguna prioridad, dependencia o restricción operativa conocida."],
+        directTitle: "¿Prefieres una conversación directa?",
+        whatsappAction: "Continuar por WhatsApp",
+        emailAction: "Escribir a support@barmentech.com",
+        closing: "No envíes contraseñas, credenciales de acceso, información bancaria, documentos de identidad, registros fiscales ni otros archivos sensibles mediante estos canales públicos.",
+      },
       form: {
         title: "Cuéntanos qué necesitas para avanzar",
         fullNameLabel: "Nombre completo",
@@ -346,6 +412,12 @@ const content: Record<Locale, TechnologyContent> = {
         validationError: "Revisa la información de tu consulta e inténtalo de nuevo.",
         rateLimitError: "Se enviaron demasiadas solicitudes. Espera {seconds} antes de intentarlo de nuevo.",
         temporaryError: "No pudimos enviar tu mensaje en este momento. Inténtalo nuevamente en breve.",
+        fallback: {
+          title: "Contacta directamente a Barmentech",
+          body: "No pudimos enviar tu consulta mediante el formulario. La información permanece aquí. Puedes intentarlo nuevamente o contactar directamente a Barmentech por WhatsApp o correo electrónico.",
+          whatsappAction: "Continuar por WhatsApp",
+          emailAction: "Escribir a support@barmentech.com",
+        },
         submitting: "Enviando tu mensaje…",
         submit: "Enviar consulta",
         success: {

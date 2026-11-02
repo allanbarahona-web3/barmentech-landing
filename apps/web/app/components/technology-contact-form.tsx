@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 import type { Locale } from "../lib/i18n";
+import { buildTechnologyWhatsappUrl } from "../lib/public-settings";
 import {
   getPublicLeadEndpoint,
   getPublicLeadLocale,
@@ -18,6 +19,7 @@ type TechnologyContactFormProps = {
   copy: TechnologyContactContent["form"];
   locale: Locale;
   privacyHref: string;
+  whatsappUrl?: string;
 };
 
 type SubmissionStatus = "error" | "idle" | "rate-limited" | "submitting" | "success" | "validation-error";
@@ -26,7 +28,7 @@ const REQUEST_TIMEOUT_MS = 10_000;
 const MAX_MESSAGE_LENGTH = 1_800;
 const MIN_MESSAGE_LENGTH = 10;
 
-export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref }: TechnologyContactFormProps) {
+export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref, whatsappUrl }: TechnologyContactFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [rateLimitSeconds, setRateLimitSeconds] = useState<number | null>(null);
@@ -90,6 +92,11 @@ export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref }:
     setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length) {
+      const firstInvalid = Object.keys(nextErrors)[0];
+      const control = firstInvalid ? form.elements.namedItem(firstInvalid) : null;
+      if (control instanceof HTMLElement) {
+        control.focus();
+      }
       setStatus("idle");
       return;
     }
@@ -166,20 +173,26 @@ export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref }:
     }
   }
 
-  const inputClass = "mt-2 w-full rounded-[var(--bm-radius-control)] border border-[var(--bm-border-strong)] bg-white px-3 py-2.5 text-base text-[var(--bm-text)] shadow-sm outline-none transition-colors placeholder:text-[var(--bm-text-muted)] focus:border-[var(--bm-brand)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]";
+  const inputClass = "mt-2 min-h-[var(--bm-control-height)] w-full rounded-[var(--bm-radius-control)] border border-[var(--bm-border-strong)] bg-white px-3 py-2.5 text-base text-[var(--bm-text)] shadow-sm outline-none transition-colors placeholder:text-[var(--bm-text-muted)] focus:border-[var(--bm-brand)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]";
   const fieldError = (field: string) => errors[field] ? `${field}-error` : undefined;
+  const fallbackWhatsappUrl = buildTechnologyWhatsappUrl(
+    whatsappUrl,
+    locale === "en"
+      ? "Hello Barmentech, I would like to discuss a Technology project."
+      : "Hola Barmentech, me gustaría conversar sobre un proyecto de Tecnología.",
+  );
 
   return (
-    <form aria-describedby="technology-contact-sensitive-warning technology-contact-submission-status" className="rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-white p-6 shadow-[0_12px_34px_rgb(18_32_51/8%)] sm:p-8" noValidate onSubmit={handleSubmit}>
+    <form aria-describedby="technology-contact-sensitive-warning technology-contact-submission-status" className="relative z-[31] rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-white p-6 shadow-[0_12px_34px_rgb(18_32_51/8%)] sm:p-8" noValidate onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--bm-text)]" id="technology-contact-form-title">{copy.title}</h2>
       <p className="mt-4 rounded-[var(--bm-radius-control)] border border-[#c9dcf6] bg-[#f4f9ff] p-4 text-sm leading-6 text-[var(--bm-text)]" id="technology-contact-sensitive-warning">{copy.sensitiveWarning}</p>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2">
-        <Field inputId="full_name" label={copy.fullNameLabel} required><input aria-describedby={fieldError("full_name")} aria-invalid={Boolean(errors.full_name)} autoComplete="name" className={inputClass} id="full_name" name="full_name" required type="text" /><FieldError id={fieldError("full_name")} message={errors.full_name} /></Field>
-        <Field inputId="email" label={copy.emailLabel} required><input aria-describedby={fieldError("email")} aria-invalid={Boolean(errors.email)} autoComplete="email" className={inputClass} id="email" name="email" required type="email" /><FieldError id={fieldError("email")} message={errors.email} /></Field>
-        <Field inputId="phone" label={copy.phoneLabel}><input autoComplete="tel" className={inputClass} id="phone" name="phone" type="tel" /></Field>
-        <Field inputId="country" label={copy.countryLabel} required><input aria-describedby={fieldError("country")} aria-invalid={Boolean(errors.country)} autoComplete="country-name" className={inputClass} id="country" name="country" required type="text" /><FieldError id={fieldError("country")} message={errors.country} /></Field>
-        <Field inputId="company" label={copy.companyLabel}><input autoComplete="organization" className={inputClass} id="company" name="company" type="text" /></Field>
+        <Field inputId="full_name" label={copy.fullNameLabel} required><input aria-describedby={fieldError("full_name")} aria-invalid={Boolean(errors.full_name)} autoComplete="name" className={inputClass} id="full_name" maxLength={160} name="full_name" required type="text" /><FieldError id={fieldError("full_name")} message={errors.full_name} /></Field>
+        <Field inputId="email" label={copy.emailLabel} required><input aria-describedby={fieldError("email")} aria-invalid={Boolean(errors.email)} autoComplete="email" className={inputClass} id="email" maxLength={320} name="email" required type="email" /><FieldError id={fieldError("email")} message={errors.email} /></Field>
+        <Field inputId="phone" label={copy.phoneLabel}><input autoComplete="tel" className={inputClass} id="phone" maxLength={40} name="phone" type="tel" /></Field>
+        <Field inputId="country" label={copy.countryLabel} required><input aria-describedby={fieldError("country")} aria-invalid={Boolean(errors.country)} autoComplete="country-name" className={inputClass} id="country" maxLength={100} name="country" required type="text" /><FieldError id={fieldError("country")} message={errors.country} /></Field>
+        <Field inputId="company" label={copy.companyLabel}><input autoComplete="organization" className={inputClass} id="company" maxLength={160} name="company" type="text" /></Field>
         <Field inputId="interest" label={copy.interestLabel} required>
           <select aria-describedby={fieldError("interest")} aria-invalid={Boolean(errors.interest)} className={inputClass} defaultValue="" id="interest" name="interest" required>
             <option disabled value="">{copy.interestPlaceholder}</option>
@@ -203,11 +216,21 @@ export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref }:
         <FieldError id={fieldError("privacy_consent")} message={errors.privacy_consent} />
       </div>
 
-      <div aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0"><label htmlFor="website">Website</label><input autoComplete="off" id="website" name="website" tabIndex={-1} type="text" /></div>
+      <div aria-hidden="true" className="absolute h-px w-px overflow-hidden opacity-0"><label htmlFor="website">Website</label><input autoComplete="off" id="website" maxLength={255} name="website" tabIndex={-1} type="text" /></div>
 
-      <p aria-live="polite" className={`mt-5 text-sm leading-6 ${["error", "rate-limited", "validation-error"].includes(status) ? "text-[#9f1c1c]" : "text-[var(--bm-text)]"}`} id="technology-contact-submission-status" role="status">
+      <p aria-live="polite" className={`mt-5 text-sm leading-6 ${["error", "rate-limited", "validation-error"].includes(status) ? "text-[#9f1c1c]" : "text-[var(--bm-text)]"}`} id="technology-contact-submission-status" role={status === "error" ? "alert" : "status"}>
         {status === "submitting" ? copy.submitting : status === "validation-error" ? copy.validationError : status === "rate-limited" ? formatRateLimitError(copy.rateLimitError, rateLimitSeconds, locale) : status === "error" ? copy.temporaryError : ""}
       </p>
+      {status === "error" ? (
+        <section aria-labelledby="technology-contact-fallback-title" className="mt-5 rounded-[var(--bm-radius-control)] border border-[#c9dcf6] bg-[#f4f9ff] p-4">
+          <h3 className="text-sm font-semibold text-[var(--bm-text)]" id="technology-contact-fallback-title">{copy.fallback.title}</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--bm-text-muted)]">{copy.fallback.body}</p>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+            {fallbackWhatsappUrl ? <a aria-label={copy.fallback.whatsappAction} className="inline-flex min-h-[var(--bm-control-height)] items-center justify-center rounded-[var(--bm-radius-control)] bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#20bd5a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href={fallbackWhatsappUrl} rel="noopener noreferrer" target="_blank">{copy.fallback.whatsappAction}</a> : null}
+            <a aria-label={copy.fallback.emailAction} className="inline-flex min-h-[var(--bm-control-height)] items-center justify-center rounded-[var(--bm-radius-control)] border border-[var(--bm-border-strong)] px-4 py-2 text-sm font-semibold text-[var(--bm-text)] transition-colors hover:border-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href="mailto:support@barmentech.com">{copy.fallback.emailAction}</a>
+          </div>
+        </section>
+      ) : null}
       <button className="mt-6 inline-flex min-h-[var(--bm-control-height)] w-full items-center justify-center rounded-[var(--bm-radius-control)] border border-[var(--bm-brand)] bg-[var(--bm-brand)] px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-[var(--bm-brand-strong)] hover:bg-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto" disabled={status === "submitting"} type="submit">{status === "submitting" ? copy.submitting : copy.submit}</button>
     </form>
   );
@@ -231,5 +254,5 @@ function Field({ children, className, inputId, label, required = false }: { chil
 }
 
 function FieldError({ id, message }: { id?: string; message?: string }) {
-  return message && id ? <p className="mt-2 text-sm font-medium text-[#9f1c1c]" id={id}>{message}</p> : null;
+  return message && id ? <p className="mt-2 text-sm font-medium text-[#9f1c1c]" id={id} role="alert">{message}</p> : null;
 }

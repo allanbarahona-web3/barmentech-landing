@@ -1,14 +1,21 @@
 import { Container } from "@barmentech/ui";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SiteShell } from "../../components/site-shell";
 import { TechnologyContact } from "../../components/technology-contact";
 import { isLocale } from "../../lib/i18n";
+import { getTechnologyContactMetadata } from "../../lib/seo";
 import { getTechnologyLabels, getTechnologyPageTitle, isTechnologyPage, type TechnologyPage } from "../../lib/site";
 
 type TechnologyPlaceholderPageProps = Readonly<{
   params: Promise<{ locale: string; page: string }>;
 }>;
+
+export async function generateMetadata({ params }: TechnologyPlaceholderPageProps): Promise<Metadata> {
+  const { locale, page } = await params;
+  return page === "contact" && isLocale(locale) ? getTechnologyContactMetadata(locale) : {};
+}
 
 export default async function TechnologyPlaceholderPage({ params }: TechnologyPlaceholderPageProps) {
   const { locale: localeParam, page } = await params;

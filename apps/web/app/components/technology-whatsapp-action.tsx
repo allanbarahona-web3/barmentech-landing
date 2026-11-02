@@ -1,4 +1,5 @@
 import type { Locale } from "../lib/i18n";
+import { buildTechnologyWhatsappUrl } from "../lib/public-settings";
 
 type TechnologyWhatsappActionProps = {
   locale: Locale;
@@ -11,12 +12,22 @@ export function TechnologyWhatsappAction({ locale, url }: TechnologyWhatsappActi
   }
 
   const label = locale === "en" ? "Contact Barmentech on WhatsApp" : "Contactar a Barmentech por WhatsApp";
+  const href = buildTechnologyWhatsappUrl(
+    url,
+    locale === "en"
+      ? "Hello Barmentech, I would like to discuss a Technology project."
+      : "Hola Barmentech, me gustaría conversar sobre un proyecto de Tecnología.",
+  );
+
+  if (!href) {
+    return null;
+  }
 
   return (
     <a
       aria-label={label}
       className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-30 inline-flex h-12 w-12 animate-[whatsapp-breathe_3s_ease-in-out_infinite] items-center justify-center rounded-full bg-[#25D366] shadow-[0_8px_20px_rgb(18_32_51/22%)] transition-colors hover:animate-none hover:bg-[#20bd5a] focus-visible:animate-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] motion-reduce:animate-none motion-reduce:transition-none sm:right-6 sm:h-14 sm:w-14"
-      href={url}
+      href={href}
       rel="noopener noreferrer"
       target="_blank"
       title={label}

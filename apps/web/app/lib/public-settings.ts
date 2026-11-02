@@ -6,6 +6,7 @@ const SHARED_WHATSAPP_URL = "https://wa.me/17863918722";
 export type TechnologySocialNetwork = "facebook" | "instagram" | "linkedin" | "x" | "youtube";
 
 export type TechnologyPublicSettings = {
+  bookingUrl?: string;
   socialLinks: Array<{
     network: TechnologySocialNetwork;
     url: string;
@@ -28,6 +29,26 @@ function getHttpsUrl(value: string | undefined) {
 
 function getTechnologyWhatsappUrl(value: string | undefined) {
   return getHttpsUrl(value) === SHARED_WHATSAPP_URL ? SHARED_WHATSAPP_URL : undefined;
+}
+
+function getTechnologySiteOrigin(value: string | undefined, nodeEnv: string | undefined = process.env.NODE_ENV): URL | undefined {
+  if (!value?.trim()) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(value.trim());
+    const isDevelopmentLocalhost = nodeEnv === "development"
+      && url.protocol === "http:"
+      && url.port !== ""
+      && (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+    if ((url.protocol !== "https:" && !isDevelopmentLocalhost) || url.username || url.password || url.pathname !== "/" || url.search || url.hash) {
+      return undefined;
+    }
+    return new URL(url.origin);
+  } catch {
+    return undefined;
+  }
 }
 
 export function getTechnologyApiBaseUrl(
@@ -107,6 +128,25 @@ export function getTechnologyFormationUrl(locale: Locale, environment: NodeJS.Pr
   return url.toString();
 }
 
+export function getTechnologySiteUrl(pathname: string, environment: NodeJS.ProcessEnv = process.env): string | undefined {
+  const origin = getTechnologySiteOrigin(environment.NEXT_PUBLIC_SITE_URL, environment.NODE_ENV);
+  return origin ? new URL(pathname, origin).toString() : undefined;
+}
+
+export function buildTechnologyWhatsappUrl(url: string | undefined, message: string): string | undefined {
+  if (!url) {
+    return undefined;
+  }
+
+  try {
+    const destination = new URL(url);
+    destination.searchParams.set("text", message);
+    return destination.toString();
+  } catch {
+    return undefined;
+  }
+}
+
 export function getTechnologyPublicSettings(environment: NodeJS.ProcessEnv = process.env): TechnologyPublicSettings {
   const socialEntries: Array<[TechnologySocialNetwork, string | undefined]> = [
     ["facebook", environment.NEXT_PUBLIC_FACEBOOK_URL],
@@ -117,6 +157,7 @@ export function getTechnologyPublicSettings(environment: NodeJS.ProcessEnv = pro
   ];
 
   return {
+    bookingUrl: getHttpsUrl(environment.NEXT_PUBLIC_BOOKING_URL),
     socialLinks: socialEntries.flatMap(([network, value]) => {
       const url = getHttpsUrl(value);
       return url ? [{ network, url }] : [];

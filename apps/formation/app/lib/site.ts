@@ -58,6 +58,15 @@ export type FormationContactContent = {
   whatsappAlternative: string;
 };
 
+type FormationBookingContent = {
+  action: string;
+  body: string;
+  eyebrow: string;
+  newTab: string;
+  supportingNote: string;
+  title: string;
+};
+
 type FormationDifferentiator = {
   description: string;
   title: string;
@@ -114,6 +123,7 @@ type FormationLabels = {
   businessServices: string;
   bookkeeping: string;
   contact: string;
+  contactBooking: FormationBookingContent;
   contactBody: string;
   contactForm: FormationContactContent;
   contactSupportingMessage: string;
@@ -278,6 +288,14 @@ const labels: Record<Locale, FormationLabels> = {
     businessServices: "Business services",
     bookkeeping: "Bookkeeping",
     contact: "Contact",
+    contactBooking: {
+      eyebrow: "Prefer a conversation?",
+      title: "Book an initial consultation",
+      body: "Choose a convenient time for a 30-minute conversation about your company formation, compliance, or business needs.",
+      action: "Book a consultation",
+      supportingNote: "Google Meet · 30 minutes",
+      newTab: "opens in a new tab",
+    },
     contactBody: "Tell us what your business needs, and we will review the appropriate next step for your formation, tax, or operational-support inquiry.",
     contactForm: {
       alternativeContactTitle: "Other ways to reach us",
@@ -697,6 +715,14 @@ const labels: Record<Locale, FormationLabels> = {
     businessServices: "Servicios empresariales",
     bookkeeping: "Bookkeeping",
     contact: "Contacto",
+    contactBooking: {
+      eyebrow: "¿Prefieres conversar?",
+      title: "Agenda una consulta inicial",
+      body: "Elige un horario conveniente para conversar durante 30 minutos sobre la formación de tu empresa, cumplimiento o necesidades del negocio.",
+      action: "Agendar una consulta",
+      supportingNote: "Google Meet · 30 minutos",
+      newTab: "se abre en una pestaña nueva",
+    },
     contactBody: "Cuéntanos qué necesita tu empresa y revisaremos el siguiente paso apropiado para tu consulta de constitución, servicios fiscales o apoyo operativo.",
     contactForm: {
       alternativeContactTitle: "Otras formas de contactarnos",

@@ -190,11 +190,11 @@ export function FormationContactForm({ apiBaseUrl, copy, initialInterest, locale
     }
   }
 
-  const inputClass = "mt-2 w-full rounded-[var(--bm-radius-control)] border border-[var(--bm-border-strong)] bg-white px-3 py-2.5 text-base text-[var(--bm-text)] shadow-sm outline-none transition-colors placeholder:text-[var(--bm-text-muted)] focus:border-[var(--bm-brand)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]";
+  const inputClass = "mt-2 min-h-[var(--bm-control-height)] w-full rounded-[var(--bm-radius-control)] border border-[var(--bm-border-strong)] bg-white px-3 py-2.5 text-base text-[var(--bm-text)] shadow-sm outline-none transition-colors placeholder:text-[var(--bm-text-muted)] focus:border-[var(--bm-brand)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]";
   const fieldError = (field: string) => errors[field] ? `${field}-error` : undefined;
 
   return (
-    <form aria-describedby="contact-sensitive-warning contact-submission-status" className="rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-white p-6 shadow-[0_12px_34px_rgb(18_32_51/8%)] sm:p-8" noValidate onSubmit={handleSubmit}>
+    <form aria-describedby="contact-sensitive-warning contact-submission-status" className="relative z-[31] rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-white p-6 shadow-[0_12px_34px_rgb(18_32_51/8%)] sm:p-8" noValidate onSubmit={handleSubmit}>
       <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--bm-text)]" id="contact-form-title">{copy.title}</h2>
       <p className="mt-4 rounded-[var(--bm-radius-control)] border border-[#c9dcf6] bg-[#f4f9ff] p-4 text-sm leading-6 text-[var(--bm-text)]" id="contact-sensitive-warning">{copy.sensitiveWarning}</p>
 
