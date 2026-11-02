@@ -79,7 +79,7 @@ export function FormationServicePanels({ panels, selectLabel, selectedLabel }: F
             <button
               aria-controls={contentId}
               aria-expanded={isActive}
-              className={`group relative flex min-h-20 w-full origin-left overflow-hidden rounded-[var(--bm-radius-panel)] border text-left transition-[flex-basis,flex-grow,border-color,min-height] duration-500 ease-in-out focus-visible:z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] motion-reduce:transition-none lg:min-h-0 lg:min-w-0 lg:w-auto ${isActive ? "min-h-64 basis-0 grow border-[var(--bm-brand)] lg:min-h-0" : "basis-16 grow-0 border-[var(--bm-border)] hover:border-[var(--bm-brand)]"}`}
+              className={`group relative flex min-h-24 w-full origin-left overflow-hidden rounded-[var(--bm-radius-panel)] border text-left transition-[flex-basis,flex-grow,border-color,min-height] duration-500 ease-in-out focus-visible:z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)] motion-reduce:transition-none lg:min-h-0 lg:min-w-0 lg:w-auto ${isActive ? "min-h-64 basis-0 grow border-[var(--bm-brand)] lg:min-h-0" : "basis-16 grow-0 border-[var(--bm-border)] hover:border-[var(--bm-brand)]"}`}
               id={controlId}
               key={panel.title}
               onClick={() => selectPanel(panelIndex)}
@@ -89,7 +89,7 @@ export function FormationServicePanels({ panels, selectLabel, selectedLabel }: F
               <span className={`absolute inset-0 transition-colors duration-300 motion-reduce:transition-none ${isActive ? "bg-[linear-gradient(180deg,rgb(10_31_59/10%)_20%,rgb(10_31_59/82%)_100%)]" : "bg-[rgb(10_31_59/48%)] group-hover:bg-[rgb(10_31_59/34%)]"}`} />
               <span className="relative flex h-full w-full flex-col justify-between p-4 text-white">
                 <span className="text-xs font-semibold tracking-[0.16em] text-white/85">{String(panelIndex + 1).padStart(2, "0")}</span>
-                <span className={`text-sm font-semibold leading-5 transition-[opacity,transform] duration-200 motion-reduce:transition-none ${isActive ? "translate-y-0 opacity-100 sm:text-base" : "[writing-mode:vertical-rl] rotate-180 opacity-100"}`}>{panel.title}</span>
+                <span className={`text-sm font-semibold leading-5 transition-[opacity,transform] duration-200 motion-reduce:transition-none ${isActive ? "translate-y-0 opacity-100 sm:text-base" : "opacity-100 lg:[writing-mode:vertical-rl] lg:rotate-180"}`}>{panel.title}</span>
                 <span className="sr-only">{isActive ? selectedLabel : selectLabel}</span>
               </span>
             </button>
