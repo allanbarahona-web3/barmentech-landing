@@ -21,14 +21,22 @@ export function FormationContact({ initialInterest, locale }: FormationContactPr
 
   return (
     <main id="main-content">
-      <Container className="px-5 py-14 pb-28 sm:px-8 sm:py-20 sm:pb-32 lg:py-24 lg:pb-36">
-        <div className="max-w-3xl space-y-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{copy.division}</p>
-          <h1 className="text-4xl font-semibold tracking-[-0.035em] text-[var(--bm-text)] sm:text-5xl" id="contact-title">{getFormationPageTitle(locale, "contact")}</h1>
-          <p className="text-lg leading-8 text-[var(--bm-text-muted)] sm:text-xl sm:leading-9">{copy.contactBody}</p>
-        </div>
+      <section className="border-b border-[#31527a] bg-[#041a36] text-white">
+        <Container className="grid gap-10 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16 lg:py-24">
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9fc5ff]">{copy.division}</p>
+            <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em] text-white sm:text-5xl sm:leading-[1.04]" id="contact-title">{getFormationPageTitle(locale, "contact")}</h1>
+            <p className="mt-6 text-lg leading-8 text-white/80 sm:text-xl sm:leading-9">{copy.contactBody}</p>
+          </div>
+          <picture aria-hidden="true" className="block overflow-hidden rounded-[var(--bm-radius-panel)] border border-white/15 bg-[#0b2c58] shadow-[0_1.5rem_3.5rem_rgb(1_14_32_/_0.3)]">
+            <source height="1402" media="(max-width: 639px)" srcSet="/images/barmentech-contact-founder-mobile.webp" type="image/webp" width="1122" />
+            <img alt="" className="aspect-[4/5] h-full w-full object-cover object-center sm:aspect-[16/10]" decoding="async" fetchPriority="high" height="941" sizes="(min-width: 1024px) 50vw, 100vw" src="/images/barmentech-contact-founder-desktop.webp" width="1672" />
+          </picture>
+        </Container>
+      </section>
 
-        <div className="mt-10 grid gap-10 lg:mt-12 lg:grid-cols-[minmax(17rem,0.38fr)_minmax(0,0.62fr)] lg:gap-12 xl:gap-16">
+      <Container className="px-5 py-14 pb-28 sm:px-8 sm:py-20 sm:pb-32 lg:py-24 lg:pb-36">
+        <div className="grid gap-10 lg:grid-cols-[minmax(17rem,0.38fr)_minmax(0,0.62fr)] lg:gap-12 xl:gap-16">
           <aside className="self-start space-y-8 lg:sticky lg:top-24">
             {settings.bookingUrl ? (
               <section aria-labelledby="formation-contact-booking-title" className="rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-[var(--bm-surface-subtle)] p-6">
@@ -45,26 +53,26 @@ export function FormationContact({ initialInterest, locale }: FormationContactPr
                 <p className="mt-4 text-sm font-medium text-[var(--bm-text-muted)]">{copy.contactBooking.supportingNote}</p>
               </section>
             ) : null}
-            <p className="border-l-2 border-[var(--bm-brand)] pl-5 text-base leading-7 text-[var(--bm-text)]">{copy.contactSupportingMessage}</p>
-            <section aria-labelledby="contact-alternatives-title" className="rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-[var(--bm-surface-subtle)] p-6">
-              <h2 className="text-xl font-semibold tracking-[-0.02em] text-[var(--bm-text)]" id="contact-alternatives-title">{copy.contactForm.alternativeContactTitle}</h2>
-              <div className="mt-5 space-y-5 text-sm leading-6 text-[var(--bm-text-muted)]">
-                <div>
-                  <p className="font-semibold text-[var(--bm-text)]">{copy.footerEmailLabel}</p>
-                  <a className="rounded-sm text-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href="mailto:info@barmentech.com">info@barmentech.com</a>
-                </div>
-                <div>
-                  <p className="font-semibold text-[var(--bm-text)]">{copy.footerUnitedStatesTitle}</p>
-                  <a className="rounded-sm text-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href="tel:+17863918722">+1 (786) 391-8722</a>
-                </div>
-                <div>
-                  <p className="font-semibold text-[var(--bm-text)]">{copy.footerCostaRicaTitle}</p>
-                  <a className="rounded-sm text-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href="tel:+50670067572">+506 7006-7572</a>
-                </div>
-                {settings.whatsappUrl ? <a className="inline-flex rounded-sm font-semibold text-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href={settings.whatsappUrl} rel="noopener noreferrer" target="_blank">{copy.contactForm.whatsappAlternative}</a> : null}
+            <section aria-labelledby="formation-contact-guidance-title" className="border-l-2 border-[var(--bm-brand)] pl-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{copy.contactGuidance.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] text-[var(--bm-text)]" id="formation-contact-guidance-title">{copy.contactGuidance.title}</h2>
+              <p className="mt-4 text-base leading-7 text-[var(--bm-text-muted)]">{copy.contactGuidance.intro}</p>
+              <div className="mt-8 border-t border-[var(--bm-border)] pt-6">
+                <h3 className="text-sm font-semibold text-[var(--bm-text)]">{copy.contactGuidance.listTitle}</h3>
+                <ul className="mt-4 space-y-3 text-sm leading-6 text-[var(--bm-text-muted)]">
+                  {copy.contactGuidance.items.map((item) => <li className="flex gap-3" key={item}><span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--bm-brand)]" />{item}</li>)}
+                </ul>
               </div>
+              <div className="mt-8 border-t border-[var(--bm-border)] pt-6">
+                <h3 className="text-sm font-semibold text-[var(--bm-text)]">{copy.contactGuidance.directTitle}</h3>
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row lg:flex-col">
+                  {settings.whatsappUrl ? <a aria-label={copy.contactGuidance.whatsappAction} className="inline-flex min-h-[var(--bm-control-height)] items-center justify-center rounded-[var(--bm-radius-control)] bg-[#25D366] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#20bd5a] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href={settings.whatsappUrl} rel="noopener noreferrer" target="_blank">{copy.contactGuidance.whatsappAction}</a> : null}
+                  <a aria-label={copy.contactGuidance.emailAction} className="inline-flex min-h-[var(--bm-control-height)] items-center justify-center rounded-[var(--bm-radius-control)] border border-[var(--bm-border-strong)] px-4 py-2 text-sm font-semibold text-[var(--bm-text)] transition-colors hover:border-[var(--bm-brand)] hover:text-[var(--bm-brand-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--bm-focus)]" href="mailto:info@barmentech.com">{copy.contactGuidance.emailAction}</a>
+                </div>
+              </div>
+              <p className="mt-8 text-sm leading-6 text-[var(--bm-text-muted)]">{copy.contactGuidance.closing}</p>
             </section>
-            <p className="text-sm leading-6 text-[var(--bm-text-muted)]">{copy.contactForm.responseTime}</p>
+            <p className="border-l-2 border-[var(--bm-brand)] pl-5 text-base leading-7 text-[var(--bm-text)]">{copy.contactSupportingMessage}</p>
           </aside>
 
           <FormationContactForm apiBaseUrl={settings.apiBaseUrl} copy={copy.contactForm} initialInterest={selectedInterest} locale={locale} privacyHref={`/${locale}/${getFormationLegalPath(locale, "privacy")}`} whatsappUrl={settings.whatsappUrl} />

@@ -9,7 +9,7 @@ type FormationProcessStep = {
 type FormationService = {
   description: string;
   qualifier?: string;
-  title: string;
+  title?: string;
 };
 
 type FormationServicePanel = {
@@ -65,6 +65,18 @@ type FormationBookingContent = {
   newTab: string;
   supportingNote: string;
   title: string;
+};
+
+type FormationContactGuidanceContent = {
+  closing: string;
+  directTitle: string;
+  emailAction: string;
+  eyebrow: string;
+  intro: string;
+  items: string[];
+  listTitle: string;
+  title: string;
+  whatsappAction: string;
 };
 
 type FormationDifferentiator = {
@@ -126,6 +138,7 @@ type FormationLabels = {
   contactBooking: FormationBookingContent;
   contactBody: string;
   contactForm: FormationContactContent;
+  contactGuidance: FormationContactGuidanceContent;
   contactSupportingMessage: string;
   contactCta: string;
   division: string;
@@ -347,6 +360,17 @@ const labels: Record<Locale, FormationLabels> = {
       title: "Tell us how we can help",
       validationError: "Please review the information in your inquiry and try again.",
       whatsappAlternative: "Contact Barmentech on WhatsApp",
+    },
+    contactGuidance: {
+      eyebrow: "Barmentech Formation",
+      title: "Start with the context.",
+      intro: "Tell us about your company, the support you are considering, and the outcome you need. We will review the context and help clarify a practical next step.",
+      listTitle: "Helpful details to include",
+      items: ["Whether you are planning a new company or need support for an existing one.", "The state, entity type, or service you are considering, if known.", "Any current compliance, tax, banking, or operational need.", "Any known deadline, document, or question that needs attention."],
+      directTitle: "Prefer a direct conversation?",
+      whatsappAction: "Continue on WhatsApp",
+      emailAction: "Email info@barmentech.com",
+      closing: "Please do not send Social Security numbers, ITINs, EINs, identity documents, banking information, payment-card information, tax returns, authentication credentials, or other sensitive documents through these public channels.",
     },
     contactSupportingMessage: "Submitting this form does not automatically create a client, legal, tax, or professional-services relationship.",
     contactCta: "Contact",
@@ -775,6 +799,17 @@ const labels: Record<Locale, FormationLabels> = {
       validationError: "Revisa la información de tu consulta e inténtalo de nuevo.",
       whatsappAlternative: "Contactar a Barmentech por WhatsApp",
     },
+    contactGuidance: {
+      eyebrow: "Barmentech Formation",
+      title: "Empecemos por el contexto.",
+      intro: "Cuéntanos sobre tu empresa, el apoyo que estás considerando y el resultado que necesitas. Revisaremos el contexto y te ayudaremos a aclarar un siguiente paso práctico.",
+      listTitle: "Información útil para comenzar",
+      items: ["Si estás creando una empresa o necesitas apoyo para una existente.", "El estado, tipo de entidad o servicio que estás considerando, si lo conoces.", "Alguna necesidad actual de cumplimiento, impuestos, banca u operación.", "Alguna fecha límite, documento o pregunta que requiera atención."],
+      directTitle: "¿Prefieres una conversación directa?",
+      whatsappAction: "Continuar por WhatsApp",
+      emailAction: "Escribir a info@barmentech.com",
+      closing: "No envíes números de Seguro Social, ITIN, EIN, documentos de identidad, información bancaria, información de tarjetas de pago, declaraciones de impuestos, credenciales de autenticación ni otros documentos sensibles mediante estos canales públicos.",
+    },
     contactSupportingMessage: "Enviar este formulario no crea automáticamente una relación de cliente ni una relación de servicios legales, fiscales o profesionales.",
     contactCta: "Contacto",
     division: "Servicios empresariales",
@@ -992,12 +1027,11 @@ const labels: Record<Locale, FormationLabels> = {
         title: "Herramientas empresariales y presencia digital",
         services: [
           {
-            description: "Brindamos y configuramos dominio, correo corporativo, Google Workspace y opciones de telefonía empresarial según el servicio contratado.",
+            description: "Configuramos dominio, correo corporativo, Google Workspace y telefonía empresarial según tu servicio.",
             title: "Herramientas empresariales",
           },
           {
             description: "Diseñamos y construimos el sistema digital inicial de tu empresa, incluido el dominio, la página web y las herramientas que apoyan una presentación profesional.",
-            title: "Presencia digital",
           },
         ],
       },

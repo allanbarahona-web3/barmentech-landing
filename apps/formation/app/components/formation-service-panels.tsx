@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 type FormationService = {
   description: string;
   qualifier?: string;
-  title: string;
+  title?: string;
 };
 
 type FormationServicePanel = {
@@ -57,9 +57,9 @@ export function FormationServicePanels({ panels, selectLabel, selectedLabel }: F
               <h3 className="mt-3 text-2xl font-semibold tracking-[-0.025em] text-[var(--bm-text)] sm:text-3xl">{panel.title}</h3>
               <div className="mt-6 space-y-5">
                 {panel.services.map((service) => (
-                  <article key={service.title}>
-                    <h4 className="text-base font-semibold text-[var(--bm-text)]">{service.title}</h4>
-                    <p className="mt-2 text-sm leading-6 text-[var(--bm-text-muted)] sm:text-base sm:leading-7">{service.description}</p>
+                  <article key={service.title ?? service.description}>
+                    {service.title ? <h4 className="text-base font-semibold text-[var(--bm-text)]">{service.title}</h4> : null}
+                    <p className={`${service.title ? "mt-2 " : ""}text-sm leading-6 text-[var(--bm-text-muted)] sm:text-base sm:leading-7`}>{service.description}</p>
                     {service.qualifier ? <p className="mt-3 border-l-2 border-[var(--bm-brand)] pl-4 text-sm font-medium leading-6 text-[var(--bm-text)]">{service.qualifier}</p> : null}
                   </article>
                 ))}
