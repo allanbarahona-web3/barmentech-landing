@@ -153,9 +153,9 @@ export function getTechnologyPageTitle(locale: Locale, page: Exclude<TechnologyP
 export function getTechnologyNavigation(locale: Locale, activePage: TechnologyPage, formationHref: string): NavigationItem[] {
   const copy = getTechnologyLabels(locale);
   const serviceItems = [
-    { href: `/${locale}/services/web-development`, id: "web-development", label: copy.webDevelopment },
     { href: `/${locale}/services/custom-software`, id: "custom-software", label: copy.customSoftware },
     { href: `/${locale}/services/automation`, id: "automation", label: copy.automation },
+    { href: `/${locale}/services/web-development`, id: "web-development", label: copy.webDevelopment },
   ];
 
   return [

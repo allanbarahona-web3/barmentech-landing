@@ -68,7 +68,7 @@ export function FormationFooter({ locale }: FormationFooterProps) {
         })),
       } : undefined}
       technologyCredit={{
-        href: settings.technologyUrl ? localizedBusinessUrl(settings.technologyUrl, locale) : undefined,
+        href: "https://barmentech.com/",
         label: copy.footerDevelopmentCredit,
       }}
       unitedStates={{
@@ -81,12 +81,4 @@ export function FormationFooter({ locale }: FormationFooterProps) {
       variant="formation"
     />
   );
-}
-
-function localizedBusinessUrl(baseUrl: string, locale: Locale): string {
-  const url = new URL(baseUrl);
-  url.pathname = `/${locale}`;
-  url.search = "";
-  url.hash = "";
-  return url.toString();
 }

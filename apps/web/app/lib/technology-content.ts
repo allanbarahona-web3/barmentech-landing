@@ -76,7 +76,51 @@ export type TechnologyContactContent = {
   title: string;
 };
 
-type ServicePageContent = {
+type ServicePageEditorialBlock = {
+  body: string;
+  eyebrow: string;
+  image: string;
+  imageAlt: string;
+  items: string[];
+  title: string;
+};
+
+type ServicePageEditorialProcess = {
+  introduction?: string;
+  stages: Array<{
+    body: string;
+    eyebrow: string;
+    title: string;
+  }>;
+  title: string;
+};
+
+type ServicePageEditorialPresentation = {
+  blocks: ServicePageEditorialBlock[];
+  heroImage: string;
+  process: ServicePageEditorialProcess;
+  variant: "editorial";
+};
+
+type ServicePageSystemCapability = {
+  body: string;
+  image: string;
+  imageAlt: string;
+  items: string[];
+  label: string;
+  title: string;
+};
+
+type ServicePageSystemPresentation = {
+  capabilities: ServicePageSystemCapability[];
+  heroCtaLabel: string;
+  introTitle: string;
+  variant: "systems";
+};
+
+type ServicePagePresentation = ServicePageEditorialPresentation | ServicePageSystemPresentation;
+
+export type ServicePageContent = {
   build: {
     intro: string;
     items: string[];
@@ -87,7 +131,7 @@ type ServicePageContent = {
     label: string;
     title: string;
   };
-  engagement: {
+  engagement?: {
     items: string[];
     title: string;
   };
@@ -97,10 +141,11 @@ type ServicePageContent = {
     body: string;
     title: string;
   };
-  needs: {
+  needs?: {
     items: string[];
     title: string;
   };
+  presentation?: ServicePagePresentation;
   title: string;
 };
 
@@ -308,26 +353,127 @@ const content: Record<Locale, TechnologyContent> = {
     servicePages: {
       "web-development": {
         eyebrow: "Websites and e-commerce",
-        title: "A clear digital presence for the next business conversation.",
+        title: "Websites and e-commerce for your business.",
         intro: "We build public websites and online commerce experiences around how a business presents its services, products, and next steps.",
+        presentation: {
+          blocks: [
+            {
+              eyebrow: "01 · Websites",
+              title: "Corporate and service websites",
+              body: "Present your business clearly and give customers a reliable place to understand your services. We design professional websites around your offer, audience, content, and next steps. Projects can include multilingual experiences when the business serves customers in more than one market.",
+              items: ["Corporate and professional-service websites", "Clear service and contact paths", "Responsive and multilingual experiences"],
+              image: "/images/barmentech-corporate-service-websites.webp",
+              imageAlt: "Professional corporate website shown on a laptop screen",
+            },
+            {
+              eyebrow: "02 · Campaigns and catalogs",
+              title: "Landing pages and product catalogs",
+              body: "Create focused digital destinations for campaigns, products, services, or new initiatives. We build landing pages and organized catalogs that help visitors understand an offer, explore available options, and take a defined next step.",
+              items: ["Campaign and product landing pages", "Digital catalogs and featured collections", "Lead capture and conversion paths"],
+              image: "/images/barmentech-landing-pages-product-catalogs.webp",
+              imageAlt: "Landing-page and product-catalog interfaces shown across devices",
+            },
+            {
+              eyebrow: "03 · E-commerce",
+              title: "Online stores and purchase flows",
+              body: "Turn product discovery into a clear and dependable buying experience. We design online stores and purchase journeys covering products, carts, checkout, payment, confirmation, and the operational information needed to fulfill an order.",
+              items: ["Product pages, carts, and checkout", "Payment and order-confirmation flows", "Mobile-friendly purchasing experiences"],
+              image: "/images/barmentech-online-stores-purchase-flows.webp",
+              imageAlt: "Online store interface showing products and purchase information",
+            },
+            {
+              eyebrow: "04 · Connected tools",
+              title: "Forms, analytics, and business-tool integrations",
+              body: "Connect your public website with the tools your business uses to respond, measure, and operate. When required, we integrate forms, payment platforms, analytics, email, CRM systems, and other approved business tools.",
+              items: ["Contact, registration, and request forms", "Payments, analytics, CRM, and email", "APIs and controlled business-tool integrations"],
+              image: "/images/barmentech-forms-payments-analytics-integrations.webp",
+              imageAlt: "Business dashboard with forms and connected tools",
+            },
+          ],
+          process: {
+            title: "How we build your website",
+            introduction: "Each project follows a defined process, adapted to the confirmed scope, content, integrations, and operating requirements.",
+            stages: [
+              {
+                eyebrow: "Discovery",
+                title: "Initial meeting and business context",
+                body: "We begin by understanding your business, audience, objectives, current digital presence, and the actions customers need to complete.",
+              },
+              {
+                eyebrow: "Planning",
+                title: "Requirements, content and technical scope",
+                body: "We define the required pages, content, functionality, integrations, responsibilities, delivery phases, and technical foundations before implementation begins.",
+              },
+              {
+                eyebrow: "Implementation",
+                title: "Design, development and integrations",
+                body: "We design and build the approved experience, prepare responsive layouts, connect confirmed tools, and review progress throughout implementation.",
+              },
+              {
+                eyebrow: "Delivery",
+                title: "Quality assurance, launch and evolution",
+                body: "We validate content, accessibility, responsive behavior, performance, forms, and integrations before launch, then define the agreed support and improvement path.",
+              },
+            ],
+          },
+          variant: "editorial",
+          heroImage: "/images/Designing a polished online storefront-1.webp",
+        },
         build: {
           title: "What we can build or support",
-          intro: "The right combination depends on the confirmed objective, content, and operating requirements.",
-          items: ["Corporate and service websites", "Landing pages and product catalogs", "Online stores and purchase flows", "Responsive implementation with accessibility and performance foundations", "Multilingual experiences", "Forms, payment, analytics, and business-tool integrations when required"],
+          intro: "We design focused digital experiences around your business objectives, content, customers, and operating requirements. Every implementation is responsive and built with accessibility, performance, and future evolution in mind.",
+          items: [],
         },
-        needs: { title: "Suitable when you need to", items: ["Clarify a public offer or service path", "Create a reliable destination for a campaign or new initiative", "Organize products for an online catalog or store", "Improve an existing site’s mobile experience or technical foundation"] },
-        engagement: { title: "How the engagement works", items: ["We review audience, content, priorities, and current tools", "We confirm scope, responsibilities, and a delivery plan", "We design and implement the approved experience", "We validate the result and prepare the agreed handoff"] },
         maintenance: { title: "Built to evolve", body: "After launch, we can maintain the experience, improve content paths, modernize dependencies, or add confirmed capabilities progressively." },
         cta: { title: "Discuss your website or commerce needs.", body: "Tell us what customers need to understand, find, or complete online.", label: "Contact Barmentech" },
       },
       "custom-software": {
         eyebrow: "Custom systems and SaaS platforms",
-        title: "Systems shaped around the work your business needs to coordinate.",
-        intro: "We design and build applications for operational workflows, customer experiences, and the information a team needs to manage deliberately.",
+        title: "Custom systems for the way your business operates.",
+        intro: "We design and build software that coordinates workflows, people, documents, financial processes, and business information within one deliberate operational experience.",
+        presentation: {
+          variant: "systems",
+          heroCtaLabel: "Discuss your system",
+          introTitle: "One connected operational foundation.",
+          capabilities: [
+            {
+              label: "OPERATIONS AND WORKFORCE",
+              title: "Operations and workforce systems",
+              body: "Coordinate employees, schedules, attendance, responsibilities, and recurring operational work within one controlled environment.",
+              items: ["Attendance, shifts, timesheets, and overtime", "Employees, roles, permissions, and records", "Tasks, approvals, and operational follow-up"],
+              image: "/images/barmentech-saas-operations-workforce.webp",
+              imageAlt: "Operations and workforce management interface with schedules and attendance records",
+            },
+            {
+              label: "COMMERCIAL AND FINANCIAL WORKFLOWS",
+              title: "Quoting, sales and billing systems",
+              body: "Connect cost, margin, and pricing decisions with quotations, contracts, orders, invoices, payments, and receivables.",
+              items: ["Cost, margin, and quotation workflows", "Orders, invoicing, payments, and receivables", "Commercial dashboards and financial reporting"],
+              image: "/images/barmentech-saas-quoting-finance.webp",
+              imageAlt: "Commercial pricing and financial workflow interface",
+            },
+            {
+              label: "DOCUMENTS AND APPROVALS",
+              title: "Contracts, documents, and web signatures",
+              body: "Generate documents from approved information, guide users through structured workflows, and preserve a traceable record of every stage.",
+              items: ["Contract and document generation", "Templates, forms, and PDF output", "Review, approval, and web-signature flows"],
+              image: "/images/barmentech-saas-contracts-signatures.webp",
+              imageAlt: "Contract workflow interface with document preview and approval controls",
+            },
+            {
+              label: "SOFTWARE PRODUCTS",
+              title: "Multi-tenant SaaS platforms",
+              body: "Build software for multiple companies or operating units while keeping users, roles, workflows, configurations, and business information appropriately separated.",
+              items: ["Company, tenant, user, and role management", "Configurable workflows and business rules", "APIs, integrations, notifications, and reporting"],
+              image: "/images/barmentech-saas-multitenant-platform.webp",
+              imageAlt: "Multi-tenant SaaS executive dashboard with company performance reporting",
+            },
+          ],
+        },
         build: {
-          title: "What we can build or support",
-          intro: "Capabilities are selected according to validated requirements and the agreed service scope.",
-          items: ["Internal business systems", "Customer and operational portals", "Workflow-oriented applications and administrative dashboards", "APIs, backend services, and databases", "Role-based access where appropriate", "Multi-tenant SaaS foundations where appropriate"],
+          title: "Systems we can design and build",
+          intro: "The right solution begins with the operation that needs to work better. We define the workflows, users, information, decisions, and controls before selecting the modules and technical architecture.",
+          items: [],
         },
         needs: { title: "Suitable when you need to", items: ["Bring a repeated operational process into one working system", "Give customers or teams a clearer place to complete defined tasks", "Replace disconnected spreadsheets or manual handoffs", "Validate an application concept before extending it in stages"] },
         engagement: { title: "How the engagement works", items: ["We understand the workflow, users, data, and constraints", "We confirm a phased scope, responsibilities, and technical direction", "We design and implement the approved foundation", "We validate the agreed flows before delivery and future evolution"] },
@@ -507,19 +653,120 @@ const content: Record<Locale, TechnologyContent> = {
     servicePages: {
       "web-development": {
         eyebrow: "Sitios web y comercio electrónico",
-        title: "Una presencia digital clara para la próxima conversación de negocio.",
+        title: "Sitios web y comercio electrónico para su negocio.",
         intro: "Nosotros construimos sitios públicos y experiencias de comercio en línea según la forma en que una empresa presenta sus servicios, productos y próximos pasos.",
-        build: { title: "Qué podemos construir o apoyar", intro: "La combinación adecuada depende del objetivo, el contenido y los requisitos operativos confirmados.", items: ["Sitios corporativos y de servicios", "Landing pages y catálogos de productos", "Tiendas en línea y flujos de compra", "Implementación responsiva con bases de accesibilidad y rendimiento", "Experiencias multilingües", "Integraciones con formularios, pagos, analítica y herramientas de negocio cuando se requieren"] },
-        needs: { title: "Adecuado cuando necesitas", items: ["Aclarar una oferta pública o ruta de servicio", "Crear un destino confiable para una campaña o iniciativa", "Organizar productos para un catálogo o tienda en línea", "Mejorar la experiencia móvil o la base técnica de un sitio existente"] },
-        engagement: { title: "Cómo funciona el servicio", items: ["Nosotros revisamos audiencia, contenido, prioridades y herramientas actuales", "Nosotros confirmamos alcance, responsabilidades y un plan de entrega", "Nosotros diseñamos e implementamos la experiencia aprobada", "Nosotros validamos el resultado y preparamos la entrega acordada"] },
+        presentation: {
+          blocks: [
+            {
+              eyebrow: "01 · Sitios web",
+              title: "Sitios corporativos y de servicios",
+              body: "Presente su negocio con claridad y ofrezca a sus clientes un lugar confiable para comprender sus servicios. Diseñamos sitios profesionales alrededor de su oferta, audiencia, contenido y próximos pasos. Los proyectos pueden incluir experiencias multilingües cuando el negocio atiende más de un mercado.",
+              items: ["Sitios corporativos y de servicios profesionales", "Rutas claras hacia servicios y contacto", "Experiencias responsivas y multilingües"],
+              image: "/images/barmentech-corporate-service-websites.webp",
+              imageAlt: "Sitio corporativo profesional mostrado en la pantalla de una computadora portátil",
+            },
+            {
+              eyebrow: "02 · Campañas y catálogos",
+              title: "Landing pages y catálogos de productos",
+              body: "Cree destinos digitales enfocados para campañas, productos, servicios o nuevas iniciativas. Desarrollamos landing pages y catálogos organizados que ayudan a comprender una oferta, explorar opciones y completar un próximo paso definido.",
+              items: ["Landing pages para campañas y productos", "Catálogos digitales y colecciones destacadas", "Captura de prospectos y rutas de conversión"],
+              image: "/images/barmentech-landing-pages-product-catalogs.webp",
+              imageAlt: "Interfaces de landing pages y catálogos de productos mostradas en varios dispositivos",
+            },
+            {
+              eyebrow: "03 · Comercio electrónico",
+              title: "Tiendas en línea y flujos de compra",
+              body: "Convierta el descubrimiento de productos en una experiencia de compra clara y confiable. Diseñamos tiendas y recorridos de compra que abarcan productos, carrito, checkout, pago, confirmación y la información operativa necesaria para completar el pedido.",
+              items: ["Productos, carrito y checkout", "Pagos y confirmación de pedidos", "Experiencias de compra optimizadas para dispositivos móviles"],
+              image: "/images/barmentech-online-stores-purchase-flows.webp",
+              imageAlt: "Interfaz de tienda en línea con productos e información de compra",
+            },
+            {
+              eyebrow: "04 · Herramientas conectadas",
+              title: "Formularios, analítica e integraciones empresariales",
+              body: "Conecte su sitio público con las herramientas que utiliza su negocio para responder, medir y operar. Cuando se requiere, integramos formularios, plataformas de pago, analítica, correo electrónico, CRM y otras herramientas empresariales aprobadas.",
+              items: ["Formularios de contacto, registro y solicitudes", "Pagos, analítica, CRM y correo electrónico", "APIs e integraciones controladas con herramientas empresariales"],
+              image: "/images/barmentech-forms-payments-analytics-integrations.webp",
+              imageAlt: "Panel empresarial con formularios y herramientas conectadas",
+            },
+          ],
+          process: {
+            title: "Cómo construimos su sitio web",
+            introduction: "Cada proyecto sigue un proceso definido, adaptado al alcance, contenido, integraciones y requisitos operativos confirmados.",
+            stages: [
+              {
+                eyebrow: "Descubrimiento",
+                title: "Reunión inicial y contexto del negocio",
+                body: "Comenzamos comprendiendo su negocio, audiencia, objetivos, presencia digital actual y las acciones que sus clientes necesitan completar.",
+              },
+              {
+                eyebrow: "Planificación",
+                title: "Requisitos, contenido y alcance técnico",
+                body: "Definimos las páginas, el contenido, las funcionalidades, las integraciones, las responsabilidades, las etapas de entrega y las bases técnicas antes de iniciar la implementación.",
+              },
+              {
+                eyebrow: "Implementación",
+                title: "Diseño, desarrollo e integraciones",
+                body: "Diseñamos y construimos la experiencia aprobada, preparamos las vistas responsivas, conectamos las herramientas confirmadas y revisamos el avance durante la implementación.",
+              },
+              {
+                eyebrow: "Entrega",
+                title: "Control de calidad, lanzamiento y evolución",
+                body: "Validamos el contenido, la accesibilidad, el comportamiento responsivo, el rendimiento, los formularios y las integraciones antes del lanzamiento, y luego definimos la ruta acordada de soporte y mejora.",
+              },
+            ],
+          },
+          variant: "editorial",
+          heroImage: "/images/Designing a polished online storefront-1.webp",
+        },
+        build: { title: "Qué podemos construir o apoyar", intro: "Diseñamos experiencias digitales enfocadas en los objetivos, el contenido, los clientes y los requisitos operativos de su negocio. Cada implementación es responsiva y se desarrolla considerando accesibilidad, rendimiento y evolución futura.", items: [] },
         maintenance: { title: "Diseñado para evolucionar", body: "Después del lanzamiento, nosotros podemos mantener la experiencia, mejorar rutas de contenido, modernizar dependencias o incorporar capacidades confirmadas progresivamente." },
         cta: { title: "Conversemos sobre tu sitio o comercio electrónico.", body: "Cuéntanos qué necesitan entender, encontrar o completar tus clientes en línea.", label: "Contactar a Barmentech" },
       },
       "custom-software": {
         eyebrow: "Sistemas a medida y plataformas SaaS",
-        title: "Sistemas organizados alrededor del trabajo que tu negocio necesita coordinar.",
-        intro: "Nosotros diseñamos y construimos aplicaciones para flujos operativos, experiencias de clientes e información que un equipo necesita gestionar deliberadamente.",
-        build: { title: "Qué podemos construir o apoyar", intro: "Las capacidades se seleccionan según requisitos validados y el alcance de servicio acordado.", items: ["Sistemas empresariales internos", "Portales de clientes y operación", "Aplicaciones orientadas a flujos y paneles administrativos", "APIs, servicios de backend y bases de datos", "Acceso basado en roles cuando corresponde", "Bases SaaS multiempresa cuando corresponde"] },
+        title: "Sistemas a medida para la operación de su negocio.",
+        intro: "Diseñamos y construimos software que coordina flujos de trabajo, personas, documentos, procesos financieros e información empresarial dentro de una experiencia operativa deliberada.",
+        presentation: {
+          variant: "systems",
+          heroCtaLabel: "Conversemos sobre su sistema",
+          introTitle: "Una base operativa conectada.",
+          capabilities: [
+            {
+              label: "OPERACIONES Y PERSONAL",
+              title: "Sistemas de operaciones y personal",
+              body: "Coordine empleados, horarios, asistencia, responsabilidades y trabajo operativo recurrente dentro de un entorno controlado.",
+              items: ["Asistencia, turnos, marcajes y horas extra", "Empleados, roles, permisos y expedientes", "Tareas, aprobaciones y seguimiento operativo"],
+              image: "/images/barmentech-saas-operations-workforce.webp",
+              imageAlt: "Interfaz de gestión de operaciones y personal con horarios y registros de asistencia",
+            },
+            {
+              label: "FLUJOS COMERCIALES Y FINANCIEROS",
+              title: "Sistemas de cotización, ventas y facturación",
+              body: "Conecte las decisiones de costos, márgenes y precios con cotizaciones, contratos, órdenes, facturas, pagos y cuentas por cobrar.",
+              items: ["Flujos de costos, márgenes y cotización", "Órdenes, facturación, pagos y cuentas por cobrar", "Paneles comerciales y reportes financieros"],
+              image: "/images/barmentech-saas-quoting-finance.webp",
+              imageAlt: "Interfaz de flujos comerciales de precios y finanzas",
+            },
+            {
+              label: "DOCUMENTOS Y APROBACIONES",
+              title: "Contratos, documentos y firmas web",
+              body: "Genere documentos a partir de información aprobada, guíe a los usuarios mediante flujos estructurados y conserve un registro trazable de cada etapa.",
+              items: ["Generación de contratos y documentos", "Plantillas, formularios y archivos PDF", "Flujos de revisión, aprobación y firma web"],
+              image: "/images/barmentech-saas-contracts-signatures.webp",
+              imageAlt: "Interfaz de flujo de contrato con vista previa de documento y controles de aprobación",
+            },
+            {
+              label: "PRODUCTOS DE SOFTWARE",
+              title: "Plataformas SaaS multiempresa",
+              body: "Construya software para varias empresas o unidades operativas, manteniendo separados los usuarios, roles, flujos, configuraciones e información empresarial.",
+              items: ["Administración de empresas, usuarios y roles", "Flujos configurables y reglas de negocio", "APIs, integraciones, notificaciones y reportes"],
+              image: "/images/barmentech-saas-multitenant-platform.webp",
+              imageAlt: "Panel ejecutivo de SaaS multiempresa con reportes de desempeño por empresa",
+            },
+          ],
+        },
+        build: { title: "Sistemas que podemos diseñar y construir", intro: "La solución adecuada comienza con la operación que necesita funcionar mejor. Definimos los flujos, usuarios, información, decisiones y controles antes de seleccionar los módulos y la arquitectura técnica.", items: [] },
         needs: { title: "Adecuado cuando necesitas", items: ["Llevar un proceso operativo repetido a un sistema de trabajo", "Dar a clientes o equipos un lugar más claro para completar tareas definidas", "Reemplazar hojas de cálculo desconectadas o entregas manuales", "Validar un concepto de aplicación antes de ampliarlo por etapas"] },
         engagement: { title: "Cómo funciona el servicio", items: ["Nosotros entendemos el flujo, usuarios, datos y restricciones", "Nosotros confirmamos un alcance por etapas, responsabilidades y dirección técnica", "Nosotros diseñamos e implementamos la base aprobada", "Nosotros validamos los flujos acordados antes de la entrega y evolución futura"] },
         maintenance: { title: "Una base para mejorar continuamente", body: "Nosotros podemos estabilizar un sistema existente, documentarlo, actualizar dependencias técnicas e introducir mejoras confirmadas con el tiempo." },

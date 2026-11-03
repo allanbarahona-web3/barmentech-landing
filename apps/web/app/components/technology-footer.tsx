@@ -80,7 +80,10 @@ export function TechnologyFooter({ formationHref, locale, settings }: Technology
           label: locale === "en" ? `Follow Barmentech on ${socialNames[social.network]}` : `Seguir a Barmentech en ${socialNames[social.network]}`,
         })),
       } : undefined}
-      technologyCredit={{ label: copy.footerDevelopmentCredit }}
+      technologyCredit={{
+        href: "https://barmentech.com/",
+        label: copy.footerDevelopmentCredit,
+      }}
       unitedStates={{
         addressLines: ["1110 Brickell Ave #400K-101", "Miami, Florida 33131", copy.footerUnitedStatesCountry],
         heading: copy.footerUnitedStatesTitle,
