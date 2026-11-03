@@ -66,7 +66,7 @@ export function TechnologyProcessCycle({ eyebrow, introduction, steps, title }: 
   }, [activeStep, hasEntered, reducedMotion, steps.length]);
 
   return (
-    <section aria-labelledby="how-we-work-title" className="technology-process-band mt-14 bg-[#0b2c58] text-white sm:mt-16" data-technology-process={hasEntered ? "entered" : undefined} ref={section}>
+    <section aria-labelledby="how-we-work-title" className="technology-process-band mt-10 bg-[#0b2c58] text-white sm:mt-12" data-technology-process={hasEntered ? "entered" : undefined} ref={section}>
       <Container className="px-5 py-14 sm:px-8 sm:py-16 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-center lg:gap-16">
           <div>

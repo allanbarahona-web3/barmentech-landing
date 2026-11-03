@@ -5,7 +5,7 @@ import { getTechnologyContent } from "../lib/technology-content";
 import { buildTechnologyWhatsappUrl, getTechnologyApiBaseUrl, getTechnologyPublicSettings } from "../lib/public-settings";
 import { TechnologyContactForm } from "./technology-contact-form";
 
-export function TechnologyContact({ locale }: { locale: Locale }) {
+export function TechnologyContact({ callRequest = false, locale }: { callRequest?: boolean; locale: Locale }) {
   const content = getTechnologyContent(locale);
   const apiBaseUrl = getTechnologyApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
   const settings = getTechnologyPublicSettings();
@@ -70,7 +70,7 @@ export function TechnologyContact({ locale }: { locale: Locale }) {
               <p className="mt-8 text-sm leading-6 text-[var(--bm-text-muted)]">{content.contact.guidance.closing}</p>
             </section>
           </aside>
-          <TechnologyContactForm apiBaseUrl={apiBaseUrl} copy={content.contact.form} locale={locale} privacyHref={`/${locale}/privacy`} whatsappUrl={settings.whatsappUrl} />
+          <TechnologyContactForm apiBaseUrl={apiBaseUrl} callRequest={callRequest} copy={content.contact.form} locale={locale} privacyHref={`/${locale}/privacy`} whatsappUrl={settings.whatsappUrl} />
         </div>
       </Container>
     </main>

@@ -16,6 +16,7 @@ import type { TechnologyContactContent } from "../lib/technology-content";
 
 type TechnologyContactFormProps = {
   apiBaseUrl?: string;
+  callRequest?: boolean;
   copy: TechnologyContactContent["form"];
   locale: Locale;
   privacyHref: string;
@@ -28,7 +29,7 @@ const REQUEST_TIMEOUT_MS = 10_000;
 const MAX_MESSAGE_LENGTH = 1_800;
 const MIN_MESSAGE_LENGTH = 10;
 
-export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref, whatsappUrl }: TechnologyContactFormProps) {
+export function TechnologyContactForm({ apiBaseUrl, callRequest = false, copy, locale, privacyHref, whatsappUrl }: TechnologyContactFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [rateLimitSeconds, setRateLimitSeconds] = useState<number | null>(null);
@@ -57,7 +58,7 @@ export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref, w
 
   function validate(formData: FormData) {
     const nextErrors: Record<string, string> = {};
-    const requiredFields = ["full_name", "email", "country", "interest", "message"];
+    const requiredFields = ["full_name", "email", "country", "interest", "message", ...(callRequest ? ["phone"] : [])];
 
     requiredFields.forEach((field) => {
       if (!String(formData.get(field) ?? "").trim()) {
@@ -184,17 +185,18 @@ export function TechnologyContactForm({ apiBaseUrl, copy, locale, privacyHref, w
 
   return (
     <form aria-describedby="technology-contact-sensitive-warning technology-contact-submission-status" className="relative z-[31] rounded-[var(--bm-radius-panel)] border border-[var(--bm-border)] bg-white p-6 shadow-[0_12px_34px_rgb(18_32_51/8%)] sm:p-8" noValidate onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--bm-text)]" id="technology-contact-form-title">{copy.title}</h2>
+      <h2 className="text-2xl font-semibold tracking-[-0.025em] text-[var(--bm-text)]" id="technology-contact-form-title">{callRequest ? copy.callRequest.title : copy.title}</h2>
+      {callRequest ? <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--bm-text-muted)]">{copy.callRequest.helper}</p> : null}
       <p className="mt-4 rounded-[var(--bm-radius-control)] border border-[#c9dcf6] bg-[#f4f9ff] p-4 text-sm leading-6 text-[var(--bm-text)]" id="technology-contact-sensitive-warning">{copy.sensitiveWarning}</p>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2">
         <Field inputId="full_name" label={copy.fullNameLabel} required><input aria-describedby={fieldError("full_name")} aria-invalid={Boolean(errors.full_name)} autoComplete="name" className={inputClass} id="full_name" maxLength={160} name="full_name" required type="text" /><FieldError id={fieldError("full_name")} message={errors.full_name} /></Field>
         <Field inputId="email" label={copy.emailLabel} required><input aria-describedby={fieldError("email")} aria-invalid={Boolean(errors.email)} autoComplete="email" className={inputClass} id="email" maxLength={320} name="email" required type="email" /><FieldError id={fieldError("email")} message={errors.email} /></Field>
-        <Field inputId="phone" label={copy.phoneLabel}><input autoComplete="tel" className={inputClass} id="phone" maxLength={40} name="phone" type="tel" /></Field>
+        <Field inputId="phone" label={callRequest ? copy.callRequest.phoneLabel : copy.phoneLabel} required={callRequest}><input aria-describedby={fieldError("phone")} aria-invalid={Boolean(errors.phone)} autoComplete="tel" className={inputClass} id="phone" maxLength={40} name="phone" required={callRequest} type="tel" /><FieldError id={fieldError("phone")} message={errors.phone} /></Field>
         <Field inputId="country" label={copy.countryLabel} required><input aria-describedby={fieldError("country")} aria-invalid={Boolean(errors.country)} autoComplete="country-name" className={inputClass} id="country" maxLength={100} name="country" required type="text" /><FieldError id={fieldError("country")} message={errors.country} /></Field>
         <Field inputId="company" label={copy.companyLabel}><input autoComplete="organization" className={inputClass} id="company" maxLength={160} name="company" type="text" /></Field>
         <Field inputId="interest" label={copy.interestLabel} required>
-          <select aria-describedby={fieldError("interest")} aria-invalid={Boolean(errors.interest)} className={inputClass} defaultValue="" id="interest" name="interest" required>
+          <select aria-describedby={fieldError("interest")} aria-invalid={Boolean(errors.interest)} className={inputClass} defaultValue={callRequest ? "call-request" : ""} id="interest" name="interest" required>
             <option disabled value="">{copy.interestPlaceholder}</option>
             {copy.interestOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
           </select>

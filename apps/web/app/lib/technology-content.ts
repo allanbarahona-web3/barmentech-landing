@@ -40,6 +40,12 @@ export type TechnologyContactContent = {
     directTitle: string;
   };
   form: {
+    callRequest: {
+      action: string;
+      helper: string;
+      phoneLabel: string;
+      title: string;
+    };
     companyLabel: string;
     countryLabel: string;
     emailInvalid: string;
@@ -214,7 +220,68 @@ export type ServicePageContent = {
   title: string;
 };
 
+export type TechnologyAboutContent = {
+  broaderBusiness: {
+    body: string;
+    title: string;
+  };
+  cta: {
+    body: string;
+    eyebrow: string;
+    label: string;
+    title: string;
+  };
+  faq: {
+    items: Array<{
+      answer: string;
+      question: string;
+    }>;
+    title: string;
+  };
+  founder: {
+    alt: string;
+    eyebrow: string;
+    name: string;
+    paragraphs: string[];
+    role: string;
+    title: string;
+  };
+  hero: {
+    body: string;
+    eyebrow: string;
+    label: string;
+    title: string;
+    trustLine: string;
+  };
+  metadata: {
+    description: string;
+    title: string;
+  };
+  method: {
+    eyebrow: string;
+    stages: Array<{
+      body: string;
+      title: string;
+    }>;
+    title: string;
+  };
+  perspective: {
+    body: string;
+    detail: string;
+    eyebrow: string;
+    title: string;
+  };
+  presence: {
+    body: string;
+    details: string[];
+    eyebrow: string;
+    title: string;
+  };
+  servicesTitle: string;
+};
+
 type TechnologyContent = {
+  about: TechnologyAboutContent;
   capabilities: string[];
   contact: TechnologyContactContent;
   company: {
@@ -263,6 +330,75 @@ type TechnologyContent = {
 
 const content: Record<Locale, TechnologyContent> = {
   en: {
+    about: {
+      metadata: {
+        title: "About Barmentech | Technology and Operational Experience",
+        description: "Learn how Barmentech combines operational experience with websites, custom systems, integrations, automation, and applied AI for businesses in the United States and beyond.",
+      },
+      hero: {
+        eyebrow: "ABOUT BARMENTECH",
+        title: "Technology shaped by real operational experience.",
+        body: "Barmentech LLC builds websites, business systems, integrations, and carefully applied automation for organizations that need technology to support the way work actually happens.",
+        trustLine: "United States company · Office operations in Costa Rica · Service in English and Spanish",
+        label: "Discuss your project",
+      },
+      perspective: {
+        eyebrow: "WHY BARMENTECH EXISTS",
+        title: "The process should determine the technology.",
+        body: "Business technology works best when it begins with a clear understanding of the operation. Barmentech studies the workflow, the people involved, the information being handled, and the result the organization needs before defining the solution.",
+        detail: "This approach allows us to choose between a focused website, a custom operational system, an integration, conventional automation, or applied AI without forcing every business problem into the same answer.",
+      },
+      founder: {
+        eyebrow: "FOUNDER-LED",
+        title: "Operational experience brought into every project.",
+        name: "Allan Barahona",
+        role: "Founder, Barmentech LLC",
+        alt: "Portrait of Allan Barahona, founder of Barmentech",
+        paragraphs: [
+          "Before founding Barmentech, Allan spent approximately 12 years working in multinational environments connected to financial and capital-market operations. That experience developed a practical understanding of structured processes, operational controls, accuracy, and the responsibility involved in handling business information.",
+          "His most recent corporate experience was at Amazon, supporting work related to automation and machine-learning vision. His responsibilities included auditing human-performed processes, labeling movement information used by machine-learning systems, and coordinating a small team.",
+          "In 2025, Allan left his corporate role to focus on building technology products and practical business services through Barmentech. Today, he works directly with clients to understand their operations, define an appropriate scope, and guide the development of the agreed solution.",
+        ],
+      },
+      method: {
+        eyebrow: "FROM EXPERIENCE TO METHOD",
+        title: "A disciplined way to move from need to working system.",
+        stages: [
+          { title: "Understand the operation", body: "We review the current workflow, responsibilities, information, and constraints." },
+          { title: "Define a practical scope", body: "We agree on priorities, boundaries, and the result the first stage must deliver." },
+          { title: "Build and review", body: "The solution is developed in focused stages so important decisions can be reviewed as the work advances." },
+          { title: "Prepare for real use", body: "We validate the agreed workflow, document the solution, and prepare the next operational step." },
+        ],
+      },
+      presence: {
+        eyebrow: "BUSINESS PRESENCE",
+        title: "Structured in the United States. Operated close to the work.",
+        body: "Barmentech LLC provides technology and business services through its United States structure, with office operations and client support in Costa Rica. This combination supports businesses that need clear communication across markets and service in either English or Spanish.",
+        details: ["Barmentech LLC — United States", "Business presence in the United States", "Office operations in Costa Rica", "English and Spanish service"],
+      },
+      broaderBusiness: {
+        title: "Technology considered in its business context.",
+        body: "Alongside its technology work, Barmentech supports a separate service line related to United States business formation and administrative operations. That experience reinforces an understanding that software, documentation, responsibilities, and regulatory processes must work together in the real operation.",
+      },
+      servicesTitle: "Explore our technology services",
+      faq: {
+        title: "Frequently asked questions",
+        items: [
+          { question: "Where is Barmentech based?", answer: "Barmentech LLC is a United States company with business presence in the United States and office operations and client support in Costa Rica." },
+          { question: "Do you work with clients outside the United States?", answer: "Yes. Barmentech can work remotely with businesses in different markets when the project scope, communication, and delivery requirements can be supported appropriately." },
+          { question: "Is service available in Spanish?", answer: "Yes. Client communication and project discussions are available in English and Spanish." },
+          { question: "Does the founder participate directly in projects?", answer: "Yes. Allan participates directly in discovery, scope definition, important project decisions, and review of the agreed solution." },
+          { question: "Does every automation project use artificial intelligence?", answer: "No. Barmentech first determines whether the need can be solved reliably with clear rules, integrations, or conventional automation. Applied AI is introduced only when interpretation, language, or business knowledge makes it useful." },
+          { question: "Can Barmentech improve an existing website or system?", answer: "Yes. Existing solutions can be reviewed to determine whether improvement, integration, modernization, or replacement is the most practical next step." },
+        ],
+      },
+      cta: {
+        eyebrow: "START A CONVERSATION",
+        title: "Tell us what your business needs to improve.",
+        body: "Share the workflow, system, or customer experience you want to strengthen. We will help you determine an appropriate next step.",
+        label: "Contact Barmentech",
+      },
+    },
     capabilities: ["Web and commerce", "Systems and SaaS", "Automation and integrations", "Maintenance and modernization"],
     hero: {
       eyebrow: "Barmentech Technology",
@@ -294,6 +430,12 @@ const content: Record<Locale, TechnologyContent> = {
         closing: "Please do not send passwords, authentication credentials, banking information, identity documents, tax records, or other sensitive files through these public channels.",
       },
       form: {
+        callRequest: {
+          action: "Request a call",
+          title: "Request a call",
+          helper: "Tell us how to reach you and briefly describe what you would like to discuss.",
+          phoneLabel: "Phone or WhatsApp number",
+        },
         title: "Tell us what you need to move forward",
         fullNameLabel: "Full name",
         emailLabel: "Email",
@@ -304,6 +446,7 @@ const content: Record<Locale, TechnologyContent> = {
         interestLabel: "Technology need",
         interestPlaceholder: "Select an area",
         interestOptions: [
+          { label: "Call request", value: "call-request" },
           { label: "Websites and e-commerce", value: "websites-ecommerce" },
           { label: "Custom systems and SaaS", value: "custom-systems-saas" },
           { label: "Automation and integrations", value: "automation-integrations" },
@@ -361,7 +504,7 @@ const content: Record<Locale, TechnologyContent> = {
           title: "Websites and e-commerce",
           relatedNavigation: {
             category: "DIGITAL PRESENCE",
-            description: "Responsive business websites, landing pages, and digital catalogs designed around clear goals.",
+            description: "Focused websites, landing pages, and digital catalogs built around clear business goals.",
             action: "Explore websites",
             title: "Websites and e-commerce",
           },
@@ -374,9 +517,9 @@ const content: Record<Locale, TechnologyContent> = {
           title: "Custom systems and SaaS platforms",
           relatedNavigation: {
             category: "CUSTOM SOFTWARE",
-            description: "Operational systems, portals, dashboards, and workflow-oriented applications built for defined business processes.",
+            description: "Operational systems, portals, and workflow applications built for defined business processes.",
             action: "Explore custom systems",
-            title: "Custom systems and SaaS platforms",
+            title: "Custom systems and SaaS",
           },
           capabilities: ["Internal systems, portals, and dashboards", "Workflow-oriented applications", "APIs and business rules", "SaaS foundations for validated requirements"],
           image: "/images/Collaborative%20business%20systems%20in%20action-2.webp",
@@ -387,9 +530,9 @@ const content: Record<Locale, TechnologyContent> = {
           title: "Automation and integrations",
           relatedNavigation: {
             category: "CONNECTED OPERATIONS",
-            description: "Controlled workflows that connect systems, communications, documents, and approved business knowledge.",
+            description: "Controlled workflows that connect systems, communications, documents, and business information.",
             action: "Explore automation",
-            title: "Automation, integrations and applied AI",
+            title: "Automation and integrations",
           },
           capabilities: ["API and platform integrations", "Notifications and asynchronous processes", "Controlled data exchange and validation", "Reduction of repetitive operational steps"],
           image: "/images/Seamless%20automation%20across%20business%20systems-3.webp",
@@ -679,6 +822,75 @@ const content: Record<Locale, TechnologyContent> = {
     },
   },
   es: {
+    about: {
+      metadata: {
+        title: "Acerca de Barmentech | Tecnología y experiencia operativa",
+        description: "Conozca cómo Barmentech combina experiencia operativa con sitios web, sistemas a medida, integraciones, automatización e IA aplicada para empresas en Estados Unidos y otros mercados.",
+      },
+      hero: {
+        eyebrow: "ACERCA DE BARMENTECH",
+        title: "Tecnología definida por experiencia operativa real.",
+        body: "Barmentech LLC construye sitios web, sistemas empresariales, integraciones y automatización aplicada con criterio para organizaciones que necesitan tecnología que respalde la forma en que el trabajo ocurre realmente.",
+        trustLine: "Empresa de Estados Unidos · Operación de oficina en Costa Rica · Atención en inglés y español",
+        label: "Conversemos sobre su proyecto",
+      },
+      perspective: {
+        eyebrow: "POR QUÉ EXISTE BARMENTECH",
+        title: "El proceso debe determinar la tecnología.",
+        body: "La tecnología empresarial funciona mejor cuando comienza con una comprensión clara de la operación. Barmentech estudia el flujo de trabajo, las personas involucradas, la información que se maneja y el resultado que necesita la organización antes de definir la solución.",
+        detail: "Este enfoque nos permite elegir entre un sitio web enfocado, un sistema operativo a medida, una integración, automatización convencional o IA aplicada, sin forzar cada problema empresarial dentro de la misma respuesta.",
+      },
+      founder: {
+        eyebrow: "DIRIGIDA POR SU FUNDADOR",
+        title: "Experiencia operativa presente en cada proyecto.",
+        name: "Allan Barahona",
+        role: "Fundador, Barmentech LLC",
+        alt: "Retrato de Allan Barahona, fundador de Barmentech",
+        paragraphs: [
+          "Antes de fundar Barmentech, Allan trabajó durante aproximadamente 12 años en entornos multinacionales relacionados con operaciones financieras y mercados de capitales. Esa experiencia desarrolló una comprensión práctica de los procesos estructurados, los controles operativos, la precisión y la responsabilidad asociada con el manejo de información empresarial.",
+          "Su experiencia corporativa más reciente fue en Amazon, apoyando labores relacionadas con automatización y visión mediante aprendizaje automático. Sus responsabilidades incluyeron auditar procesos realizados por personas, etiquetar información de movimientos utilizada por sistemas de aprendizaje automático y coordinar un equipo pequeño.",
+          "En 2025, Allan dejó su posición corporativa para concentrarse en construir productos tecnológicos y servicios empresariales prácticos mediante Barmentech. Actualmente trabaja directamente con los clientes para comprender sus operaciones, definir un alcance apropiado y orientar el desarrollo de la solución acordada.",
+        ],
+      },
+      method: {
+        eyebrow: "DE LA EXPERIENCIA AL MÉTODO",
+        title: "Una forma disciplinada de pasar de la necesidad a un sistema funcional.",
+        stages: [
+          { title: "Entender la operación", body: "Revisamos el flujo actual, las responsabilidades, la información y las limitaciones." },
+          { title: "Definir un alcance práctico", body: "Acordamos las prioridades, los límites y el resultado que debe entregar la primera etapa." },
+          { title: "Construir y revisar", body: "La solución se desarrolla en etapas enfocadas para revisar las decisiones importantes conforme avanza el trabajo." },
+          { title: "Preparar para el uso real", body: "Validamos el flujo acordado, documentamos la solución y preparamos el siguiente paso operativo." },
+        ],
+      },
+      presence: {
+        eyebrow: "PRESENCIA EMPRESARIAL",
+        title: "Estructurada en Estados Unidos. Operada cerca del trabajo.",
+        body: "Barmentech LLC brinda servicios tecnológicos y empresariales mediante su estructura en Estados Unidos, con operación de oficina y atención al cliente en Costa Rica. Esta combinación respalda a empresas que necesitan comunicación clara entre mercados y servicio en inglés o español.",
+        details: ["Barmentech LLC — Estados Unidos", "Presencia empresarial en Estados Unidos", "Operación de oficina en Costa Rica", "Atención en inglés y español"],
+      },
+      broaderBusiness: {
+        title: "Tecnología considerada dentro de su contexto empresarial.",
+        body: "Además de su trabajo tecnológico, Barmentech mantiene una línea separada de servicios relacionados con la formación de empresas en Estados Unidos y sus operaciones administrativas. Esa experiencia refuerza la comprensión de que el software, la documentación, las responsabilidades y los procesos regulatorios deben funcionar juntos dentro de la operación real.",
+      },
+      servicesTitle: "Explore nuestros servicios tecnológicos",
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          { question: "¿Dónde está ubicada Barmentech?", answer: "Barmentech LLC es una empresa de Estados Unidos con presencia empresarial en ese país y operación de oficina y atención al cliente en Costa Rica." },
+          { question: "¿Trabajan con clientes fuera de Estados Unidos?", answer: "Sí. Barmentech puede trabajar de forma remota con empresas de distintos mercados cuando el alcance, la comunicación y los requisitos de entrega pueden atenderse adecuadamente." },
+          { question: "¿La atención está disponible en español?", answer: "Sí. La comunicación con clientes y las conversaciones del proyecto están disponibles en inglés y español." },
+          { question: "¿El fundador participa directamente en los proyectos?", answer: "Sí. Allan participa directamente en el análisis inicial, la definición del alcance, las decisiones importantes y la revisión de la solución acordada." },
+          { question: "¿Todos los proyectos de automatización utilizan inteligencia artificial?", answer: "No. Barmentech primero determina si la necesidad puede resolverse de forma confiable mediante reglas claras, integraciones o automatización convencional. La IA aplicada se incorpora únicamente cuando la interpretación, el lenguaje o el conocimiento empresarial la hacen útil." },
+          { question: "¿Puede Barmentech mejorar un sitio web o sistema existente?", answer: "Sí. Las soluciones existentes pueden revisarse para determinar si la mejora, integración, modernización o sustitución es el siguiente paso más práctico." },
+        ],
+      },
+      cta: {
+        eyebrow: "INICIEMOS UNA CONVERSACIÓN",
+        title: "Cuéntenos qué necesita mejorar su empresa.",
+        body: "Comparta el flujo, sistema o experiencia del cliente que desea fortalecer. Le ayudaremos a determinar un siguiente paso apropiado.",
+        label: "Contactar a Barmentech",
+      },
+    },
     capabilities: ["Web y comercio", "Sistemas y SaaS", "Automatización e integraciones", "Mantenimiento y modernización"],
     hero: {
       eyebrow: "Barmentech Tecnología",
@@ -710,6 +922,12 @@ const content: Record<Locale, TechnologyContent> = {
         closing: "No envíes contraseñas, credenciales de acceso, información bancaria, documentos de identidad, registros fiscales ni otros archivos sensibles mediante estos canales públicos.",
       },
       form: {
+        callRequest: {
+          action: "Solicitar una llamada",
+          title: "Solicitar una llamada",
+          helper: "Indíquenos cómo contactarle y describa brevemente lo que desea conversar.",
+          phoneLabel: "Teléfono o WhatsApp",
+        },
         title: "Cuéntanos qué necesitas para avanzar",
         fullNameLabel: "Nombre completo",
         emailLabel: "Correo electrónico",
@@ -720,6 +938,7 @@ const content: Record<Locale, TechnologyContent> = {
         interestLabel: "Necesidad de tecnología",
         interestPlaceholder: "Selecciona un área",
         interestOptions: [
+          { label: "Solicitud de llamada", value: "call-request" },
           { label: "Sitios web y comercio electrónico", value: "websites-ecommerce" },
           { label: "Sistemas a medida y SaaS", value: "custom-systems-saas" },
           { label: "Automatización e integraciones", value: "automation-integrations" },
@@ -777,7 +996,7 @@ const content: Record<Locale, TechnologyContent> = {
           title: "Sitios web y comercio electrónico",
           relatedNavigation: {
             category: "PRESENCIA DIGITAL",
-            description: "Sitios empresariales responsivos, páginas de destino y catálogos digitales diseñados alrededor de objetivos claros.",
+            description: "Sitios web, páginas de destino y catálogos digitales creados alrededor de objetivos empresariales claros.",
             action: "Explorar sitios web",
             title: "Sitios web y comercio electrónico",
           },
@@ -790,9 +1009,9 @@ const content: Record<Locale, TechnologyContent> = {
           title: "Sistemas a medida y plataformas SaaS",
           relatedNavigation: {
             category: "SOFTWARE A MEDIDA",
-            description: "Sistemas operativos, portales, paneles y aplicaciones orientadas a flujos construidos para procesos empresariales definidos.",
-            action: "Explorar sistemas a medida",
-            title: "Sistemas a medida y plataformas SaaS",
+            description: "Sistemas operativos, portales y aplicaciones de flujo creados para procesos empresariales definidos.",
+            action: "Explorar sistemas",
+            title: "Sistemas a medida y SaaS",
           },
           capabilities: ["Sistemas internos, portales y paneles", "Aplicaciones orientadas a flujos", "APIs y reglas de negocio", "Bases SaaS para requisitos validados"],
           image: "/images/Collaborative%20business%20systems%20in%20action-2.webp",
@@ -803,9 +1022,9 @@ const content: Record<Locale, TechnologyContent> = {
           title: "Automatización e integraciones",
           relatedNavigation: {
             category: "OPERACIONES CONECTADAS",
-            description: "Flujos controlados que conectan sistemas, comunicaciones, documentos y conocimiento empresarial aprobado.",
+            description: "Flujos controlados que conectan sistemas, comunicaciones, documentos e información empresarial.",
             action: "Explorar automatización",
-            title: "Automatización, integraciones e IA aplicada",
+            title: "Automatización e integraciones",
           },
           capabilities: ["Integraciones de APIs y plataformas", "Notificaciones y procesos asíncronos", "Intercambio controlado de datos y validación", "Reducción de pasos operativos repetitivos"],
           image: "/images/Seamless%20automation%20across%20business%20systems-3.webp",

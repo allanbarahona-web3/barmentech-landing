@@ -2,6 +2,7 @@ import { ActionLink, Container } from "@barmentech/ui";
 
 import { TechnologyHomeMotion } from "./technology-home-motion";
 import { TechnologyProcessCycle } from "./technology-process-cycle";
+import { TechnologyServiceCta } from "./technology-service-lower-sections";
 import { TechnologyServiceRail } from "./technology-service-rail";
 import type { Locale } from "../lib/i18n";
 import { getTechnologyFormationUrl } from "../lib/public-settings";
@@ -54,7 +55,7 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      <Container className="px-5 pb-0 pt-14 sm:px-8 sm:pb-0 sm:pt-[4.5rem] lg:pt-[5.5rem]">
+      <Container className="px-5 pb-0 pt-10 sm:px-8 sm:pb-0 sm:pt-12 lg:pt-14">
         <section aria-labelledby="technology-value-title" className="technology-scroll-reveal grid gap-10 rounded-[var(--bm-radius-panel)] border border-[#ceddf0] bg-[#f4f8fd] px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16 lg:px-12 lg:py-12" data-technology-reveal>
           <div className="flex flex-col items-start">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{content.hero.eyebrow}</p>
@@ -89,7 +90,7 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
         title={content.process.title}
       />
 
-      <Container className="px-5 pb-14 pt-14 sm:px-8 sm:pb-[4.5rem] sm:pt-16 lg:pb-[5.5rem]">
+      <Container className="px-5 pb-10 pt-10 sm:px-8 sm:pb-12 sm:pt-12 lg:pb-14">
         <section aria-labelledby="technology-company-title" className="technology-scroll-reveal grid gap-8 border-y border-[var(--bm-border)] py-12 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16" data-technology-reveal>
           <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="technology-company-title">{content.company.title}</h2>
           <div>
@@ -98,16 +99,9 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section aria-labelledby="technology-contact-title" className="technology-scroll-reveal mt-16 overflow-hidden rounded-[var(--bm-radius-panel)] bg-[#0b2c58] px-6 py-12 text-white sm:mt-20 sm:px-10 sm:py-14 lg:px-14 lg:py-16" data-technology-reveal>
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9fc5ff]">{content.hero.eyebrow}</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] sm:text-5xl" id="technology-contact-title">{content.finalCta.title}</h2>
-            <p className="mt-5 text-base leading-7 text-white/80 sm:text-lg">{content.finalCta.body}</p>
-            <a className="mt-8 inline-flex min-h-[var(--bm-control-height)] items-center rounded-[var(--bm-radius-control)] bg-white px-4 py-2 text-sm font-semibold text-[#0b2c58] transition-colors hover:bg-[#dcecff] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" href={`/${locale}/contact`}>
-              {content.finalCta.label}<span aria-hidden="true" className="ml-2">↗</span>
-            </a>
-          </div>
-        </section>
+        <div className="[&>section]:mt-10 sm:[&>section]:mt-12">
+          <TechnologyServiceCta cta={content.finalCta} eyebrow={content.hero.eyebrow} locale={locale} />
+        </div>
       </Container>
       </div>
       </main>

@@ -5,6 +5,7 @@ export const TECHNOLOGY_LEAD_INTEREST = "TECHNOLOGY_AND_DIGITAL";
 
 const technologyTopics = new Set([
   "automation-integrations",
+  "call-request",
   "custom-systems-saas",
   "data-applied-ai",
   "digital-product-experience",
