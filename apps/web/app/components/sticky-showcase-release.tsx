@@ -21,7 +21,9 @@ export function StickyShowcaseRelease({ finalHeadingId, sectionHeadingId }: Stic
     const desktopQuery = window.matchMedia("(min-width: 768px)");
 
     const syncRelease = () => {
-      const shouldRelease = desktopQuery.matches && finalShowcase.getBoundingClientRect().top <= 80;
+      const stickyTop = 80;
+      const releaseBuffer = 32;
+      const shouldRelease = desktopQuery.matches && finalShowcase.getBoundingClientRect().top <= stickyTop + releaseBuffer;
       stickyEditorial.dataset.stickyReleased = String(shouldRelease);
     };
 

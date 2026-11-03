@@ -8,6 +8,12 @@ export type TechnologyRailCard = {
   capabilities: string[];
   id: string;
   image: string;
+  relatedNavigation?: {
+    action: string;
+    category: string;
+    description: string;
+    title: string;
+  };
   serviceId?: TechnologyServiceId;
   title: string;
 };
@@ -116,12 +122,70 @@ type ServicePageSystemPresentation = {
   heroCtaLabel: string;
   introTitle: string;
   variant: "systems";
+  workflow: {
+    closingEyebrow: string;
+    eyebrow: string;
+    introduction: string;
+    steps: Array<{
+      body: string;
+      eyebrow: string;
+      title: string;
+    }>;
+    title: string;
+  };
 };
 
 type ServicePagePresentation = ServicePageEditorialPresentation | ServicePageSystemPresentation;
 
+type ServicePageAutomationCapability = {
+  description: string;
+  items: string[];
+  label: string;
+  title: string;
+};
+
+type ServicePageAutomationVisualType = "workflow" | "messages" | "knowledge" | "integration";
+
+type ServicePageAutomationJourney = {
+  eyebrow: string;
+  introduction: string;
+  stages: Array<{
+    explanation: string;
+    label: string;
+    needs: string;
+    needsLabel: string;
+    receives: string;
+    receivesLabel: string;
+    title: string;
+  }>;
+  support: {
+    body: string;
+    eyebrow: string;
+    title: string;
+  };
+  title: string;
+};
+
+type ServicePageAutomationCapabilities = {
+  blocks: ServicePageAutomationCapability[];
+  bridge: Array<{
+    label: string;
+    statement: string;
+  }>;
+  closing: {
+    body: string;
+    title: string;
+  };
+  eyebrow: string;
+  introduction: string;
+  journey: ServicePageAutomationJourney;
+  title: string;
+  visualLabels: Record<ServicePageAutomationVisualType, [string, string, string, string]>;
+};
+
 export type ServicePageContent = {
-  build: {
+  automationCapabilities?: ServicePageAutomationCapabilities;
+  build?: {
     intro: string;
     items: string[];
     title: string;
@@ -136,8 +200,9 @@ export type ServicePageContent = {
     title: string;
   };
   eyebrow: string;
+  heroImage?: string;
   intro: string;
-  maintenance: {
+  maintenance?: {
     body: string;
     title: string;
   };
@@ -186,6 +251,7 @@ type TechnologyContent = {
     exploreServiceLabel: string;
     discussNeedLabel: string;
     title: string;
+    relatedTitle: string;
   } & { items: TechnologyRailCard[] };
   servicePages: Record<TechnologyServiceId, ServicePageContent>;
   value: {
@@ -280,6 +346,7 @@ const content: Record<Locale, TechnologyContent> = {
     },
     services: {
       title: "Technology services",
+      relatedTitle: "Explore other technology services",
       introduction: "We support distinct digital needs while keeping the architecture, integrations, and future evolution in view.",
       previousLabel: "View previous service",
       nextLabel: "View next service",
@@ -292,6 +359,12 @@ const content: Record<Locale, TechnologyContent> = {
           id: "web-development",
           serviceId: "web-development",
           title: "Websites and e-commerce",
+          relatedNavigation: {
+            category: "DIGITAL PRESENCE",
+            description: "Responsive business websites, landing pages, and digital catalogs designed around clear goals.",
+            action: "Explore websites",
+            title: "Websites and e-commerce",
+          },
           capabilities: ["Corporate and service websites", "Landing pages and digital catalogs", "Online stores and payment integrations", "Responsive, accessible, and multilingual foundations"],
           image: "/images/Designing%20a%20polished%20online%20storefront-1.webp",
         },
@@ -299,6 +372,12 @@ const content: Record<Locale, TechnologyContent> = {
           id: "custom-software",
           serviceId: "custom-software",
           title: "Custom systems and SaaS platforms",
+          relatedNavigation: {
+            category: "CUSTOM SOFTWARE",
+            description: "Operational systems, portals, dashboards, and workflow-oriented applications built for defined business processes.",
+            action: "Explore custom systems",
+            title: "Custom systems and SaaS platforms",
+          },
           capabilities: ["Internal systems, portals, and dashboards", "Workflow-oriented applications", "APIs and business rules", "SaaS foundations for validated requirements"],
           image: "/images/Collaborative%20business%20systems%20in%20action-2.webp",
         },
@@ -306,6 +385,12 @@ const content: Record<Locale, TechnologyContent> = {
           id: "automation",
           serviceId: "automation",
           title: "Automation and integrations",
+          relatedNavigation: {
+            category: "CONNECTED OPERATIONS",
+            description: "Controlled workflows that connect systems, communications, documents, and approved business knowledge.",
+            action: "Explore automation",
+            title: "Automation, integrations and applied AI",
+          },
           capabilities: ["API and platform integrations", "Notifications and asynchronous processes", "Controlled data exchange and validation", "Reduction of repetitive operational steps"],
           image: "/images/Seamless%20automation%20across%20business%20systems-3.webp",
         },
@@ -469,29 +554,126 @@ const content: Record<Locale, TechnologyContent> = {
               imageAlt: "Multi-tenant SaaS executive dashboard with company performance reporting",
             },
           ],
+          workflow: {
+            eyebrow: "CUSTOM SYSTEMS AND SAAS PLATFORMS",
+            title: "How we work",
+            introduction: "We turn an operational need into a controlled system through a phased process that keeps priorities, responsibilities, and technical decisions clear.",
+            steps: [
+              { eyebrow: "UNDERSTAND", title: "Understand the operation", body: "We review workflows, users, information, constraints, and the decisions the system needs to support." },
+              { eyebrow: "DEFINE", title: "Define scope and direction", body: "We confirm priorities, responsibilities, integrations, delivery phases, and the approved technical foundation." },
+              { eyebrow: "BUILD", title: "Design and build", body: "We implement the agreed experience, review progress, and validate important decisions throughout development." },
+              { eyebrow: "EVOLVE", title: "Validate and evolve", body: "We test the agreed workflows, prepare the handoff, and define the support and improvement path that follows." },
+            ],
+            closingEyebrow: "CONTINUOUS IMPROVEMENT",
+          },
         },
         build: {
           title: "Systems we can design and build",
           intro: "The right solution begins with the operation that needs to work better. We define the workflows, users, information, decisions, and controls before selecting the modules and technical architecture.",
           items: [],
         },
-        needs: { title: "Suitable when you need to", items: ["Bring a repeated operational process into one working system", "Give customers or teams a clearer place to complete defined tasks", "Replace disconnected spreadsheets or manual handoffs", "Validate an application concept before extending it in stages"] },
-        engagement: { title: "How the engagement works", items: ["We understand the workflow, users, data, and constraints", "We confirm a phased scope, responsibilities, and technical direction", "We design and implement the approved foundation", "We validate the agreed flows before delivery and future evolution"] },
-        maintenance: { title: "A foundation for continued improvement", body: "We can stabilize an existing system, document it, update technical dependencies, and introduce confirmed improvements over time." },
+        maintenance: { title: "A foundation built to evolve", body: "After delivery, we can stabilize, document, maintain, and extend the system through confirmed improvements over time." },
         cta: { title: "Discuss a system your business needs.", body: "Share the workflow, users, and operational context you need to support.", label: "Contact Barmentech" },
       },
       automation: {
-        eyebrow: "Automation and integrations",
-        title: "Connect the work that should move between your existing tools.",
+        eyebrow: "Automation, integrations and applied AI",
+        title: "Automate the work. Connect your systems. Apply AI with purpose.",
+        heroImage: "/images/service-automation-integrations-hero.webp",
         intro: "We plan and implement controlled integrations and automations around the systems your team already relies on.",
-        build: {
-          title: "What we can build or support",
-          intro: "Integration work starts with the available platforms, the data involved, and the controls the workflow needs.",
-          items: ["Connections between existing platforms", "API integrations", "Workflow automation", "Notifications and asynchronous processes", "Controlled data exchange", "Integration planning, validation, and documentation"],
+        automationCapabilities: {
+          eyebrow: "CONNECTED OPERATIONS",
+          title: "Automate the predictable. Apply intelligence where it matters.",
+          introduction: "We connect approved tools, information, and communication steps into controlled workflows. Clear rules handle repeatable work, while AI supports the moments that require interpretation, language, or business knowledge.",
+          bridge: [
+            { label: "RULE-BASED AUTOMATION", statement: "Automate repeatable actions" },
+            { label: "CONTROLLED INTEGRATIONS", statement: "Connect approved systems" },
+            { label: "APPLIED AI", statement: "Support interpretation and knowledge" },
+          ],
+          journey: {
+            eyebrow: "HOW WE WORK WITH YOU",
+            title: "A clear path from the current process to a working solution",
+            introduction: "We begin with how the work happens today, agree on what should change, and implement the solution in controlled stages. You can review the direction before the project moves forward.",
+            stages: [
+              {
+                label: "UNDERSTAND",
+                title: "Show us how the work happens today",
+                explanation: "You explain the task, the people involved, the tools currently used, and where delays, repeated work, or missed follow-ups occur.",
+                needsLabel: "WHAT WE NEED FROM YOU",
+                needs: "A real example of the current process and the result you want to improve.",
+                receivesLabel: "WHAT YOU RECEIVE",
+                receives: "A shared understanding of the problem, priority, and desired outcome.",
+              },
+              {
+                label: "DEFINE",
+                title: "Agree on the right approach",
+                explanation: "We identify which steps can follow clear automation rules, which systems may need to connect, and where human review or applied AI could add value.",
+                needsLabel: "WHAT WE NEED FROM YOU",
+                needs: "Confirmation of priorities, responsible people, and the tools that must remain part of the process.",
+                receivesLabel: "WHAT YOU RECEIVE",
+                receives: "A proposed scope, responsibilities, implementation stages, and agreed direction.",
+              },
+              {
+                label: "BUILD AND TEST",
+                title: "Review a focused working version",
+                explanation: "We build the agreed first version and test it using representative situations before expanding the workflow.",
+                needsLabel: "WHAT WE NEED FROM YOU",
+                needs: "Timely review, practical examples, and feedback from the people who will use the solution.",
+                receivesLabel: "WHAT YOU RECEIVE",
+                receives: "A tested workflow that reflects the approved scope and identified corrections.",
+              },
+              {
+                label: "PREPARE FOR USE",
+                title: "Put the approved workflow into operation",
+                explanation: "After validation, we prepare the agreed workflow for use, document its main steps, and clarify responsibilities for operation and future changes.",
+                needsLabel: "WHAT WE NEED FROM YOU",
+                needs: "Final approval and confirmation of the people responsible for using or supervising the workflow.",
+                receivesLabel: "WHAT YOU RECEIVE",
+                receives: "An approved working solution with documented operation and agreed next steps.",
+              },
+            ],
+            support: {
+              eyebrow: "AFTER IMPLEMENTATION",
+              title: "Support can continue as the workflow evolves",
+              body: "When included in the agreed scope, we can review platform changes, adjust confirmed workflows, update documentation, and implement approved improvements over time.",
+            },
+          },
+          visualLabels: {
+            workflow: ["REQUEST", "RULE", "ACTION", "APPROVED"],
+            messages: ["MESSAGE", "ASSIST", "CAPTURE", "HANDOFF"],
+            knowledge: ["DOCUMENT", "EXTRACT", "ORGANIZE", "ANSWER"],
+            integration: ["SYSTEM A", "VALIDATE", "SYSTEM B", "CONFIRMED"],
+          },
+          blocks: [
+            {
+              label: "WORKFLOW AUTOMATION",
+              title: "Keep recurring work moving",
+              description: "Automate defined actions such as sending emails, scheduling reminders, creating documents, updating records, and notifying the right people when a workflow changes.",
+              items: ["Email delivery and scheduled follow-ups", "Reminders, alerts, and internal notifications", "Document creation and record updates", "Human review points for sensitive actions"],
+            },
+            {
+              label: "BOTS AND CONVERSATIONAL CHANNELS",
+              title: "Guide requests from the first message",
+              description: "Create focused assistants for web, WhatsApp, or Telegram that collect information, answer defined questions, initiate workflows, and transfer the conversation when human support is required.",
+              items: ["Structured customer or employee intake", "Frequently requested information", "Workflow initiation from approved channels", "Escalation to a responsible person"],
+            },
+            {
+              label: "DOCUMENTS AND BUSINESS KNOWLEDGE",
+              title: "Turn approved information into usable answers",
+              description: "Extract supported information from documents, organize trusted company knowledge, and help users find answers grounded in authorized business content.",
+              items: ["OCR-assisted data extraction", "Document classification and validation", "Internal knowledge bases", "AI assistants grounded in approved information"],
+            },
+            {
+              label: "INTEGRATIONS AND AI-ENABLED MVPs",
+              title: "Connect systems and validate new ideas",
+              description: "Build controlled API connections, synchronize defined data, and create focused MVPs that test an automation or AI-assisted workflow before broader investment.",
+              items: ["API and platform integrations", "Controlled data exchange", "AI-assisted drafting and classification", "Focused MVPs with measurable scope"],
+            },
+          ],
+          closing: {
+            title: "The process determines the technology.",
+            body: "We do not add AI to every workflow. We select the simplest reliable approach, document its controls, and introduce intelligence only when it improves the result.",
+          },
         },
-        needs: { title: "Suitable when you need to", items: ["Reduce repeated manual handoffs between approved tools", "Keep defined information aligned across systems", "Trigger a reviewed notification or follow-up process", "Plan an integration before committing to a broader system change"] },
-        engagement: { title: "How the engagement works", items: ["We map the current workflow, platforms, and data boundaries", "We confirm scope, dependencies, and validation criteria", "We implement and test the approved connections", "We prepare the agreed documentation and next operational steps"] },
-        maintenance: { title: "Integration support over time", body: "When systems change, we can review dependencies, adjust confirmed connections, and improve the reliability of the documented workflow." },
         cta: { title: "Discuss an integration or automation need.", body: "Tell us which systems are involved and where the current process needs more continuity.", label: "Contact Barmentech" },
       },
     },
@@ -580,6 +762,7 @@ const content: Record<Locale, TechnologyContent> = {
     },
     services: {
       title: "Servicios de tecnología",
+      relatedTitle: "Explore otros servicios tecnológicos",
       introduction: "Nosotros atendemos necesidades digitales distintas manteniendo en perspectiva la arquitectura, las integraciones y la evolución futura.",
       previousLabel: "Ver servicio anterior",
       nextLabel: "Ver siguiente servicio",
@@ -592,6 +775,12 @@ const content: Record<Locale, TechnologyContent> = {
           id: "web-development",
           serviceId: "web-development",
           title: "Sitios web y comercio electrónico",
+          relatedNavigation: {
+            category: "PRESENCIA DIGITAL",
+            description: "Sitios empresariales responsivos, páginas de destino y catálogos digitales diseñados alrededor de objetivos claros.",
+            action: "Explorar sitios web",
+            title: "Sitios web y comercio electrónico",
+          },
           capabilities: ["Sitios corporativos y de servicios", "Landing pages y catálogos digitales", "Tiendas en línea e integraciones de pago", "Bases responsivas, accesibles y multilingües"],
           image: "/images/Designing%20a%20polished%20online%20storefront-1.webp",
         },
@@ -599,6 +788,12 @@ const content: Record<Locale, TechnologyContent> = {
           id: "custom-software",
           serviceId: "custom-software",
           title: "Sistemas a medida y plataformas SaaS",
+          relatedNavigation: {
+            category: "SOFTWARE A MEDIDA",
+            description: "Sistemas operativos, portales, paneles y aplicaciones orientadas a flujos construidos para procesos empresariales definidos.",
+            action: "Explorar sistemas a medida",
+            title: "Sistemas a medida y plataformas SaaS",
+          },
           capabilities: ["Sistemas internos, portales y paneles", "Aplicaciones orientadas a flujos", "APIs y reglas de negocio", "Bases SaaS para requisitos validados"],
           image: "/images/Collaborative%20business%20systems%20in%20action-2.webp",
         },
@@ -606,6 +801,12 @@ const content: Record<Locale, TechnologyContent> = {
           id: "automation",
           serviceId: "automation",
           title: "Automatización e integraciones",
+          relatedNavigation: {
+            category: "OPERACIONES CONECTADAS",
+            description: "Flujos controlados que conectan sistemas, comunicaciones, documentos y conocimiento empresarial aprobado.",
+            action: "Explorar automatización",
+            title: "Automatización, integraciones e IA aplicada",
+          },
           capabilities: ["Integraciones de APIs y plataformas", "Notificaciones y procesos asíncronos", "Intercambio controlado de datos y validación", "Reducción de pasos operativos repetitivos"],
           image: "/images/Seamless%20automation%20across%20business%20systems-3.webp",
         },
@@ -765,21 +966,122 @@ const content: Record<Locale, TechnologyContent> = {
               imageAlt: "Panel ejecutivo de SaaS multiempresa con reportes de desempeño por empresa",
             },
           ],
+          workflow: {
+            eyebrow: "SISTEMAS A MEDIDA Y PLATAFORMAS SAAS",
+            title: "Cómo trabajamos",
+            introduction: "Convertimos una necesidad operativa en un sistema controlado mediante un proceso por etapas que mantiene claras las prioridades, responsabilidades y decisiones técnicas.",
+            steps: [
+              { eyebrow: "ENTENDER", title: "Entender la operación", body: "Revisamos los flujos, usuarios, información, restricciones y decisiones que el sistema necesita respaldar." },
+              { eyebrow: "DEFINIR", title: "Definir el alcance y la dirección", body: "Confirmamos prioridades, responsabilidades, integraciones, fases de entrega y la base técnica aprobada." },
+              { eyebrow: "CONSTRUIR", title: "Diseñar y construir", body: "Implementamos la experiencia acordada, revisamos avances y validamos las decisiones importantes durante el desarrollo." },
+              { eyebrow: "EVOLUCIONAR", title: "Validar y evolucionar", body: "Probamos los flujos acordados, preparamos la entrega y definimos el camino de soporte y mejora posterior." },
+            ],
+            closingEyebrow: "MEJORA CONTINUA",
+          },
         },
         build: { title: "Sistemas que podemos diseñar y construir", intro: "La solución adecuada comienza con la operación que necesita funcionar mejor. Definimos los flujos, usuarios, información, decisiones y controles antes de seleccionar los módulos y la arquitectura técnica.", items: [] },
-        needs: { title: "Adecuado cuando necesitas", items: ["Llevar un proceso operativo repetido a un sistema de trabajo", "Dar a clientes o equipos un lugar más claro para completar tareas definidas", "Reemplazar hojas de cálculo desconectadas o entregas manuales", "Validar un concepto de aplicación antes de ampliarlo por etapas"] },
-        engagement: { title: "Cómo funciona el servicio", items: ["Nosotros entendemos el flujo, usuarios, datos y restricciones", "Nosotros confirmamos un alcance por etapas, responsabilidades y dirección técnica", "Nosotros diseñamos e implementamos la base aprobada", "Nosotros validamos los flujos acordados antes de la entrega y evolución futura"] },
-        maintenance: { title: "Una base para mejorar continuamente", body: "Nosotros podemos estabilizar un sistema existente, documentarlo, actualizar dependencias técnicas e introducir mejoras confirmadas con el tiempo." },
-        cta: { title: "Conversemos sobre el sistema que necesitas.", body: "Comparte el flujo, los usuarios y el contexto operativo que necesitas respaldar.", label: "Contactar a Barmentech" },
+        maintenance: { title: "Una base preparada para evolucionar", body: "Después de la entrega, podemos estabilizar, documentar, mantener y ampliar el sistema mediante mejoras confirmadas con el tiempo." },
+        cta: { title: "Conversemos sobre el sistema que su negocio necesita.", body: "Comparta el flujo, los usuarios y el contexto operativo que necesita respaldar.", label: "Contactar a Barmentech" },
       },
       automation: {
-        eyebrow: "Automatización e integraciones",
-        title: "Conecta el trabajo que debe circular entre tus herramientas existentes.",
+        eyebrow: "Automatización, integraciones e IA aplicada",
+        title: "Automatice el trabajo. Conecte sus sistemas. Aplique IA con propósito.",
+        heroImage: "/images/service-automation-integrations-hero.webp",
         intro: "Nosotros planificamos e implementamos integraciones y automatizaciones controladas alrededor de los sistemas en los que tu equipo ya confía.",
-        build: { title: "Qué podemos construir o apoyar", intro: "El trabajo de integración comienza con las plataformas disponibles, los datos involucrados y los controles que necesita el flujo.", items: ["Conexiones entre plataformas existentes", "Integraciones de APIs", "Automatización de flujos", "Notificaciones y procesos asíncronos", "Intercambio de datos controlado", "Planificación, validación y documentación de integraciones"] },
-        needs: { title: "Adecuado cuando necesitas", items: ["Reducir entregas manuales repetidas entre herramientas aprobadas", "Mantener información definida alineada entre sistemas", "Activar una notificación o proceso de seguimiento revisado", "Planificar una integración antes de comprometer un cambio de sistema más amplio"] },
-        engagement: { title: "Cómo funciona el servicio", items: ["Nosotros mapeamos el flujo actual, plataformas y límites de datos", "Nosotros confirmamos alcance, dependencias y criterios de validación", "Nosotros implementamos y probamos las conexiones aprobadas", "Nosotros preparamos la documentación acordada y los siguientes pasos operativos"] },
-        maintenance: { title: "Soporte de integraciones con el tiempo", body: "Cuando los sistemas cambian, nosotros podemos revisar dependencias, ajustar conexiones confirmadas y mejorar la confiabilidad del flujo documentado." },
+        automationCapabilities: {
+          eyebrow: "OPERACIONES CONECTADAS",
+          title: "Automatizamos lo predecible. Aplicamos inteligencia donde aporta valor.",
+          introduction: "Conectamos herramientas aprobadas, información y pasos de comunicación mediante flujos controlados. Las reglas claras gestionan el trabajo repetible, mientras la IA apoya los momentos que requieren interpretación, lenguaje o conocimiento empresarial.",
+          bridge: [
+            { label: "AUTOMATIZACIÓN CON REGLAS", statement: "Automatizamos acciones repetibles" },
+            { label: "INTEGRACIONES CONTROLADAS", statement: "Conectamos sistemas aprobados" },
+            { label: "IA APLICADA", statement: "Apoyamos la interpretación y el conocimiento" },
+          ],
+          journey: {
+            eyebrow: "CÓMO TRABAJAMOS CON USTED",
+            title: "Una ruta clara desde el proceso actual hasta una solución funcional",
+            introduction: "Comenzamos por comprender cómo se realiza el trabajo actualmente, acordamos qué debe cambiar e implementamos la solución mediante etapas controladas. Usted puede revisar la dirección antes de que el proyecto avance.",
+            stages: [
+              {
+                label: "COMPRENDER",
+                title: "Muéstrenos cómo se realiza el trabajo actualmente",
+                explanation: "Usted nos explica la tarea, las personas involucradas, las herramientas utilizadas y dónde ocurren atrasos, trabajo repetido o seguimientos pendientes.",
+                needsLabel: "QUÉ NECESITAMOS DE USTED",
+                needs: "Un ejemplo real del proceso actual y el resultado que desea mejorar.",
+                receivesLabel: "QUÉ RECIBE",
+                receives: "Una comprensión compartida del problema, la prioridad y el resultado esperado.",
+              },
+              {
+                label: "DEFINIR",
+                title: "Acordamos el enfoque adecuado",
+                explanation: "Identificamos cuáles pasos pueden seguir reglas claras de automatización, qué sistemas podrían necesitar conexión y dónde la revisión humana o la IA aplicada podrían aportar valor.",
+                needsLabel: "QUÉ NECESITAMOS DE USTED",
+                needs: "Confirmación de prioridades, personas responsables y herramientas que deben permanecer dentro del proceso.",
+                receivesLabel: "QUÉ RECIBE",
+                receives: "Una propuesta de alcance, responsabilidades, etapas de implementación y dirección acordada.",
+              },
+              {
+                label: "CONSTRUIR Y PROBAR",
+                title: "Revise una primera versión funcional y enfocada",
+                explanation: "Construimos la primera versión acordada y la probamos mediante situaciones representativas antes de ampliar el flujo.",
+                needsLabel: "QUÉ NECESITAMOS DE USTED",
+                needs: "Revisión oportuna, ejemplos prácticos y retroalimentación de las personas que utilizarán la solución.",
+                receivesLabel: "QUÉ RECIBE",
+                receives: "Un flujo probado que refleja el alcance aprobado y las correcciones identificadas.",
+              },
+              {
+                label: "PREPARAR PARA SU USO",
+                title: "Ponemos en operación el flujo aprobado",
+                explanation: "Después de la validación, preparamos el flujo acordado para su uso, documentamos sus pasos principales y aclaramos las responsabilidades de operación y cambios futuros.",
+                needsLabel: "QUÉ NECESITAMOS DE USTED",
+                needs: "Aprobación final y confirmación de las personas responsables de utilizar o supervisar el flujo.",
+                receivesLabel: "QUÉ RECIBE",
+                receives: "Una solución funcional aprobada, con operación documentada y próximos pasos acordados.",
+              },
+            ],
+            support: {
+              eyebrow: "DESPUÉS DE LA IMPLEMENTACIÓN",
+              title: "El soporte puede continuar conforme evoluciona el flujo",
+              body: "Cuando esté incluido en el alcance acordado, podemos revisar cambios en las plataformas, ajustar flujos confirmados, actualizar la documentación e implementar mejoras aprobadas a lo largo del tiempo.",
+            },
+          },
+          visualLabels: {
+            workflow: ["SOLICITUD", "REGLA", "ACCIÓN", "APROBADO"],
+            messages: ["MENSAJE", "ASISTIR", "RECOPILAR", "TRANSFERIR"],
+            knowledge: ["DOCUMENTO", "EXTRAER", "ORGANIZAR", "RESPONDER"],
+            integration: ["SISTEMA A", "VALIDAR", "SISTEMA B", "CONFIRMADO"],
+          },
+          blocks: [
+            {
+              label: "AUTOMATIZACIÓN DE PROCESOS",
+              title: "Mantenemos en movimiento el trabajo recurrente",
+              description: "Automatizamos acciones definidas como enviar correos, programar recordatorios, crear documentos, actualizar registros y notificar a las personas correctas cuando cambia un proceso.",
+              items: ["Envío de correos y seguimientos programados", "Recordatorios, alertas y notificaciones internas", "Creación de documentos y actualización de registros", "Puntos de revisión humana para acciones sensibles"],
+            },
+            {
+              label: "BOTS Y CANALES CONVERSACIONALES",
+              title: "Guiamos las solicitudes desde el primer mensaje",
+              description: "Creamos asistentes específicos para web, WhatsApp o Telegram que recopilan información, responden consultas definidas, inician procesos y transfieren la conversación cuando se requiere atención humana.",
+              items: ["Recopilación estructurada de datos", "Información solicitada con frecuencia", "Inicio de procesos desde canales aprobados", "Escalamiento a una persona responsable"],
+            },
+            {
+              label: "DOCUMENTOS Y CONOCIMIENTO EMPRESARIAL",
+              title: "Convertimos información aprobada en respuestas útiles",
+              description: "Extraemos información compatible de documentos, organizamos el conocimiento confiable de la empresa y ayudamos a los usuarios a encontrar respuestas basadas en contenido autorizado.",
+              items: ["Extracción de datos asistida mediante OCR", "Clasificación y validación de documentos", "Bases de conocimiento internas", "Asistentes de IA basados en información aprobada"],
+            },
+            {
+              label: "INTEGRACIONES Y MVPs CON IA",
+              title: "Conectamos sistemas y validamos nuevas ideas",
+              description: "Construimos conexiones controladas mediante APIs, sincronizamos datos definidos y creamos MVPs enfocados para probar una automatización o un flujo asistido por IA antes de realizar una inversión mayor.",
+              items: ["Integraciones con APIs y plataformas", "Intercambio controlado de datos", "Redacción y clasificación asistidas por IA", "MVPs enfocados con alcance medible"],
+            },
+          ],
+          closing: {
+            title: "El proceso determina la tecnología.",
+            body: "No añadimos IA a todos los flujos. Seleccionamos el enfoque confiable más sencillo, documentamos sus controles e incorporamos inteligencia únicamente cuando mejora el resultado.",
+          },
+        },
         cta: { title: "Conversemos sobre una integración o automatización.", body: "Cuéntanos qué sistemas participan y dónde el proceso actual necesita mayor continuidad.", label: "Contactar a Barmentech" },
       },
     },

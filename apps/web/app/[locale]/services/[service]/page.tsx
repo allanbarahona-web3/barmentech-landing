@@ -1,14 +1,21 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SiteShell } from "../../../components/site-shell";
 import { TechnologyServicePage as TechnologyServiceContent } from "../../../components/technology-service-page";
 import { isLocale } from "../../../lib/i18n";
+import { getTechnologyWebDevelopmentMetadata } from "../../../lib/seo";
 import { isTechnologyServiceId } from "../../../lib/technology-content";
 import type { TechnologyPage } from "../../../lib/site";
 
 type TechnologyServicePageProps = Readonly<{
   params: Promise<{ locale: string; service: string }>;
 }>;
+
+export async function generateMetadata({ params }: TechnologyServicePageProps): Promise<Metadata> {
+  const { locale, service } = await params;
+  return service === "web-development" && isLocale(locale) ? getTechnologyWebDevelopmentMetadata(locale) : {};
+}
 
 export default async function TechnologyServicePage({ params }: TechnologyServicePageProps) {
   const { locale: localeParam, service } = await params;

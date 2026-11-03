@@ -89,7 +89,7 @@ export function TechnologyHome({ locale }: { locale: Locale }) {
         title={content.process.title}
       />
 
-      <Container className="px-5 pb-14 pt-16 sm:px-8 sm:pb-[4.5rem] sm:pt-20 lg:pb-[5.5rem]">
+      <Container className="px-5 pb-14 pt-14 sm:px-8 sm:pb-[4.5rem] sm:pt-16 lg:pb-[5.5rem]">
         <section aria-labelledby="technology-company-title" className="technology-scroll-reveal grid gap-8 border-y border-[var(--bm-border)] py-12 sm:py-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16" data-technology-reveal>
           <h2 className="text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="technology-company-title">{content.company.title}</h2>
           <div>

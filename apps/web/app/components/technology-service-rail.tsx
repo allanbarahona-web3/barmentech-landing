@@ -194,7 +194,7 @@ export function TechnologyServiceRail({ cards, introduction, labels, locale, tit
   };
 
   return (
-    <section aria-labelledby="technology-services-title" className="technology-service-rail-section mt-16 sm:mt-20" id="services" ref={section}>
+    <section aria-labelledby="technology-services-title" className="technology-service-rail-section mt-14 sm:mt-16" id="services" ref={section}>
       <div className="technology-service-rail-sticky">
         <div className="technology-scroll-reveal flex flex-wrap items-end justify-between gap-6" data-technology-reveal>
           <div className="max-w-2xl">
