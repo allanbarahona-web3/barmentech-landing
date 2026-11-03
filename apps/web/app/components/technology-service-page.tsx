@@ -1,6 +1,7 @@
 import { ActionLink, Container } from "@barmentech/ui";
 import Image from "next/image";
 
+import { StickyShowcaseRelease } from "./sticky-showcase-release";
 import type { Locale } from "../lib/i18n";
 import { getTechnologyContent, getTechnologyServicePath, type ServicePageContent, type TechnologyRailCard, type TechnologyServiceId } from "../lib/technology-content";
 
@@ -94,6 +95,7 @@ function SystemServicePresentation({ locale, page, presentation, relatedServices
 
   return (
     <main id="main-content">
+      <StickyShowcaseRelease finalHeadingId={`service-capability-${presentation.capabilities.length}`} sectionHeadingId="service-build-title" />
       <section className="relative isolate overflow-hidden border-b border-[#31527a] bg-[#041a36] text-white">
         <picture aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 block overflow-hidden">
           <source height="1402" media="(max-width: 639px)" srcSet="/images/barmentech-technology-motion-poster-mobile.webp" type="image/webp" width="1122" />
@@ -120,19 +122,23 @@ function SystemServicePresentation({ locale, page, presentation, relatedServices
         </section>
 
         <section aria-labelledby="service-build-title" className="mt-14 sm:mt-16 lg:mt-20">
-          <div className="max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{page.eyebrow}</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="service-build-title">{page.build.title}</h2>
-            <p className="mt-4 text-base leading-7 text-[var(--bm-text-muted)] sm:text-lg sm:leading-8">{page.build.intro}</p>
+          <div className="md:sticky md:top-20 md:z-[5] md:bg-white md:pb-6 md:data-[sticky-released=true]:static" data-sticky-editorial>
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--bm-brand)]">{page.eyebrow}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-[var(--bm-text)] sm:text-4xl" id="service-build-title">{page.build.title}</h2>
+              <p className="mt-4 text-base leading-7 text-[var(--bm-text-muted)] sm:text-lg sm:leading-8">{page.build.intro}</p>
+            </div>
           </div>
 
-          <div className="mt-10 space-y-5 sm:mt-12 sm:space-y-6">
+          <div className="mt-10 space-y-5 sm:mt-12 sm:space-y-6 md:mt-4 md:pb-[22rem]">
             {presentation.capabilities.map((capability, index) => {
               const style = capabilityStyles[index] ?? capabilityStyles[0];
               const headingId = `service-capability-${index + 1}`;
               const contentOnRight = style.contentOnRight;
+              const isFinalCapability = index === presentation.capabilities.length - 1;
+              const stickyTopClass = isFinalCapability ? "md:top-20" : "md:top-[17rem]";
 
-              return <section aria-labelledby={headingId} className={`relative isolate min-h-[28rem] overflow-hidden rounded-[var(--bm-radius-panel)] border bg-[#071a33] md:min-h-[clamp(25rem,32vw,28.75rem)] ${style.border}`} key={capability.title}>
+              return <section aria-labelledby={headingId} className={`relative isolate min-h-[28rem] overflow-hidden rounded-[var(--bm-radius-panel)] border bg-[#071a33] md:sticky md:min-h-[clamp(25rem,32vw,28.75rem)] ${stickyTopClass} ${style.border}`} key={capability.title} style={{ zIndex: isFinalCapability ? 6 : index + 1 }}>
                 <Image alt={capability.imageAlt} className={`object-cover object-center ${style.imagePosition}`} fill sizes="(max-width: 767px) 100vw, (max-width: 1280px) calc(100vw - 4rem), 72rem" src={capability.image} />
                 <div aria-hidden="true" className={`absolute inset-0 bg-[linear-gradient(180deg,rgba(3,18,38,0.88)_0%,rgba(3,18,38,0.8)_56%,rgba(3,18,38,0.48)_100%)] ${style.overlay}`} />
                 <div className={`relative z-10 flex min-h-[28rem] items-end p-5 sm:p-8 md:min-h-[clamp(25rem,32vw,28.75rem)] md:items-center lg:p-10 ${contentOnRight ? "md:justify-end" : "md:justify-start"}`}>
