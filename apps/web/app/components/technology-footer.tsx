@@ -81,7 +81,7 @@ export function TechnologyFooter({ formationHref, locale, settings }: Technology
         })),
       } : undefined}
       technologyCredit={{
-        href: "https://barmentech.com/",
+        href: `/${locale}`,
         label: copy.footerDevelopmentCredit,
       }}
       unitedStates={{
